@@ -106,6 +106,9 @@ off the shelves directly, at the cost of about half of it in residual sway.
 the load path, where on edge would load the bar across its layers. It is long
 enough that placement matters: the echoed bed placement gives the angle and the
 square it needs, and turning it 45° costs far less bed than laying it square on.
+The calculation uses the rounded ends: projected hole spacing plus the outside
+diameter. With the shipped dimensions, it needs about 213.1 mm square before
+adding the bed margins.
 `bed_size` and the per-edge `bed_margin` drive an assertion, so a gap too big for
 the printer fails the render rather than the print. One per pair of units.
 

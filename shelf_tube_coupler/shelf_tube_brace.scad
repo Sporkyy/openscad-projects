@@ -113,10 +113,9 @@ collar_r = hole_r + wall_meat;
 overall_length = brace_center_distance + 2 * collar_r;
 overall_width = 2 * collar_r;
 
-// Smallest square of bed the bar needs. Turning it 45 degrees only pays while
-// the part stays narrow: past a width of bed_size * (sqrt(2) - 1) the growing
-// bounding box costs more than the diagonal gains, and square on wins
-turned_square = (overall_length + overall_width) / sqrt(2);
+// Square bed requirement at 45 degrees from the rounded bar silhouette
+// Projected centre spacing plus the unchanged diameter of the round ends
+turned_square = brace_center_distance / sqrt(2) + 2 * collar_r;
 bed_square = min(overall_length, turned_square);
 bed_angle = turned_square < overall_length ? 45 : 0;
 

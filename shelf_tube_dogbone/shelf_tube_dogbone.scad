@@ -136,11 +136,12 @@ front_half_length = collar_r + tail_reach;
 back_half_length = collar_r + slot_travel / 2 + tail_reach;
 half_width = across_center_distance + 2 * collar_r;
 
-// Smallest square of bed a half needs. Turning it 45 degrees only pays while
-// the part stays narrow; past a width of bed_size * (sqrt(2) - 1) it does not
+// Conservative square bed requirement from the back half bounding rectangle
+// Both dimensions counted at 0 degrees, compared with the rectangle at 45
 turned_square = (back_half_length + half_width) / sqrt(2);
-bed_square = min(back_half_length, turned_square);
-bed_angle = turned_square < back_half_length ? 45 : 0;
+unturned_square = max(back_half_length, half_width);
+bed_square = min(unturned_square, turned_square);
+bed_angle = turned_square < unturned_square ? 45 : 0;
 
 echo(str("across-the-gap hole spacing = ", across_center_distance, " mm"));
 echo(str("front-to-back hole spacing = ", depth_center_distance, " mm"));
