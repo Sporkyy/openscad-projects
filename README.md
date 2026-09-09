@@ -43,6 +43,17 @@ Three levels, chosen by how long a fact outlives the thing it describes.
 
 ## Projects
 
+### Single screwdriver holder
+
+[![Single screwdriver holder preview](single_screwdriver_holder/single_screwdriver_holder.png)](single_screwdriver_holder/single_screwdriver_holder.stl)
+
+[Documentation](single_screwdriver_holder/README.md) · [STL](single_screwdriver_holder/single_screwdriver_holder.stl) · [source](single_screwdriver_holder/single_screwdriver_holder.scad)
+
+A side-loading socket for one long screwdriver: slide the shaft in from the
+front, then lower the handle into its pocket. An optional middle bore clears a
+hex bolster, and a rear channel slips over an accessory hanger strip. Example
+dimensions are ready to adjust to your screwdriver and hanger.
+
 ### Shelf tube coupler and brace
 
 [![Shelf tube coupler and brace preview](shelf_tube_coupler/shelf_tube_coupler.png)](shelf_tube_coupler/shelf_tube_coupler.stl)
