@@ -104,11 +104,15 @@ off the shelves directly, at the cost of about half of it in residual sway.
 
 **Printing.** PETG, no supports, flat on the bed. Flat runs the perimeters along
 the load path, where on edge would load the bar across its layers. It is long
-enough that placement matters: the echoed bed placement gives the angle and the
-square it needs, and turning it 45° costs far less bed than laying it square on.
-The calculation uses the rounded ends: projected hole spacing plus the outside
-diameter. With the shipped dimensions, it needs about 213.1 mm square before
-adding the bed margins.
+enough that placement matters, and the placement is always 45°: a rounded bar
+never fits a smaller square laid square on, and at the shipped length it would
+not fit a 256 mm bed square on at all. The echoed bed placement gives the square
+it needs. That square comes off the rounded silhouette — the projected hole
+spacing plus `2 * collar_r`, the 42 mm width of the round ends, which is the
+second figure in the echoed overall size. Measuring the bar's bounding box
+instead overstates it by about 17 mm, because turning the box counts corners the
+bar never occupies. With the shipped dimensions it wants about 213.1 mm square
+before adding the bed margins.
 `bed_size` and the per-edge `bed_margin` drive an assertion, so a gap too big for
 the printer fails the render rather than the print. One per pair of units.
 

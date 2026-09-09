@@ -27,8 +27,9 @@
 // PRINT NOTES:
 // - Modelled as a straight bar. The diagonal is where it goes,
 //   not what it is.
-// - Long. Turned 45 degrees on the bed it needs far less room
-//   than it does square on — check the echoed bed placement.
+// - Long. It always goes on the bed turned 45 degrees, which
+//   is the only way the shipped length fits at all; the echoed
+//   bed placement gives the square it needs.
 // - PETG, no supports, flat on the bed. Flat runs the
 //   perimeters along the load path; on edge would load the
 //   part across its layers.
@@ -113,11 +114,18 @@ collar_r = hole_r + wall_meat;
 overall_length = brace_center_distance + 2 * collar_r;
 overall_width = 2 * collar_r;
 
-// Square bed requirement at 45 degrees from the rounded bar silhouette
-// Projected centre spacing plus the unchanged diameter of the round ends
-turned_square = brace_center_distance / sqrt(2) + 2 * collar_r;
-bed_square = min(overall_length, turned_square);
-bed_angle = turned_square < overall_length ? 45 : 0;
+// Square bed requirement at 45 degrees, taken from the rounded bar silhouette
+// rather than from its bounding box: the projected centre spacing plus the
+// unchanged diameter of the round ends. Turning the bounding box instead counts
+// corners a stadium never occupies and overstates the square by about 17 mm on
+// the shipped dimensions
+//
+// There is no square-on case to choose between. A stadium always fits a smaller
+// square turned, since the projected centre spacing is shorter than the spacing
+// itself for every length the hole-overlap assert below leaves standing, so the
+// angle is 45 whatever the parameters are set to
+bed_square = brace_center_distance / sqrt(2) + 2 * collar_r;
+bed_angle = 45;
 
 echo(str("across-the-gap hole spacing = ", across_center_distance, " mm"));
 echo(str("front-to-back hole spacing = ", depth_center_distance, " mm"));

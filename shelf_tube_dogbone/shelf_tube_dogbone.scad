@@ -136,8 +136,11 @@ front_half_length = collar_r + tail_reach;
 back_half_length = collar_r + slot_travel / 2 + tail_reach;
 half_width = across_center_distance + 2 * collar_r;
 
-// Conservative square bed requirement from the back half bounding rectangle
-// Both dimensions counted at 0 degrees, compared with the rectangle at 45
+// Conservative square bed requirement from the back half bounding rectangle,
+// with both of its dimensions counted. Comparing the length alone against the
+// bed passes a half that is too wide to print, which is what a wider shelf_gap
+// or a shallower unit produces, so the width has to sit in the 0 degree case as
+// well as the 45
 turned_square = (back_half_length + half_width) / sqrt(2);
 unturned_square = max(back_half_length, half_width);
 bed_square = min(unturned_square, turned_square);
