@@ -153,7 +153,7 @@ See [OPENGRID.md](OPENGRID.md) for the system as a whole.
 
 ### openGrid mount for a triple 4-tier bookshelf
 
-[Design notes and measurements needed](triple_4_tier_book_shelf_opengrid_mount/TODO.md)
+[Design notes and measurements needed](triple_4_tier_book_shelf_opengrid_mount/README.md)
 
 Not yet modelled. The directory holds the design decision — hook the frame's
 rungs with vertical rails rather than taping to the posts, letting the rails
