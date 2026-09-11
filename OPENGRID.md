@@ -1,5 +1,3 @@
-<!-- SPDX-License-Identifier: CC-BY-4.0 -->
-
 # openGrid notes
 
 Reference for building openGrid parts in this repository. It exists because
@@ -142,10 +140,12 @@ thing to do — would have made the parts in this repository NC-SA, and by
 ShareAlike anything reproducing them too. The chain actually used is the clean
 one:
 
-    David D's openGrid (CC BY 4.0)
-      → mitufy's recreation (CC BY 4.0, credits BlackjackDuck as inspiration
-        rather than source, which is what lets it be CC BY at all)
-      → the files here
+```text
+David D's openGrid (CC BY 4.0)
+  → mitufy's recreation (CC BY 4.0, credits BlackjackDuck as inspiration
+    rather than source, which is what lets it be CC BY at all)
+  → the files here
+```
 
 ## Printing openGrid snaps
 

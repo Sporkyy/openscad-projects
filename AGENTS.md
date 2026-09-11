@@ -122,7 +122,7 @@ and anything past 45° wants support. Design sloped faces at 45° or shallower.
 its horizontal run and vertical rise are the same expression, and a conical
 lead-in or countersink so its radial change equals its height:
 
-```
+```openscad
 [r - chamfer, 0], [r, chamfer]                              // Rim, always 45 deg
 cylinder(d1 = bore_d, d2 = bore_d + 2 * lead_in, h = lead_in) // Funnel, always 45 deg
 ```

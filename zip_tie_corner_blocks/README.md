@@ -98,7 +98,7 @@ The source emits one block; print four. Thread the tail through all four before
 feeding it into the head — the head does not fit through the channel and is not
 meant to, and it sits on a flat between two blocks.
 
-#### The TPU sleeve
+## The TPU sleeve
 
 [![Zip tie corner block sleeve preview](zip_tie_corner_block_sleeves.png)](zip_tie_corner_block_sleeves.stl)
 

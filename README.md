@@ -1,8 +1,8 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 
-![Landscape blueprint of a spork with dimension lines and measurements](assets/spork-blueprint.webp)
-
 # scad-projects
+
+![Landscape blueprint of a spork with dimension lines and measurements](assets/spork-blueprint.webp)
 
 Parametric OpenSCAD models for 3D-printed parts, mostly one-off fixes for
 things around the house. Each project has its own directory, holding a
