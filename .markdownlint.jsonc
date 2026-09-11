@@ -7,5 +7,5 @@
   "MD013": false,
   // Every block here is fenced. Saying so makes an indented block a finding
   // rather than a silent new baseline for the style check.
-  "MD046": { "style": "fenced" }
+  "MD046": { "style": "fenced" },
 }
