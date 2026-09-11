@@ -1,0 +1,11 @@
+// SPDX-License-Identifier: MIT
+{
+  // Prose is wrapped by hand at about 72 columns. A table row, a long URL or a
+  // one-line shell command cannot be wrapped without damage, and a check that
+  // fails on every table is one a reader learns to ignore. Line length stays
+  // off; wrap prose, leave the unwrappable alone.
+  "MD013": false,
+  // Every block here is fenced. Saying so makes an indented block a finding
+  // rather than a silent new baseline for the style check.
+  "MD046": { "style": "fenced" }
+}

@@ -230,6 +230,35 @@ plausible assumptions turned out to be wrong and what the right answer was, sinc
 that is the part a reader cannot re-derive from the finished geometry and is the
 part most likely to be got wrong twice.
 
+## Markdown
+
+Every `.md` here is linted with `markdownlint`, and the rules live in
+`.markdownlint.jsonc` at the repository root so the command line and the editor
+agree. Run it on every Markdown file you touch, from the repository root so the
+config is found:
+
+```sh
+markdownlint path/to/file.md   # Prints findings; --fix handles the trivial ones
+```
+
+A bare `markdownlint .` covers the whole tree.
+
+**Line length is switched off on purpose.** Prose is wrapped by hand at about 72
+columns, but a table row, a long URL and a one-line shell command cannot be
+wrapped without damage, and a check that fails on every table is one you learn
+to ignore. Wrap prose; leave the unwrappable alone. The VS Code extension ships
+this rule off while the command line ships it on, so the config states the
+answer once instead of leaving it to whichever tool happens to run.
+
+**Everything else stays on, and the fix is the document rather than the rule.**
+Do not reach for `<!-- markdownlint-disable -->` to quiet a finding. A heading
+that skipped a level is a structure problem, and a fence with no language is one
+GitHub cannot highlight; fix both in the source. Code blocks here are fenced,
+and the config fixes that style too, so an indented block is a finding rather
+than a silent new baseline for the check. `markdownlint --fix` only handles the
+mechanical subset — spacing and list markers — so treat its output as a review
+list, not a formatter.
+
 ## Design conventions
 
 - Measurements come from calipers, so parameters must be things a caliper can
