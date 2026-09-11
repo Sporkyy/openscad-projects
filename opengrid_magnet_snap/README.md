@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # openGrid magnet snaps
 
 Two full-thickness openGrid snaps that carry a disc magnet instead of a

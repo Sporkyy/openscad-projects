@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Shelf tube wall anchor
 
 [![Shelf tube wall anchor preview](shelf_tube_anchor.png)](shelf_tube_anchor.stl)

@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Shelf tube dogbone
 
 [![Shelf tube dogbone preview](shelf_tube_dogbone.png)](shelf_tube_dogbone.stl)

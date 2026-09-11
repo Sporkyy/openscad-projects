@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Foot with post
 
 [![Foot with post preview](foot_with_post.png)](foot_with_post.stl)

@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Zip tie corner blocks and sleeves
 
 [![Zip tie corner blocks preview](zip_tie_corner_blocks.png)](zip_tie_corner_blocks.stl)

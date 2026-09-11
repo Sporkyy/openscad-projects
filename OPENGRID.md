@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # openGrid notes
 
 Reference for building openGrid parts in this repository. It exists because

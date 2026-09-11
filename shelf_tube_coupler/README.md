@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Shelf tube coupler and brace
 
 ## Shelf tube coupler

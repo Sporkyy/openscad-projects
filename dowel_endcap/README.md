@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Dowel end cap
 
 [![Dowel end cap preview](dowel_endcap.png)](dowel_endcap.stl)

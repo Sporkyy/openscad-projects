@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Pencil rest
 
 [![Pencil rest preview](pencil_rest.png)](pencil_rest.stl)
