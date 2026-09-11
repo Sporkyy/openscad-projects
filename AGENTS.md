@@ -39,8 +39,9 @@ carry a quarantine attribute — `xattr -d com.apple.quarantine <path>` clears i
 and the binary usually arrives already executable.
 
 Formatting in place drops a timestamped `.scadbak` backup beside the file, with
-no flag to disable it. These are gitignored — leave them alone, and don't commit
-one.
+no flag to disable it. These are gitignored and harmless — do not worry about
+them. Don't commit one, don't clean them up, and don't flag them as stale; just
+leave them be.
 
 The formatter is opinionated and lossy: two-space indent, no column alignment,
 `for(` with the space closed up, and it collapses wrapped expressions onto one
