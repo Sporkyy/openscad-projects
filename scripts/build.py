@@ -169,7 +169,8 @@ def warn_about_overhangs(mesh, label):
     for group in steep:
         print(f"  {overhangs.describe(group)}")
     print(
-        "  see Overhangs in AGENTS.md; .venv/bin/python scripts/overhangs.py for the full picture"
+        "  see Overhangs in AGENTS.md; "
+        ".venv/bin/python scripts/overhangs.py for the full picture"
     )
     return True
 

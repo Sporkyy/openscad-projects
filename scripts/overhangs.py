@@ -280,7 +280,8 @@ def report(path):
         worst = max(group[0] for group in groups)
         if steep:
             print(
-                f"\n  worst is {format_angle(worst)}°, past the {LIMIT}° limit — redesign the feature"
+                f"\n  worst is {format_angle(worst)}°, "
+                f"past the {LIMIT}° limit — redesign the feature"
             )
         else:
             print(f"\n  worst is {format_angle(worst)}°, within the {LIMIT}° limit")
