@@ -177,6 +177,10 @@ lip_clearance = leg_thickness - lip_reach;
 // stay positive
 mouth_clearance = face_offset - lip_reach;
 
+// Just clear of a face, for a cut that has to overshoot one rather than land on
+// it
+eps = 0.01;
+
 echo(str("sleeve = ", sleeve_width, " x ", sleeve_overall, " x ", sleeve_height, " mm"));
 echo(str("channel = ", gap, " mm clear, onto a ", block_h, " mm block"));
 echo(str("pad covers ", sleeve_length, " mm of face, ", pad_thickness, " mm thick"));
@@ -197,61 +201,57 @@ assert(sleeve_length > 0, "the corner relief has eaten the whole inner face — 
 assert(lip_lead_in < lip_thickness, "the lead-in has tapered the side lips to nothing — reduce lip_lead_in");
 assert(lip_lead_in < lip_reach, "the lead-in is deeper than the lips are long — reduce lip_lead_in");
 
-// The pad, in cross section: x is across the block's height, y is up out of
-// the plate. It runs the full width so the side lips land on it rather than
-// beside it
-module pad_2d() {
-  translate([-sleeve_width / 2, 0])
-    square([sleeve_width, pad_thickness]);
-}
-
-// One side lip, in the same cross section. It starts at the plate and overlaps
-// the pad rather than sitting on top of it, so the two meet in material. The
-// lead-in takes the inner corner off the tip: it moves out and up by the same
-// amount, so it is 45 deg whatever lip_lead_in is set to, and it funnels the
-// mouth rather than closing it
-module side_lip_2d() {
-  inner = gap / 2;
-  outer = gap / 2 + lip_thickness;
+// The channel, as a cross section: x is across the block's height, y is up out
+// of the plate. It is the air above the pad and between the lips, with the
+// lead-in taken off the mouth: that taper moves out and up by the same amount,
+// so it is 45 deg whatever lip_lead_in is set to. The eps rides the same 45 deg
+// line rather than stepping out square from the wall, because a square step
+// would leave the lead-in the one face in the part past 45
+//
+// Only the mouth is tapered. The end lip is slid up to rather than pushed over,
+// so it stays square, and a taper there would only shorten the stop
+module channel_2d() {
   polygon([
-    [inner, 0],
-    [outer, 0],
-    [outer, sleeve_height],
-    [inner + lip_lead_in, sleeve_height],
-    [inner, sleeve_height - lip_lead_in],
+    [-gap / 2, pad_thickness],
+    [gap / 2, pad_thickness],
+    [gap / 2, sleeve_height - lip_lead_in],
+    [gap / 2 + lip_lead_in + eps, sleeve_height + eps],
+    [-gap / 2 - lip_lead_in - eps, sleeve_height + eps],
+    [-gap / 2, sleeve_height - lip_lead_in],
   ]);
 }
 
-// The pad and the side lips are one cross section run the length of the
-// block's inner face, and then far enough past it for the end lip to stand on
-module along_leg() {
-  translate([0, sleeve_overall, 0])
+// The channel run from clear of the open end to sleeve_length, so its far face
+// is the end lip's inner face and its near face is out in the air rather than
+// on the sleeve's own end
+module channel() {
+  translate([0, sleeve_length, 0])
     rotate([90, 0, 0])
-      linear_extrude(sleeve_overall)
-        children();
+      linear_extrude(sleeve_length + eps)
+        channel_2d();
 }
 
-// The end lip, standing across the far end of the pad. It is square rather
-// than tapered: nothing snaps over it, the leg is slid up to it, and a taper
-// here would only shorten the stop
-module end_lip_3d() {
-  translate([-sleeve_width / 2, sleeve_length, 0])
-    cube([sleeve_width, lip_thickness, sleeve_height]);
-}
-
-// Four sides: the pad, a lip either side of it, and a lip across the end. The
-// second side lip is the first mirrored, so the channel cannot come out
-// lopsided
+// The sleeve is the block with the channel cut out of it, rather than a pad
+// unioned with three lips.
+//
+// That difference is not a matter of taste — it is what keeps the exported mesh
+// watertight. A pad and a lip that share the plane x = sleeve_width / 2 present
+// two coincident faces there, and the boolean that merges them leaves zero-area
+// facets along the seam: the export comes out with a third of its facets
+// carrying no area and its edges unmatched, which scripts/overhangs.py reports
+// as not closed. Every face this cut makes is either inside the block or past
+// it, so nothing is coplanar with anything, and the mesh comes out clean.
+//
+// The block is the tray's own silhouette. The pad already runs the full width
+// and the lips are the outer edges of it, so the outline is a plain box and all
+// of the tray is carved out of it. The end lip is what the cut leaves standing
+// where it stops
 module zip_tie_corner_block_sleeve() {
-  union() {
-    along_leg()
-      pad_2d();
-    along_leg()
-      side_lip_2d();
-    mirror([1, 0, 0])
-      along_leg()
-        side_lip_2d();
-    end_lip_3d();
+  difference() {
+    translate([-sleeve_width / 2, 0, 0])
+      cube([sleeve_width, sleeve_overall, sleeve_height]);
+
+    channel();
   }
 }
 

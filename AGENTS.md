@@ -289,6 +289,13 @@ list, not a formatter.
 - Guard derived geometry with `assert()` for interferences and overhangs, and
   `echo()` the derived values so they can be sanity-checked against the physical
   part before printing.
+- No two solids in a union may present a face in the same plane. Coincident
+  faces leave the boolean a seam to pad with zero-area facets, and the export
+  comes out with edges only one facet uses. Either bury that plane by
+  overlapping the solids, the way `post_overlap` does in `foot_with_post`, or
+  express the part as one solid with its shape cut out of it, which is what the
+  corner block sleeve became — `python3 scripts/overhangs.py part.stl` is what
+  says so.
 - Sloped faces stay at or under 45° from vertical so the part prints without
   supports, and the angle is fixed by how the geometry is written rather than by
   the value of a knob. See **Overhangs** above.
