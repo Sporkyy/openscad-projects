@@ -13,7 +13,7 @@ from unittest.mock import patch
 # The scripts are plain files rather than a package, so put them on the path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-import build  # noqa: E402
+import build
 
 
 class PublishModelsTests(unittest.TestCase):
