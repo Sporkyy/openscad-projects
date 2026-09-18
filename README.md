@@ -183,6 +183,19 @@ and the list of measurements still to take.
 
 ## Working with these
 
+On a fresh clone, install Homebrew's Python 3.14 if needed, then create the
+environment from the repository root:
+
+```sh
+brew install python@3.14
+make install
+```
+
+`make install` creates `.venv` and installs the pinned developer tools. Once
+Python is installed, the VS Code task *Set Up venv and Install Requirements*
+runs the same setup. Re-run it after `requirements-dev.txt` changes; no
+environment activation is needed.
+
 Regenerate every tracked STL and preview image:
 
 ```sh
