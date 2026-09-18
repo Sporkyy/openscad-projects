@@ -71,10 +71,10 @@ load-spreading dimension; it also sets the shortest object the blocks fit.
 corner plus whatever the object's corner is carrying — 4 mm is plenty for a clean
 extrusion or a planed edge, and it opens up for a weld bead.
 
-`corner_web` is the material between that relief and the channel, and it is not a
-skin: a tensioned tie takes the shortest path through the channel, which means it
-pulls against the wall on the corner side. That web is the load path from the tie
-into the block, and from there into the two flats.
+`corner_web` is the material between that relief and the channel, and it is not
+a skin: a tensioned tie takes the shortest path through the channel, which means
+it pulls against the wall on the corner side. That web is the load path from the
+tie into the block, and from there into the two flats.
 
 `tie_clearance` opens both channel dimensions together. It ships at 0.6 mm, which
 is looser than a part like this would normally get, because the tie has to be
@@ -162,9 +162,9 @@ hangs at all — every face is vertical, on the plate, or facing up, the two
 lead-in bevels included, since they taper the tips at 45° and so point upward
 rather than down. Only the side lips are tapered: they are the pair that has to
 snap over the block, while the end lip is slid up to rather than pushed over, and
-a taper there would only shorten the stop. Pad down also puts the plate's finish on the face that bears on
-the object and leaves the printed top surface as the glue face, which is the way
-round that suits both.
+a taper there would only shorten the stop. Pad down also puts the plate's finish
+on the face that bears on the object and leaves the printed top surface as the
+glue face, which is the way round that suits both.
 
 Three perimeters; at this size the lips are perimeters the whole way through,
 which is what makes them springy rather than crumbly. Cyanoacrylate or contact

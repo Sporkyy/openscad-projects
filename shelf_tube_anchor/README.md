@@ -57,11 +57,11 @@ how far the lug stands off the ring. Winding it down is a smaller bump, a shorte
 tie and a sharper turn; it stops at the echoed `min_bend_radius`, below which the
 two legs have eaten the island between them.
 
-`collar_height` is the other one that matters. The tie's pull is a radial tug at a
-single point on a round post, which is a tipping load, and collar height is the
-only thing resisting it — so this collar is taller than a coupler on purpose. It
-cannot go below the echoed `min_collar_height`, which is what the channel and its
-two decks need.
+`collar_height` is the other one that matters. The tie's pull is a radial tug at
+a single point on a round post, which is a tipping load, and collar height is
+the only thing resisting it — so this collar is taller than a coupler on
+purpose. It cannot go below the echoed `min_collar_height`, which is what the
+channel and its two decks need.
 
 `straight_run` is how far the mouths stand past the end of the bend, and it is
 what actually aims the tie: with none, the mouths would open mid-bend and point
@@ -87,7 +87,7 @@ in run, and it follows the bend the whole way round, so every roof face sits at
 That is the worst overhang in the part; everything else is vertical, on the plate,
 or facing up.
 
-The collar slips over the post from the end, so the shelf above has to come off to
-fit one, and it rests on the shelf below. Thread the tie in one mouth and out the
-other, then around the wall fixture and into its own head — the head does not fit
-through the channel and is not meant to.
+The collar slips over the post from the end, so the shelf above has to come off
+to fit one, and it rests on the shelf below. Thread the tie in one mouth and out
+the other, then around the wall fixture and into its own head — the head does
+not fit through the channel and is not meant to.

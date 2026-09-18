@@ -60,7 +60,8 @@ Both minor, once the rails are hooked over several rungs each:
 All caliper-reachable, all within 6 in caliper capacity:
 
 - [ ] Rung tube cross-section, width x depth — 6 in caliper
-- [ ] Post tube cross-section, width x depth, if different from the rung — 6 in caliper
+- [ ] Post tube cross-section, width x depth, if different from the rung
+      — 6 in caliper
 - [ ] **Rung setback from the posts' outer face** — 6 in caliper.
       Flush or inset, and by how much. This decides whether tiles land on the
       posts or stand off them, and it changes the hook profile more than

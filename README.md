@@ -7,9 +7,9 @@
 Parametric OpenSCAD models for 3D-printed parts, mostly one-off fixes for
 things around the house. Each project has its own directory, holding a
 self-contained `.scad` source per part with its `.stl`, preview image and
-`README.md` beside it — one source where the project is one part, and one each where parts are
-printed and used together. Measured dimensions are variables at the top of the
-source.
+`README.md` beside it — one source where the project is one part, and one each
+where parts are printed and used together. Measured dimensions are variables at
+the top of the source.
 
 Every model is written to be measured with **calipers**. Parameters are always
 things a caliper can physically reach — outside diameters, clear gaps,
@@ -51,7 +51,9 @@ Three levels, chosen by how long a fact outlives the thing it describes.
 
 [![Single screwdriver holder preview](single_screwdriver_holder/single_screwdriver_holder.png)](single_screwdriver_holder/single_screwdriver_holder.stl)
 
-[Documentation](single_screwdriver_holder/README.md) · [STL](single_screwdriver_holder/single_screwdriver_holder.stl) · [source](single_screwdriver_holder/single_screwdriver_holder.scad)
+[Documentation](single_screwdriver_holder/README.md) ·
+[STL](single_screwdriver_holder/single_screwdriver_holder.stl) ·
+[source](single_screwdriver_holder/single_screwdriver_holder.scad)
 
 A side-loading socket for one long screwdriver: slide the shaft in from the
 front, then lower the handle into its pocket. An optional middle bore clears a
@@ -62,7 +64,11 @@ dimensions are ready to adjust to your screwdriver and hanger.
 
 [![Shelf tube coupler and brace preview](shelf_tube_coupler/shelf_tube_coupler.png)](shelf_tube_coupler/shelf_tube_coupler.stl)
 
-[Documentation](shelf_tube_coupler/README.md) · coupler: [STL](shelf_tube_coupler/shelf_tube_coupler.stl) · [source](shelf_tube_coupler/shelf_tube_coupler.scad) · brace: [STL](shelf_tube_coupler/shelf_tube_brace.stl) · [source](shelf_tube_coupler/shelf_tube_brace.scad)
+[Documentation](shelf_tube_coupler/README.md) · coupler:
+[STL](shelf_tube_coupler/shelf_tube_coupler.stl) ·
+[source](shelf_tube_coupler/shelf_tube_coupler.scad) · brace:
+[STL](shelf_tube_coupler/shelf_tube_brace.stl) ·
+[source](shelf_tube_coupler/shelf_tube_brace.scad)
 
 Two parts that tie a pair of adjacent Turn-N-Tube wire shelf units into one rigid
 assembly, replacing zip ties. The coupler is a collar holding two posts a fixed
@@ -74,7 +80,9 @@ so one brace makes the pair rigid however many levels are coupled.
 
 [![Shelf tube dogbone preview](shelf_tube_dogbone/shelf_tube_dogbone.png)](shelf_tube_dogbone/shelf_tube_dogbone.stl)
 
-[Documentation](shelf_tube_dogbone/README.md) · [STL](shelf_tube_dogbone/shelf_tube_dogbone.stl) · [source](shelf_tube_dogbone/shelf_tube_dogbone.scad)
+[Documentation](shelf_tube_dogbone/README.md) ·
+[STL](shelf_tube_dogbone/shelf_tube_dogbone.stl) ·
+[source](shelf_tube_dogbone/shelf_tube_dogbone.scad)
 
 The same rigidity as the brace, reached by gripping all four posts at one level
 instead of triangulating. It splits into two halves to fit the bed and carries a
@@ -85,7 +93,9 @@ right. Reach for it instead of the brace when you would rather not measure.
 
 [![Shelf tube wall anchor preview](shelf_tube_anchor/shelf_tube_anchor.png)](shelf_tube_anchor/shelf_tube_anchor.stl)
 
-[Documentation](shelf_tube_anchor/README.md) · [STL](shelf_tube_anchor/shelf_tube_anchor.stl) · [source](shelf_tube_anchor/shelf_tube_anchor.scad)
+[Documentation](shelf_tube_anchor/README.md) ·
+[STL](shelf_tube_anchor/shelf_tube_anchor.stl) ·
+[source](shelf_tube_anchor/shelf_tube_anchor.scad)
 
 A collar that slips over one vertical post and carries a lug with a zip tie
 channel bored through it, so the tie holding the post back to the wall never has
@@ -97,7 +107,8 @@ corner tips.
 
 [![Dowel end cap preview](dowel_endcap/dowel_endcap.png)](dowel_endcap/dowel_endcap.stl)
 
-[Documentation](dowel_endcap/README.md) · [STL](dowel_endcap/dowel_endcap.stl) · [source](dowel_endcap/dowel_endcap.scad)
+[Documentation](dowel_endcap/README.md) · [STL](dowel_endcap/dowel_endcap.stl) ·
+[source](dowel_endcap/dowel_endcap.scad)
 
 A blind socket that closes off the end of a dowel: a plain cylinder with a
 cylindrical recess bored into one end, so the dowel pushes in until it bottoms
@@ -107,7 +118,11 @@ out and the remaining material caps it.
 
 [![Zip tie corner blocks and sleeves preview](zip_tie_corner_blocks/zip_tie_corner_blocks.png)](zip_tie_corner_blocks/zip_tie_corner_blocks.stl)
 
-[Documentation](zip_tie_corner_blocks/README.md) · blocks: [STL](zip_tie_corner_blocks/zip_tie_corner_blocks.stl) · [source](zip_tie_corner_blocks/zip_tie_corner_blocks.scad) · sleeves: [STL](zip_tie_corner_blocks/zip_tie_corner_block_sleeves.stl) · [source](zip_tie_corner_blocks/zip_tie_corner_block_sleeves.scad)
+[Documentation](zip_tie_corner_blocks/README.md) · blocks:
+[STL](zip_tie_corner_blocks/zip_tie_corner_blocks.stl) ·
+[source](zip_tie_corner_blocks/zip_tie_corner_blocks.scad) · sleeves:
+[STL](zip_tie_corner_blocks/zip_tie_corner_block_sleeves.stl) ·
+[source](zip_tie_corner_blocks/zip_tie_corner_block_sleeves.scad)
 
 A corner shoe that carries a zip tie around a square object instead of letting the
 tie grab the corner, with an optional slip-on sleeve to protect the finish
@@ -118,7 +133,9 @@ idea usually serves.
 
 [![Foot with post preview](foot_with_post/foot_with_post.png)](foot_with_post/foot_with_post.stl)
 
-[Documentation](foot_with_post/README.md) · [STL](foot_with_post/foot_with_post.stl) · [source](foot_with_post/foot_with_post.scad)
+[Documentation](foot_with_post/README.md) ·
+[STL](foot_with_post/foot_with_post.stl) ·
+[source](foot_with_post/foot_with_post.scad)
 
 A TPU foot that plugs into a socket already in the bottom of whatever it holds up.
 Two stacked cylinders: the lower and wider one stands on the floor and lifts the
@@ -139,7 +156,11 @@ what makes the pencil possible to pick up again.
 
 [![openGrid magnet snaps preview](opengrid_magnet_snap/opengrid_magnet_snap_back.png)](opengrid_magnet_snap/opengrid_magnet_snap_back.stl)
 
-[Documentation](opengrid_magnet_snap/README.md) · back: [STL](opengrid_magnet_snap/opengrid_magnet_snap_back.stl) · [source](opengrid_magnet_snap/opengrid_magnet_snap_back.scad) · front: [STL](opengrid_magnet_snap/opengrid_magnet_snap_front.stl) · [source](opengrid_magnet_snap/opengrid_magnet_snap_front.scad)
+[Documentation](opengrid_magnet_snap/README.md) · back:
+[STL](opengrid_magnet_snap/opengrid_magnet_snap_back.stl) ·
+[source](opengrid_magnet_snap/opengrid_magnet_snap_back.scad) · front:
+[STL](opengrid_magnet_snap/opengrid_magnet_snap_front.stl) ·
+[source](opengrid_magnet_snap/opengrid_magnet_snap_front.scad)
 
 Two full-thickness openGrid snaps carrying a disc magnet instead of a connector,
 differing only in which face the magnet is on. Drop one into a cell and that cell

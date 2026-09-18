@@ -77,16 +77,16 @@ The build must report `manifold` and `Status: NoError` before replacing tracked
 artifacts. It exports binary STL files and consistent fixed-view catalog
 previews. A failed build must leave the last known-good artifacts intact.
 
-That status line only appears when OpenSCAD has an actual boolean to compute.
-A part that is one primitive, one `rotate_extrude`, or one `linear_extrude`
+That status line only appears when OpenSCAD has an actual boolean to compute. A
+part that is one primitive, one `rotate_extrude`, or one `linear_extrude`
 exports as a `PolySet` and prints no `manifold` line at all, so the build
 rejects it — the mesh is fine, but the gate has nothing to read.
-`.venv/bin/python scripts/overhangs.py part.stl` can still say whether such a mesh is
-closed, because it reads the mesh's edges rather than the log. The gate itself
-is unchanged: it still wants a boolean. Wrapping the
-lone child in `union()` or `render()` does not help; the operation has to have
-something to do. Two or more operands do it, including the implicit union of two
-top-level objects, and so does `hull()` on a single child.
+`.venv/bin/python scripts/overhangs.py part.stl` can still say whether such a
+mesh is closed, because it reads the mesh's edges rather than the log. The gate
+itself is unchanged: it still wants a boolean. Wrapping the lone child in
+`union()` or `render()` does not help; the operation has to have something to
+do. Two or more operands do it, including the implicit union of two top-level
+objects, and so does `hull()` on a single child.
 
 This is not a reason to bolt a dummy operation onto a part. A model made of two
 stacked or intersecting solids should be written as the `union()` it already is
@@ -143,8 +143,8 @@ rim for the same reason — the fillet leaves the plate tangent to horizontal,
 which is the worst overhang in the part, while the chamfer that replaces it is
 45° all the way.
 
-**This does not conflict with leaving orientation to the slicer.** Which way up a
-part is authored is a source decision, and it should be the way it is meant to
+**This does not conflict with leaving orientation to the slicer.** Which way up
+a part is authored is a source decision, and it should be the way it is meant to
 print; where it lands on the plate and how it is arranged there is the slicer's.
 Model the part in its intended print orientation, choose that orientation to be
 the one needing no supports, and say so in the print notes. Then leave placement
@@ -253,12 +253,25 @@ markdownlint path/to/file.md   # Prints findings; --fix handles the trivial ones
 
 A bare `markdownlint .` covers the whole tree.
 
-**Line length is switched off on purpose.** Prose is wrapped by hand at about 72
-columns, but a table row, a long URL and a one-line shell command cannot be
-wrapped without damage, and a check that fails on every table is one you learn
-to ignore. Wrap prose; leave the unwrappable alone. The VS Code extension ships
-this rule off while the command line ships it on, so the config states the
-answer once instead of leaving it to whichever tool happens to run.
+**Line length is on, at 80 columns.** It was switched off wholesale once, on the
+grounds that a table row, a long URL and a one-line shell command cannot be
+wrapped without damage and a check that fails on every table is one you learn to
+ignore. The unwrappable part of that was right and the blanket was too wide.
+Tables and code blocks are exempted by name, and MD013's default non-strict mode
+already passes any line whose overflow holds no space — every bare URL, every
+preview-image row in the catalogue. What is left flagged is prose, which is the
+part that wraps. The rule off meant nothing checked prose at all, which is how an
+edit that lengthened a line in place shipped without a finding.
+
+The width in that comment used to say 72. No file here has ever been wrapped at
+72; they are wrapped at 80, and the config now says 80. A catalogue row of links
+separated by `·` is wrappable too, in spite of looking like one unit — a line
+break inside a paragraph renders as a space, so breaking after a `·` changes
+nothing GitHub shows.
+
+The VS Code extension ships this rule off while the command line ships it on, so
+the config states the answer once instead of leaving it to whichever tool happens
+to run.
 
 **Everything else stays on, and the fix is the document rather than the rule.**
 Do not reach for `<!-- markdownlint-disable -->` to quiet a finding. A heading

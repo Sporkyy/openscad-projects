@@ -1,10 +1,22 @@
 // SPDX-License-Identifier: MIT
 {
-  // Prose is wrapped by hand at about 72 columns. A table row, a long URL or a
-  // one-line shell command cannot be wrapped without damage, and a check that
-  // fails on every table is one a reader learns to ignore. Line length stays
-  // off; wrap prose, leave the unwrappable alone.
-  "MD013": false,
+  // Prose is wrapped by hand at 80 columns — not the 72 this comment used to
+  // claim, which no file here has ever followed. The rule is on so an edit that
+  // lengthens a line in place gets a finding instead of a silent new width.
+  //
+  // Switching it off wholesale was over-broad. The unwrappable cases are
+  // covered without it: `tables` and `code_blocks` are exempted outright, and
+  // MD013's default non-strict mode already passes any line whose overflow
+  // holds no space, which is every bare URL and every preview-image row in the
+  // catalogue. What is left flagged is prose, which is the part that wraps.
+  //
+  // The VS Code extension ships MD013 off while the command line ships it on,
+  // so stating it here is what keeps the two tools agreeing.
+  "MD013": {
+    "line_length": 80,
+    "code_blocks": false,
+    "tables": false
+  },
   // Every block here is fenced. Saying so makes an indented block a finding
   // rather than a silent new baseline for the style check.
   "MD046": { "style": "fenced" },

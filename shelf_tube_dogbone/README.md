@@ -6,10 +6,11 @@
 
 [View or download STL](shelf_tube_dogbone.stl) · [OpenSCAD source](shelf_tube_dogbone.scad)
 
-The same rigidity as the [brace](../shelf_tube_coupler/README.md#shelf-tube-brace),
-reached by gripping all four posts at one level instead of triangulating. A plate pinned to two posts on a unit cannot rotate
-relative to it, so a plate holding two posts on each unit locks the pair
-together.
+The same rigidity as the
+[brace](../shelf_tube_coupler/README.md#shelf-tube-brace), reached by gripping
+all four posts at one level instead of triangulating. A plate pinned to two
+posts on a unit cannot rotate relative to it, so a plate holding two posts on
+each unit locks the pair together.
 
 Whole, that plate is about 286 mm long on the measured 200 mm `post_clear_gap`,
 past what a 256 mm bed takes; it prints as two halves bolted together at
@@ -25,9 +26,10 @@ slots absorb whatever the units disagree about, and rotation stays fully
 constrained because each slot is elongated along the line to its own round hole.
 Nothing is left to friction.
 
-That is also why this one tolerates a rough measurement where the brace does
-not — it is the reason to reach for this instead. `slot_travel` is the whole tolerance budget, 30 mm by default, and the
-render echoes the window of `post_clear_gap` it covers.
+That is also why this one tolerates a rough measurement where the brace does not
+— it is the reason to reach for this instead. `slot_travel` is the whole
+tolerance budget, 30 mm by default, and the render echoes the window of
+`post_clear_gap` it covers.
 
 **Measuring.** The same three as the brace, same caliper sizes:
 

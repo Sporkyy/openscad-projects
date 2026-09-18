@@ -48,10 +48,10 @@ render echoes that the notch exposes the full diameter from either side.
 footprint on the desk. It does lose some mass as well as trough, so printing it
 solid or nearly solid helps recover the weight and friction that keep a rest this
 small in place. The cradle carries the pencil either side of the notch rather
-than along the whole length, and the render echoes how much is left at each end —
-36.4 mm apiece at the shipped sizes, against a 24 mm opening.
-`notch_l` is asserted against leaving less than the pencil is thick at either
-end, which is the point where a cradle has become a lip.
+than along the whole length, and the render echoes how much is left at each end
+— 36.4 mm apiece at the shipped sizes, against a 24 mm opening. `notch_l` is
+asserted against leaving less than the pencil is thick at either end, which is
+the point where a cradle has become a lip.
 
 **Measuring.** One measurement, on the pencil:
 

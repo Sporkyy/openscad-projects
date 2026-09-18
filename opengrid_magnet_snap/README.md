@@ -50,10 +50,10 @@ while it cures. It pushes a magnet out again if one has to come apart. And it
 passes a fastener, so the magnet can be a bolted pot magnet rather than a plain
 disc — though the hole comes out the opposite face from the bore, so a bolt head
 lands there proud of a board the snap is flush in. Countersink it, or pick a
-magnet that does not need a head on that side. Set `through_hole = false` when the magnet is going on with an adhesive
-dot instead: a dot needs no vent, and the unbroken face is tidier. A dot holds
-very little, but for a cable channel that is carrying nothing vertically it is
-enough.
+magnet that does not need a head on that side. Set `through_hole = false` when
+the magnet is going on with an adhesive dot instead: a dot needs no vent, and
+the unbroken face is tidier. A dot holds very little, but for a cable channel
+that is carrying nothing vertically it is enough.
 
 **Measuring.** Two measurements, both on the magnet:
 
