@@ -81,3 +81,7 @@ exclude = ["**/__pycache__"]
 # interpreter.
 pythonVersion = "3.10"
 typeCheckingMode = "standard"
+# The test modules import build and overhangs by bare name, having put scripts/
+# on sys.path at run time. That is a call pyright does not run, so without this
+# entry it reports both imports as unresolved.
+extraPaths = ["scripts"]

@@ -316,6 +316,13 @@ place the editor and a pyright CLI both read. `.vscode/settings.json` keeps only
 what has no pyright equivalent: telling the test runner to launch
 `python3 -m unittest discover -s tests`, the same command this file documents.
 
+**`extraPaths` is what resolves the test imports.** The test modules import
+`build` and `overhangs` by bare name, after putting `scripts/` on `sys.path` at
+run time — a call the analyser does not run, so without the entry it reports
+both imports as unresolved. Setting `python.analysis.extraPaths` would do the
+same job in the editor, which is the whole reason the bar is not set there:
+the one place the CLI and the editor agree is the config file.
+
 ## Design conventions
 
 - Measurements come from calipers, so parameters must be things a caliper can
