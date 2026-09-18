@@ -5,12 +5,17 @@
 # script: the scripts and the tests are standard library, so the venv exists for
 # a consistent interpreter and for these two.
 #
+# Pinned with == rather than >=, because a floor is not a pin: two machines
+# running `make install` a month apart would resolve a floor to different
+# versions, which is the drift the pinned rule set in pyproject.toml exists to
+# keep out. Raise a version here deliberately, and `make install` carries it in.
+#
 # ruff is the linter and formatter AGENTS.md documents. It is installed here
-# rather than taken from Homebrew so the version a finding comes from is pinned
-# by this file and is the same on both machines.
+# rather than taken from Homebrew so the version a finding comes from is the one
+# this file names and is the same on both machines.
 #
 # pyright is the engine behind Pylance in CLI form: the same [tool.pyright] bar
 # pyproject.toml sets, runnable outside the editor. The wheel wraps the npm
 # package and fetches it on first run, so Node has to be on PATH.
-ruff>=0.16.8
-pyright>=1.1.414
+ruff==0.16.8
+pyright==1.1.414

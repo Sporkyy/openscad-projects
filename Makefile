@@ -43,12 +43,16 @@ reset-venv:
 	rm -rf $(VENV)
 	$(MAKE) install
 
-test:
+# All three depend on install rather than on venv, so a fresh clone gets the
+# tools built instead of `No such file or directory` from a path that is not
+# there yet. install is a no-op once the venv holds what requirements-dev.txt
+# names, so the dependency costs a pip call and nothing else
+test: install
 	$(PY) -m unittest discover -s tests
 
-lint:
+lint: install
 	$(VENV)/bin/ruff check .
 	$(VENV)/bin/ruff format --check .
 
-typecheck:
+typecheck: install
 	$(VENV)/bin/pyright

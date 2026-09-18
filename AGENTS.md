@@ -278,6 +278,11 @@ installs `requirements-dev.txt`. It is safe to re-run, and re-running it is how
 a change to that file reaches the venv; `make reset-venv` starts over. The VS
 Code task of the same name does the same thing for a fresh clone.
 
+`test`, `lint` and `typecheck` all depend on `install`, so a fresh clone can run
+any of them first and get the venv built rather than `No such file or directory`
+from a path that is not there yet. Once the venv holds what the requirements file
+names, that dependency costs a pip call and nothing else.
+
 ```sh
 make install    # Builds .venv and installs requirements-dev.txt
 make test       # .venv/bin/python -m unittest discover -s tests
@@ -286,8 +291,12 @@ make typecheck  # pyright, against the [tool.pyright] bar
 ```
 
 **The venv is where the versions are pinned.** `ruff` and `pyright` come from
-`requirements-dev.txt` rather than from Homebrew, so the version a finding comes
-from is the one this repository names. The scripts themselves need neither, but
+`requirements-dev.txt` rather than from Homebrew, and they are pinned there with
+`==` rather than `>=`, so the version a finding comes from is the one this
+repository names. A floor is not a pin: two machines installing a month apart
+resolve a floor to different versions, which is the same drift the named rule set
+in `pyproject.toml` exists to keep out. Raise a version deliberately and
+`make install` carries it in. The scripts themselves need neither, but
 everything Python goes through `.venv` anyway — the build tasks, the tests, the
 lint, and the editor — so the interpreter that builds a model is the one that
 analyses the code building it. Nothing needs activating: every entry point names
