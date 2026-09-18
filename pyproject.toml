@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2026 Todd Sayre
 
-# Tooling configuration only. There is no package here and nothing to install:
-# the scripts in scripts/ are plain files run with python3, the repository has no
-# dependencies, and tests/ imports them by putting scripts/ on sys.path.
+# Tooling configuration only. There is no package here and nothing to install for
+# the scripts to run: they are plain files on the standard library, and tests/
+# imports them by putting scripts/ on sys.path. The venv the Makefile builds is
+# for the tools below.
 
 [tool.ruff]
 # The version whose syntax the code uses, not the interpreter in front of you:

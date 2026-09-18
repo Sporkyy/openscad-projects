@@ -70,8 +70,8 @@ Render after changing geometry and confirm the output says `manifold` and
 
 Write one-off test renders to a scratch directory, not the repo. The `.stl` and
 `.png` beside each source are generated distribution files: rebuild them with
-`python3 scripts/build.py`, inspect the preview, and commit them with every source
-change. Never edit either generated file by hand.
+`.venv/bin/python scripts/build.py`, inspect the preview, and commit them with
+every source change. Never edit either generated file by hand.
 
 The build must report `manifold` and `Status: NoError` before replacing tracked
 artifacts. It exports binary STL files and consistent fixed-view catalog
@@ -81,7 +81,7 @@ That status line only appears when OpenSCAD has an actual boolean to compute.
 A part that is one primitive, one `rotate_extrude`, or one `linear_extrude`
 exports as a `PolySet` and prints no `manifold` line at all, so the build
 rejects it — the mesh is fine, but the gate has nothing to read.
-`python3 scripts/overhangs.py part.stl` can still say whether such a mesh is
+`.venv/bin/python scripts/overhangs.py part.stl` can still say whether such a mesh is
 closed, because it reads the mesh's edges rather than the log. The gate itself
 is unchanged: it still wants a boolean. Wrapping the
 lone child in `union()` or `render()` does not help; the operation has to have
@@ -173,7 +173,7 @@ To check a mesh on its own, or to see the shallow faces the build stays quiet
 about:
 
 ```sh
-python3 scripts/overhangs.py part/part.stl
+.venv/bin/python scripts/overhangs.py part/part.stl
 ```
 
 It groups the downward-facing facets by angle and height, ignores the first layer
@@ -187,8 +187,8 @@ let a hole look shared.
 blocker.** Nothing here gates on it.
 
 Both scripts have tests in `tests/`, run with
-`python3 -m unittest discover -s tests` from the repository root. The test files
-put `scripts/` on `sys.path` themselves, so no `PYTHONPATH` is needed.
+`.venv/bin/python -m unittest discover -s tests` from the repository root. The
+test files put `scripts/` on `sys.path` themselves, so no `PYTHONPATH` is needed.
 
 **Assert what a knob can break.** If a parameter can drive a feature past the
 limit, or a large value can eat the bed adhesion out from under a tall part,
@@ -280,17 +280,20 @@ Code task of the same name does the same thing for a fresh clone.
 
 ```sh
 make install    # Builds .venv and installs requirements-dev.txt
-make test       # python3 -m unittest discover -s tests, through the venv
+make test       # .venv/bin/python -m unittest discover -s tests
 make lint       # ruff check . and ruff format --check .
 make typecheck  # pyright, against the [tool.pyright] bar
 ```
 
 **The venv is where the versions are pinned.** `ruff` and `pyright` come from
 `requirements-dev.txt` rather than from Homebrew, so the version a finding comes
-from is the one this repository names. The scripts themselves need neither: they
-are standard library, and the venv is there for a consistent interpreter and for
-these two. The build and preview tasks keep calling `python3` directly, since
-rendering a model has to work without one.
+from is the one this repository names. The scripts themselves need neither, but
+everything Python goes through `.venv` anyway — the build tasks, the tests, the
+lint, and the editor — so the interpreter that builds a model is the one that
+analyses the code building it. Nothing needs activating: every entry point names
+the interpreter by path, and neither script carries a shebang or an executable
+bit, so there is one answer to which Python runs them. A fresh clone runs the
+venv task once first.
 
 `ruff format` is the Python counterpart of `scadformat` and `markdownlint`: run
 it on every `.py` file you touch, and let it own the wrapping rather than
@@ -329,7 +332,8 @@ pyright config file wins over any `python.analysis.*` setting, so it is the one
 place the editor and a pyright CLI both read. `.vscode/settings.json` keeps only
 what has no pyright equivalent: which interpreter to start from, which
 environment manager to use, and the test runner's
-`python3 -m unittest discover -s tests`, the same command this file documents.
+`.venv/bin/python -m unittest discover -s tests`, the same command this file
+documents.
 
 **`extraPaths` is what resolves the test imports.** The test modules import
 `build` and `overhangs` by bare name, after putting `scripts/` on `sys.path` at
@@ -363,8 +367,8 @@ the one place the CLI and the editor agree is the config file.
   comes out with edges only one facet uses. Either bury that plane by
   overlapping the solids, the way `post_overlap` does in `foot_with_post`, or
   express the part as one solid with its shape cut out of it, which is what the
-  corner block sleeve became — `python3 scripts/overhangs.py part.stl` is what
-  says so.
+  corner block sleeve became — `.venv/bin/python scripts/overhangs.py part.stl` is
+  what says so.
 - Sloped faces stay at or under 45° from vertical so the part prints without
   supports, and the angle is fixed by how the geometry is written rather than by
   the value of a knob. See **Overhangs** above.

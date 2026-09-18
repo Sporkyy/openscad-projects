@@ -81,5 +81,5 @@ left to the slicer. Rebuild the STL and preview after changing parameters:
 
 ```sh
 scadformat single_screwdriver_holder/single_screwdriver_holder.scad
-python3 scripts/build.py single_screwdriver_holder/single_screwdriver_holder.scad
+.venv/bin/python scripts/build.py single_screwdriver_holder/single_screwdriver_holder.scad
 ```

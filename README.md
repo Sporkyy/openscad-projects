@@ -165,7 +165,7 @@ and the list of measurements still to take.
 Regenerate every tracked STL and preview image:
 
 ```sh
-python3 scripts/build.py
+.venv/bin/python scripts/build.py
 ```
 
 The default VS Code build task, *Build all objects*, runs the same command. With
@@ -185,7 +185,7 @@ To check a mesh on its own, or to see the shallow surfaces the build stays quiet
 about:
 
 ```sh
-python3 scripts/overhangs.py dowel_endcap/dowel_endcap.stl
+.venv/bin/python scripts/overhangs.py dowel_endcap/dowel_endcap.stl
 ```
 
 Chamfers and lead-ins are written with their run equal to their rise, so they sit

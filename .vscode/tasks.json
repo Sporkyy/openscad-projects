@@ -20,7 +20,7 @@
       "label": "Build all objects",
       "detail": "Regenerate tracked STL and PNG files from every object source",
       "type": "process",
-      "command": "python3",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": ["${workspaceFolder}/scripts/build.py"],
       "group": {
         "kind": "build",
@@ -38,7 +38,7 @@
       "label": "Build current object",
       "detail": "Regenerate tracked STL and PNG files for the active OpenSCAD source",
       "type": "process",
-      "command": "python3",
+      "command": "${workspaceFolder}/.venv/bin/python",
       "args": ["${workspaceFolder}/scripts/build.py", "${file}"],
       "problemMatcher": [],
       "presentation": {
