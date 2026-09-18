@@ -9,6 +9,9 @@
 *.tmp.png
 __pycache__/
 
+# The developer venv, built by `make install`
+.venv/
+
 # Slicer projects stay local
 *.3mf
 

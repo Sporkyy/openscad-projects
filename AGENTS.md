@@ -271,13 +271,26 @@ list, not a formatter.
 
 ## Python
 
-The scripts and the tests are linted and formatted by `ruff`, configured in
-`pyproject.toml`. Run it from the repository root:
+The tooling lives in a venv, and `make` is how it is reached. `make install`
+builds `.venv` from Homebrew's `python@3.14` — pinned by path rather than taken
+from whatever `python3` the PATH offers, since macOS ships its own — and then
+installs `requirements-dev.txt`. It is safe to re-run, and re-running it is how
+a change to that file reaches the venv; `make reset-venv` starts over. The VS
+Code task of the same name does the same thing for a fresh clone.
 
 ```sh
-ruff check .           # Lints; --fix handles the mechanical findings
-ruff format --check .  # Reports what the formatter would change
+make install    # Builds .venv and installs requirements-dev.txt
+make test       # python3 -m unittest discover -s tests, through the venv
+make lint       # ruff check . and ruff format --check .
+make typecheck  # pyright, against the [tool.pyright] bar
 ```
+
+**The venv is where the versions are pinned.** `ruff` and `pyright` come from
+`requirements-dev.txt` rather than from Homebrew, so the version a finding comes
+from is the one this repository names. The scripts themselves need neither: they
+are standard library, and the venv is there for a consistent interpreter and for
+these two. The build and preview tasks keep calling `python3` directly, since
+rendering a model has to work without one.
 
 `ruff format` is the Python counterpart of `scadformat` and `markdownlint`: run
 it on every `.py` file you touch, and let it own the wrapping rather than
@@ -314,7 +327,8 @@ in the config rather than with a `noqa` on each import.
 **Pylance's bar lives in `pyproject.toml`, not in `.vscode/settings.json`.** A
 pyright config file wins over any `python.analysis.*` setting, so it is the one
 place the editor and a pyright CLI both read. `.vscode/settings.json` keeps only
-what has no pyright equivalent: telling the test runner to launch
+what has no pyright equivalent: which interpreter to start from, which
+environment manager to use, and the test runner's
 `python3 -m unittest discover -s tests`, the same command this file documents.
 
 **`extraPaths` is what resolves the test imports.** The test modules import

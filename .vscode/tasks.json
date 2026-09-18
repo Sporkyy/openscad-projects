@@ -2,6 +2,21 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Set Up venv and Install Requirements",
+      "detail": "Build .venv from Homebrew's python@3.14, then install requirements-dev.txt. Re-run it after editing requirements",
+      "type": "shell",
+      "command": "make install",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Build all objects",
       "detail": "Regenerate tracked STL and PNG files from every object source",
       "type": "process",

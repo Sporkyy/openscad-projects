@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Todd Sayre
+
+# Developer-only tooling. Nothing here is needed to build a model or to run a
+# script: the scripts and the tests are standard library, so the venv exists for
+# a consistent interpreter and for these two.
+#
+# ruff is the linter and formatter AGENTS.md documents. It is installed here
+# rather than taken from Homebrew so the version a finding comes from is pinned
+# by this file and is the same on both machines.
+#
+# pyright is the engine behind Pylance in CLI form: the same [tool.pyright] bar
+# pyproject.toml sets, runnable outside the editor. The wheel wraps the npm
+# package and fetches it on first run, so Node has to be on PATH.
+ruff>=0.16.8
+pyright>=1.1.414

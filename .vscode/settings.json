@@ -1,4 +1,10 @@
 {
+  // The venv `make install` builds, built from Homebrew's python@3.14. An
+  // explicitly selected interpreter wins over this, so a workspace that already
+  // has one picked needs it re-picked once after the venv exists.
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python-envs.defaultEnvManager": "ms-python.python:venv",
+
   // The tests are unittest, discovered from the repository root with
   // `python3 -m unittest discover -s tests`. Nothing here is pytest, so the
   // runner should launch unittest against the same directory.
@@ -8,5 +14,6 @@
   // python.analysis.* setting would reach only the editor.
   "python.testing.unittestEnabled": true,
   "python.testing.pytestEnabled": false,
-  "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "test_*.py"]
+  "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "test_*.py"],
+  "python-envs.defaultEnvManager": "ms-python.python:system"
 }

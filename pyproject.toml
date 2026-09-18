@@ -24,26 +24,26 @@ line-length = 88
 # always comes from the edit in front of you.
 [tool.ruff.lint]
 select = [
-    "E4",  # pycodestyle errors — E1/E2/E3/E5 belong to the formatter
+    "E4",   # pycodestyle errors — E1/E2/E3/E5 belong to the formatter
     "E7",
     "E9",
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # import sorting
-    "UP",  # pyupgrade
-    "B",   # bugbear
-    "SIM", # flake8-simplify
-    "C4",  # comprehensions
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # import sorting
+    "UP",   # pyupgrade
+    "B",    # bugbear
+    "SIM",  # flake8-simplify
+    "C4",   # comprehensions
     "PIE",
     "RET",
-    "ISC", # implicit string concat
-    "N",   # pep8-naming
-    "DTZ", # timezone-aware datetimes
-    "BLE", # blind except
-    "EXE", # shebang / executable bit agreement
+    "ISC",  # implicit string concat
+    "N",    # pep8-naming
+    "DTZ",  # timezone-aware datetimes
+    "BLE",  # blind except
+    "EXE",  # shebang / executable bit agreement
     "PYI",
     "LOG",
-    "G",   # logging format
+    "G",    # logging format
     "PERF",
     "FURB",
     "RUF",
@@ -79,6 +79,9 @@ ignore = [
 [tool.pyright]
 include = ["scripts", "tests"]
 exclude = ["**/__pycache__"]
+# So the CLI resolves the same environment the editor does.
+venvPath = "."
+venv = ".venv"
 # Kept level with ruff's target-version: both mean the floor, not the
 # interpreter.
 pythonVersion = "3.10"
