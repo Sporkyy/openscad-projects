@@ -6,10 +6,12 @@
 # dependencies, and tests/ imports them by putting scripts/ on sys.path.
 
 [tool.ruff]
-# The floor the code needs rather than the interpreter in front of you: the test
-# modules use parenthesised context managers, which is 3.10. Pinned so pyupgrade
-# rewrites up to this and no further — a rewrite to newer syntax would stop the
-# scripts running on an older python3.
+# The version whose syntax the code uses, not the interpreter in front of you:
+# parenthesised context managers are specified in 3.10, which is where the test
+# modules put theirs. Pinned there so pyupgrade rewrites up to it and no further
+# — a rewrite to newer syntax would stop the scripts running on an older
+# python3. (3.9.6 does parse the parentheses, as a side effect of its PEG
+# parser, but the version that specifies them is the honest floor to declare.)
 target-version = "py310"
 
 # The formatter's width, pinned with the lint surface. 88 is where these files

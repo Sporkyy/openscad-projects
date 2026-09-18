@@ -296,9 +296,10 @@ an upgrade quietly widening it is what leaves unrelated findings sitting in a
 repository.
 
 **`target-version` is the floor, not the interpreter in front of you.** The test
-modules use parenthesised context managers, which makes it 3.10. It is pinned
-there so `pyupgrade` never rewrites the code to syntax an older `python3` could
-not run. `[tool.pyright]` carries the same number for the same reason.
+modules put their context managers in parentheses, which is specified in 3.10. It
+is pinned there so `pyupgrade` never rewrites the code to syntax an older
+`python3` could not run. `[tool.pyright]` carries the same number for the same
+reason.
 
 **Every ignore carries its reason.** `RUF001`–`RUF003` are off because the
 reports and the prose use `–`, `—`, `°` and `×` on purpose. `PERF203` and
