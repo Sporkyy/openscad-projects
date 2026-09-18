@@ -269,6 +269,53 @@ than a silent new baseline for the check. `markdownlint --fix` only handles the
 mechanical subset — spacing and list markers — so treat its output as a review
 list, not a formatter.
 
+## Python
+
+The scripts and the tests are linted and formatted by `ruff`, configured in
+`pyproject.toml`. Run it from the repository root:
+
+```sh
+ruff check .           # Lints; --fix handles the mechanical findings
+ruff format --check .  # Reports what the formatter would change
+```
+
+`ruff format` is the Python counterpart of `scadformat` and `markdownlint`: run
+it on every `.py` file you touch, and let it own the wrapping rather than
+setting a column by eye. All of them are clean today, so a finding means the
+edit in front of you.
+
+**Ruff reads Markdown as well**, which is why `ruff format --check .` reports 18
+files in a repository with four `.py` files in it — the file set includes `.md`.
+It would format a Python code fence if a document ever grew one, and none here
+has. A repository that hits trouble with that can exclude the offender, which is
+why `linux-scripts` excludes its `AGENTS.md`.
+
+**The rule set is pinned rather than inherited.** `[tool.ruff.lint] select` names
+every family that runs, because ruff's default set changes between releases, and
+an upgrade quietly widening it is what leaves unrelated findings sitting in a
+repository.
+
+**`target-version` is the floor, not the interpreter in front of you.** The test
+modules use parenthesised context managers, which makes it 3.10. It is pinned
+there so `pyupgrade` never rewrites the code to syntax an older `python3` could
+not run. `[tool.pyright]` carries the same number for the same reason.
+
+**Every ignore carries its reason.** `RUF001`–`RUF003` are off because the
+reports and the prose use `–`, `—`, `°` and `×` on purpose. `PERF203` and
+`PERF401` are off because both findings land in `build.py`'s bookkeeping over a
+dozen files, where the rule's advice costs more than it buys: the rollback loop
+has to attempt every artifact even when one fails, and the staging loop appends
+as it goes so the `finally` can clean up after a build that only half-staged.
+`E402` is off for `tests/*.py` alone, because those modules have to put
+`scripts/` on `sys.path` before they can import what they test — answered once
+in the config rather than with a `noqa` on each import.
+
+**Pylance's bar lives in `pyproject.toml`, not in `.vscode/settings.json`.** A
+pyright config file wins over any `python.analysis.*` setting, so it is the one
+place the editor and a pyright CLI both read. `.vscode/settings.json` keeps only
+what has no pyright equivalent: telling the test runner to launch
+`python3 -m unittest discover -s tests`, the same command this file documents.
+
 ## Design conventions
 
 - Measurements come from calipers, so parameters must be things a caliper can

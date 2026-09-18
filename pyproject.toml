@@ -1,0 +1,83 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Todd Sayre
+
+# Tooling configuration only. There is no package here and nothing to install:
+# the scripts in scripts/ are plain files run with python3, the repository has no
+# dependencies, and tests/ imports them by putting scripts/ on sys.path.
+
+[tool.ruff]
+# The floor the code needs rather than the interpreter in front of you: the test
+# modules use parenthesised context managers, which is 3.10. Pinned so pyupgrade
+# rewrites up to this and no further — a rewrite to newer syntax would stop the
+# scripts running on an older python3.
+target-version = "py310"
+
+# The formatter's width, pinned with the lint surface. 88 is where these files
+# are already wrapped.
+line-length = 88
+
+# Pinned rather than left to the default rule set, which changes between ruff
+# releases: an upgrade quietly widening it is what leaves unrelated findings
+# sitting in a repo. Everything selected here is clean today, so a new finding
+# always comes from the edit in front of you.
+[tool.ruff.lint]
+select = [
+    "E4",  # pycodestyle errors — E1/E2/E3/E5 belong to the formatter
+    "E7",
+    "E9",
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # import sorting
+    "UP",  # pyupgrade
+    "B",   # bugbear
+    "SIM", # flake8-simplify
+    "C4",  # comprehensions
+    "PIE",
+    "RET",
+    "ISC", # implicit string concat
+    "N",   # pep8-naming
+    "DTZ", # timezone-aware datetimes
+    "BLE", # blind except
+    "EXE", # shebang / executable bit agreement
+    "PYI",
+    "LOG",
+    "G",   # logging format
+    "PERF",
+    "FURB",
+    "RUF",
+]
+
+ignore = [
+    # The reports and the prose use –, —, °, and × deliberately: the overhang
+    # table is aligned with them and the messages read with them.
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    # Both PERF findings are in build.py's bookkeeping, over the dozen files a
+    # build touches, where the rule's advice would cost more than it buys.
+    # PERF203 wants the try hoisted out of the rollback loop, but that loop has
+    # to attempt every artifact even when one fails, which is the whole point of
+    # collecting the errors. PERF401 wants the staging loop rewritten as
+    # `extend`, which would hide the incremental append the finally clause
+    # depends on to clean up after a build that only half-staged.
+    "PERF203",
+    "PERF401",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# The test modules put scripts/ on sys.path before they can import the modules
+# under test, so those imports cannot come first. Answered once here rather than
+# with a noqa on each import.
+"tests/*.py" = ["E402"]
+
+# Read by the editor's Pylance, which is pyright with a VS Code front end, and by
+# the pyright CLI if one is ever installed. A config file wins over any
+# python.analysis.* setting, so the bar lives here rather than in
+# .vscode/settings.json — those settings reach only the editor.
+[tool.pyright]
+include = ["scripts", "tests"]
+exclude = ["**/__pycache__"]
+# Kept level with ruff's target-version: both mean the floor, not the
+# interpreter.
+pythonVersion = "3.10"
+typeCheckingMode = "standard"

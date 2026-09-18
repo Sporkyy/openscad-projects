@@ -1,0 +1,12 @@
+{
+  // The tests are unittest, discovered from the repository root with
+  // `python3 -m unittest discover -s tests`. Nothing here is pytest, so the
+  // runner should launch unittest against the same directory.
+  //
+  // The analysis bar is deliberately not set here. It lives in pyproject.toml's
+  // [tool.pyright], which the editor and any pyright CLI both read; a
+  // python.analysis.* setting would reach only the editor.
+  "python.testing.unittestEnabled": true,
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "test_*.py"]
+}
