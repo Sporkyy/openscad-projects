@@ -80,7 +80,10 @@ previews. A failed build must leave the last known-good artifacts intact.
 That status line only appears when OpenSCAD has an actual boolean to compute.
 A part that is one primitive, one `rotate_extrude`, or one `linear_extrude`
 exports as a `PolySet` and prints no `manifold` line at all, so the build
-rejects it — the mesh is fine, but the gate has nothing to read. Wrapping the
+rejects it — the mesh is fine, but the gate has nothing to read.
+`python3 scripts/overhangs.py part.stl` can still say whether such a mesh is
+closed, because it reads the mesh's edges rather than the log. The gate itself
+is unchanged: it still wants a boolean. Wrapping the
 lone child in `union()` or `render()` does not help; the operation has to have
 something to do. Two or more operands do it, including the implicit union of two
 top-level objects, and so does `hull()` on a single child.
@@ -174,7 +177,14 @@ python3 scripts/overhangs.py part/part.stl
 ```
 
 It groups the downward-facing facets by angle and height, ignores the first layer
-on the plate, and exits non-zero if anything is past 45°.
+on the plate, and exits non-zero if anything is past 45°. In the same pass it
+checks that the mesh is closed — every edge shared by exactly two facets, wound
+opposite ways — and exits non-zero for that too. A facet with no area is counted
+and then left out of the edge tally: one closes nothing, and counting it would
+let a hole look shared.
+
+**A mesh that is not closed is a design problem to go and look at, not a
+blocker.** Nothing here gates on it.
 
 Both scripts have tests in `tests/`, run with
 `python3 -m unittest discover -s tests` from the repository root. The test files

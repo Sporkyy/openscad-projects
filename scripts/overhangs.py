@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2026 Todd Sayre
-"""Report the downward-facing surfaces of an exported STL.
+"""Report what an exported STL will do on a printer.
+
+Two questions, both read off one pass over the facets: what overhangs, and
+whether the mesh is a closed solid.
 
 Overhang angle is measured from vertical: a vertical wall is 0 deg, a flat
 ceiling is 90 deg, and the usual unsupported limit is 45 deg. Facets lying on
 the build plate are ignored, since the first layer is not an overhang.
+
+A closed mesh is one whose every edge is shared by exactly two facets, wound
+opposite ways. That is what a slicer needs to tell which side of a wall is
+solid, and it is what OpenSCAD's `manifold` status line stands in for — reading
+it off the mesh means a part that exports as a `PolySet`, and so prints no
+status line at all, is checked the same as any other.
 
 Used as a library by build.py, which warns on what this finds without failing
 the build.
@@ -14,6 +23,7 @@ the build.
 import math
 import struct
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 LIMIT = 45.0  # Degrees from vertical, the usual unsupported limit
@@ -26,9 +36,40 @@ PLATE = 1e-3  # Height below which a downward facet is just the first layer
 # need slack — and a real design overhang is whole degrees past it
 SLACK = 0.01
 
+# Offending edges a closure report names before it stops pointing at them
+SAMPLES = 5
+
 
 class MeshError(RuntimeError):
     pass
+
+
+@dataclass(frozen=True)
+class Closure:
+    """How a mesh's edges add up, which is what makes it a solid.
+
+    Every edge of a closed surface is shared by exactly two facets, and those
+two traverse it in opposite directions. A single use is an open boundary, so
+the surface has a hole there; three or more is a non-manifold edge, where
+surfaces meet along a line; two uses in the same direction is a pair of facets
+that disagree about which side is outside, so one of them is inverted.
+
+    All three counts are edges. Facets with no area are left out of them: one
+closes nothing, and an STL writes the same vertex twice for it, so counting it
+would add a use to each side of an edge and turn a hole into a junction. The
+count is still reported, because a mesh carrying them came out of a boolean that
+padded a seam rather than merging it.
+    """
+
+    open_edges: int
+    non_manifold_edges: int
+    reversed_edges: int
+    degenerate_facets: int
+    samples: tuple  # (kind, edge, uses) for the first SAMPLES offenders
+
+    @property
+    def closed(self):
+        return not (self.open_edges or self.non_manifold_edges or self.reversed_edges)
 
 
 def read_facets(path):
@@ -67,7 +108,12 @@ def facet_nz(a, b, c):
 
 
 def scan(path):
-    """Group a mesh's overhanging facets by angle and height.
+    """group_facets, read from a file rather than handed in"""
+    return group_facets(list(read_facets(path)))
+
+
+def group_facets(facets):
+    """Group facets by overhang angle and height.
 
     Returns (total facets, groups), each group a (angle, z_min, z_max, count)
     tuple sorted shallowest first
@@ -75,7 +121,7 @@ def scan(path):
     groups = {}
     total = 0
 
-    for _, vertices in read_facets(path):
+    for _, vertices in facets:
         total += 1
         nz = facet_nz(*vertices)
         if nz is None:  # Degenerate, so nothing to hang
@@ -98,6 +144,69 @@ def scan(path):
     ]
 
 
+def directed_edges(vertices):
+    """A facet's three edges in its winding order, as (start, end)"""
+    a, b, c = vertices
+    return ((a, b), (b, c), (c, a))
+
+
+def closure_of(facets):
+    """Check every edge is shared by exactly two facets, wound opposite ways.
+
+    One dict of edges, filled in one pass: each entry counts the facets using an
+    edge and nets their directions, so a correctly shared edge comes out as two
+    uses and no net direction. See Closure for the failing cases.
+
+    A facet with no area is counted and then skipped. It closes nothing, and its
+    doubled-back edge would otherwise look shared when it is not — see the note
+    on Closure.
+    """
+    edges = {}
+    degenerate = 0
+    open_edges = 0
+    non_manifold_edges = 0
+    reversed_edges = 0
+    samples = []
+
+    for _, vertices in facets:
+        if facet_nz(*vertices) is None:
+            degenerate += 1
+            continue
+
+        for a, b in directed_edges(vertices):
+            if a == b:  # A repeated vertex has no edge to be shared
+                continue
+            if a < b:
+                key, direction = (a, b), 1
+            else:
+                key, direction = (b, a), -1
+            uses, net = edges.get(key, (0, 0))
+            edges[key] = (uses + 1, net + direction)
+
+    for key, (uses, net) in edges.items():
+        if uses == 1:
+            kind = "open edge"
+            open_edges += 1
+        elif uses > 2:
+            kind = "non-manifold edge"
+            non_manifold_edges += 1
+        elif net:
+            kind = "reversed edge"
+            reversed_edges += 1
+        else:
+            continue
+        if len(samples) < SAMPLES:
+            samples.append((kind, key, uses))
+
+    return Closure(
+        open_edges=open_edges,
+        non_manifold_edges=non_manifold_edges,
+        reversed_edges=reversed_edges,
+        degenerate_facets=degenerate,
+        samples=tuple(samples),
+    )
+
+
 def past_limit(groups):
     return [group for group in groups if group[0] > LIMIT + SLACK]
 
@@ -113,27 +222,70 @@ def format_angle(angle):
     return f"{angle:.2f}".rstrip("0").rstrip(".")
 
 
+def format_point(point):
+    x, y, z = point
+    return f"({x:g}, {y:g}, {z:g})"
+
+
+def format_edge(edge):
+    start, end = edge
+    return f"{format_point(start)} – {format_point(end)}"
+
+
+def report_closure(closure):
+    """Print the closure verdict, naming a few of the edges to go and look at"""
+    if closure.closed:
+        print("\n  closed: every edge shared by exactly two facets, in both directions")
+    else:
+        print("\n  NOT closed:")
+        if closure.open_edges:
+            print(f"    {closure.open_edges} open edges — the surface has a hole")
+        if closure.non_manifold_edges:
+            print(
+                f"    {closure.non_manifold_edges} non-manifold edges — "
+                "surfaces meeting along a line"
+            )
+        if closure.reversed_edges:
+            print(
+                f"    {closure.reversed_edges} reversed edges — "
+                "two facets sharing one and wound the same way, so one is inverted"
+            )
+        for kind, edge, uses in closure.samples:
+            print(f"    e.g. {kind}, {format_edge(edge)}, used {uses}x")
+
+    if closure.degenerate_facets:
+        print(
+            f"  {closure.degenerate_facets} degenerate facets — "
+            "no area, so nothing to close"
+        )
+
+
 def report(path):
-    total, groups = scan(path)
+    facets = list(read_facets(path))
+    total, groups = group_facets(facets)
+    closure = closure_of(facets)
+    steep = past_limit(groups)
+
     print(f"{path}: {total} facets, {sum(g[3] for g in groups)} of them overhanging")
 
     if not groups:
         print("  nothing overhangs — prints without supports in this orientation")
-        return 0
+    else:
+        print(f"  {'from vertical':>13}  {'z span (mm)':>16}  facets")
+        for angle, z_min, z_max, count in groups:
+            flag = "  <-- past the limit" if angle > LIMIT + SLACK else ""
+            print(f"  {format_angle(angle):>12}°  {z_min:>7} – {z_max:<7}  {count}{flag}")
 
-    print(f"  {'from vertical':>13}  {'z span (mm)':>16}  facets")
-    for angle, z_min, z_max, count in groups:
-        flag = "  <-- past the limit" if angle > LIMIT + SLACK else ""
-        print(f"  {format_angle(angle):>12}°  {z_min:>7} – {z_max:<7}  {count}{flag}")
+        worst = max(group[0] for group in groups)
+        if steep:
+            print(
+                f"\n  worst is {format_angle(worst)}°, past the {LIMIT}° limit — redesign the feature"
+            )
+        else:
+            print(f"\n  worst is {format_angle(worst)}°, within the {LIMIT}° limit")
 
-    worst = max(group[0] for group in groups)
-    if worst > LIMIT + SLACK:
-        print(
-            f"\n  worst is {format_angle(worst)}°, past the {LIMIT}° limit — redesign the feature"
-        )
-        return 1
-    print(f"\n  worst is {format_angle(worst)}°, within the {LIMIT}° limit")
-    return 0
+    report_closure(closure)
+    return 1 if steep or not closure.closed else 0
 
 
 def main():
