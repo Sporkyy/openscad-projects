@@ -49,16 +49,16 @@ class Closure:
     """How a mesh's edges add up, which is what makes it a solid.
 
     Every edge of a closed surface is shared by exactly two facets, and those
-two traverse it in opposite directions. A single use is an open boundary, so
-the surface has a hole there; three or more is a non-manifold edge, where
-surfaces meet along a line; two uses in the same direction is a pair of facets
-that disagree about which side is outside, so one of them is inverted.
+    two traverse it in opposite directions. A single use is an open boundary, so
+    the surface has a hole there; three or more is a non-manifold edge, where
+    surfaces meet along a line; two uses in the same direction is a pair of facets
+    that disagree about which side is outside, so one of them is inverted.
 
     All three counts are edges. Facets with no area are left out of them: one
-closes nothing, and an STL writes the same vertex twice for it, so counting it
-would add a use to each side of an edge and turn a hole into a junction. The
-count is still reported, because a mesh carrying them came out of a boolean that
-padded a seam rather than merging it.
+    closes nothing, and an STL writes the same vertex twice for it, so counting it
+    would add a use to each side of an edge and turn a hole into a junction. The
+    count is still reported, because a mesh carrying them came out of a boolean that
+    padded a seam rather than merging it.
     """
 
     open_edges: int
@@ -274,7 +274,9 @@ def report(path):
         print(f"  {'from vertical':>13}  {'z span (mm)':>16}  facets")
         for angle, z_min, z_max, count in groups:
             flag = "  <-- past the limit" if angle > LIMIT + SLACK else ""
-            print(f"  {format_angle(angle):>12}°  {z_min:>7} – {z_max:<7}  {count}{flag}")
+            print(
+                f"  {format_angle(angle):>12}°  {z_min:>7} – {z_max:<7}  {count}{flag}"
+            )
 
         worst = max(group[0] for group in groups)
         if steep:
