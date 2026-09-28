@@ -322,8 +322,10 @@ it on every `.py` file you touch, and let it own the wrapping rather than
 setting a column by eye. All of them are clean today, so a finding means the
 edit in front of you.
 
-**Ruff reads Markdown as well**, which is why `ruff format --check .` reports 18
-files in a repository with four `.py` files in it — the file set includes `.md`.
+**Ruff reads Markdown as well**, which is why `ruff format --check .` counts
+several times as many files as there are `.py` files here — the file set
+includes `.md`. It said 18 until a new project README made it 19, which is why
+this no longer names the number.
 It would format a Python code fence if a document ever grew one, and none here
 has. A repository that hits trouble with that can exclude the offender, which is
 why `linux-scripts` excludes its `AGENTS.md`.
