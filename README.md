@@ -181,6 +181,15 @@ rungs with vertical rails rather than taping to the posts, letting the rails
 adapt between the shelf's arbitrary post spacing and openGrid's 28 mm pitch —
 and the list of measurements still to take.
 
+### Jar funnel top
+
+[Design notes and measurements needed](jar_funnel_top/README.md)
+
+Not yet modelled. A funnel that screws onto a wide-mouth plastic jar in place of
+its lid, making a benchtop bin for purge and print scraps. The directory holds
+how to identify the jar's neck finish, the thread and flare constraints for a
+support-free print, and the measurements still to take.
+
 ## Working with these
 
 On a fresh clone, install Homebrew's Python 3.14 if needed, then create the
