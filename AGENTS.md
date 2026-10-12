@@ -248,8 +248,32 @@ agree. Run it on every Markdown file you touch, from the repository root so the
 config is found:
 
 ```sh
-markdownlint path/to/file.md   # Prints findings; --fix handles the trivial ones
+(
+  set -e
+  file="path/to/file.md"
+  markdownlint --fix "$file"
+  table_tmp=$(mktemp)
+  trap 'rm -f "$table_tmp"' EXIT
+  markdown-table-prettify < "$file" > "$table_tmp"
+  printf '\n' >> "$table_tmp"
+  cat "$table_tmp" > "$file"
+  markdownlint "$file"
+  markdown-table-prettify --check < "$file"
+)
 ```
+
+Run this after every Markdown edit, from the repository root, replacing the
+example path with the edited file. It applies lint fixes, prettifies tables,
+and checks both. Stop and resolve any remaining failures before finishing;
+review the resulting diff.
+
+`markdown-table-prettify` reads stdin and writes stdout. It does not support
+file-editing `--fix` or `--write` options. The temporary file prevents overwriting
+its input while reading it, and the added newline restores the final newline
+removed by the CLI. Never redirect formatter output directly over its input.
+
+Install missing tools with
+`npm install -g markdownlint-cli markdown-table-prettify`.
 
 A bare `markdownlint .` covers the whole tree.
 
