@@ -202,6 +202,13 @@ The default VS Code build task, *Build all objects*, runs the same command. With
 an OpenSCAD source active, *Build current object* rebuilds only that object. Set
 `OPENSCAD` to the CLI executable path if the script cannot find the installation.
 
+All requested models are staged before any tracked artifacts are replaced;
+repeating a source path builds it only once. If publishing fails, the build
+restores the previous artifacts. If that rollback also fails, it preserves
+`.previous.tmp.stl` and `.previous.tmp.png` recovery files beside the source
+and refuses to overwrite them on a later build. Restore each preserved file
+to its corresponding artifact, or move it somewhere safe, before retrying.
+
 Each model `echo`s its derived dimensions and `assert`s against interferences,
 so check the console output against the real part before committing to a print.
 
@@ -210,6 +217,8 @@ geometry rather than a slicer setting. The build checks each object it exports
 and warns about any surface hanging past 45° from vertical, naming the angle and
 the height it occurs at. It is only a warning — the export is still written, so
 the warning is there to be read rather than to stop anything.
+The same pass warns about open edges, inconsistent winding, and degenerate
+facets. These mesh warnings also leave the exports available for inspection.
 
 To check a mesh on its own, or to see the shallow surfaces the build stays quiet
 about:

@@ -5,7 +5,7 @@ import io
 import sys
 import tempfile
 import unittest
-from contextlib import redirect_stderr
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -14,9 +14,117 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 import build
+from test_overhangs import TETRAHEDRON, write_stl
+
+
+class DiscoveryTests(unittest.TestCase):
+    def test_duplicate_source_is_built_only_once(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            source = root / "part" / "part.scad"
+            source.parent.mkdir()
+            source.touch()
+
+            with patch.object(build, "ROOT", root):
+                sources = build.discover_sources([str(source), str(source)])
+
+            self.assertEqual(sources, [source])
+
+
+class MeshWarningTests(unittest.TestCase):
+    def test_reports_open_mesh_without_classifying_it_as_an_overhang(self):
+        with tempfile.TemporaryDirectory() as directory:
+            mesh = Path(directory) / "holed.stl"
+            write_stl(mesh, TETRAHEDRON[:-1])
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                overhanging = build.warn_about_overhangs(mesh, "holed")
+
+            self.assertFalse(overhanging)
+            self.assertIn("NOT closed", output.getvalue())
+            self.assertIn("3 open edges", output.getvalue())
+
+    def test_malformed_mesh_stays_a_warning(self):
+        with tempfile.TemporaryDirectory() as directory:
+            mesh = Path(directory) / "empty.stl"
+            write_stl(mesh, [])
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                overhanging = build.warn_about_overhangs(mesh, "empty")
+
+            self.assertFalse(overhanging)
+            self.assertIn("warning:", output.getvalue())
+
+
+class RecoveryTests(unittest.TestCase):
+    def test_staging_preserves_existing_recovery_backup(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "part" / "part.scad"
+            source.parent.mkdir()
+            artifact = build.model_artifacts(source)[0]
+            artifact.backup.write_text("recover me")
+
+            with (
+                patch.object(build, "ROOT", root),
+                patch.object(build, "run_export") as export,
+                self.assertRaisesRegex(build.BuildError, "recovery backup"),
+            ):
+                build.stage_model(["openscad"], source)
+
+            self.assertEqual(artifact.backup.read_text(), "recover me")
+            export.assert_not_called()
+
+    def test_publishing_preserves_existing_recovery_backup(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "part.scad"
+            artifacts = build.model_artifacts(source)
+            for artifact in artifacts:
+                artifact.target.write_text("current")
+                artifact.staged.write_text("new")
+            artifacts[0].backup.write_text("recover me")
+            model = build.StagedModel(source, artifacts, False)
+
+            with self.assertRaisesRegex(build.BuildError, "recovery backup"):
+                build.publish_models([model])
+
+            self.assertEqual(artifacts[0].backup.read_text(), "recover me")
+            for artifact in artifacts:
+                self.assertEqual(artifact.target.read_text(), "current")
 
 
 class PublishModelsTests(unittest.TestCase):
+    def test_failed_rollback_preserves_backup_for_the_next_build(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "part.scad"
+            artifacts = build.model_artifacts(source)
+            for artifact in artifacts:
+                artifact.target.write_text("original")
+            artifacts[0].staged.write_text("new")
+            # The missing second export triggers rollback after the first was
+            # published. A failed restore must keep the original for recovery.
+            replace = Path.replace
+
+            def fail_restore(path, target):
+                if path == artifacts[0].backup:
+                    raise OSError("restore denied")
+                return replace(path, target)
+
+            model = build.StagedModel(source, artifacts, False)
+            with (
+                patch.object(Path, "replace", fail_restore),
+                self.assertRaisesRegex(build.BuildError, "Rollback also failed"),
+            ):
+                build.publish_models([model])
+
+            self.assertEqual(artifacts[0].target.read_text(), "new")
+            self.assertEqual(artifacts[0].backup.read_text(), "original")
+            with self.assertRaisesRegex(build.BuildError, "recovery backup"):
+                build.publish_models([model])
+            self.assertEqual(artifacts[0].backup.read_text(), "original")
+
     def test_stages_every_model_before_publishing(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -109,7 +109,9 @@ def find_openscad():
 
 def discover_sources(requested):
     if requested:
-        sources = [Path(value).expanduser().resolve() for value in requested]
+        sources = list(
+            dict.fromkeys(Path(value).expanduser().resolve() for value in requested)
+        )
     else:
         sources = sorted(ROOT.glob("*/*.scad"))
 
@@ -145,7 +147,7 @@ def run_export(command, label):
 
 
 def warn_about_overhangs(mesh, label):
-    """Warn if the mesh needs supports as modelled. Never fails the build.
+    """Warn about mesh defects and return whether supports are needed.
 
     A steep face is a design problem to go back and fix, not a reason to
     withhold the artifact — the export is still correct, so it is written either
@@ -153,11 +155,17 @@ def warn_about_overhangs(mesh, label):
     reported and shrugged off for the same reason
     """
     try:
-        _, groups = overhangs.scan(mesh)
+        facets = list(overhangs.read_facets(mesh))
+        _, groups = overhangs.group_facets(facets)
+        closure = overhangs.closure_of(facets)
         steep = overhangs.past_limit(groups)
     except (overhangs.MeshError, OSError) as error:
-        print(f"warning: could not check {label} for overhangs: {error}")
+        print(f"warning: could not check {label} mesh: {error}")
         return False
+
+    if not closure.closed or closure.degenerate_facets:
+        print(f"warning: {label} has mesh defects:")
+        overhangs.report_closure(closure)
 
     if not steep:
         return False
@@ -191,10 +199,13 @@ def model_artifacts(source):
     )
 
 
-def clean_artifacts(artifacts):
+def check_recovery_backups(artifacts):
     for artifact in artifacts:
-        artifact.staged.unlink(missing_ok=True)
-        artifact.backup.unlink(missing_ok=True)
+        if artifact.backup.exists() or artifact.backup.is_symlink():
+            raise BuildError(
+                f"Preserved recovery backup exists: {artifact.backup}. "
+                "Restore it to its target or move it to a safe location before rebuilding."
+            )
 
 
 def clean_staged_artifacts(artifacts):
@@ -207,10 +218,11 @@ def stage_model(openscad, source):
     stl_artifact, preview_artifact = artifacts
     relative_source = source.relative_to(ROOT)
 
+    check_recovery_backups(artifacts)
     print(f"\nStaging {relative_source}")
 
     try:
-        clean_artifacts(artifacts)
+        clean_staged_artifacts(artifacts)
         run_export(
             [
                 *openscad,
@@ -246,7 +258,7 @@ def stage_model(openscad, source):
         )
         overhanging = warn_about_overhangs(stl_artifact.staged, relative_source)
     except Exception:
-        clean_artifacts(artifacts)
+        clean_staged_artifacts(artifacts)
         raise
 
     return StagedModel(source, artifacts, overhanging)
@@ -254,13 +266,13 @@ def stage_model(openscad, source):
 
 def publish_models(models):
     artifacts = [artifact for model in models for artifact in model.artifacts]
+    check_recovery_backups(artifacts)
     backed_up = set()
     published = []
     preserve_backups = False
 
     try:
         for artifact in artifacts:
-            artifact.backup.unlink(missing_ok=True)
             if artifact.target.exists():
                 shutil.copy2(artifact.target, artifact.backup)
                 backed_up.add(artifact.target)
