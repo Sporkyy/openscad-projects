@@ -64,11 +64,17 @@ class Closure:
     non_manifold_edges: int
     reversed_edges: int
     degenerate_facets: int
+    empty: bool  # No non-degenerate facets, so no surface to close
     samples: tuple  # (kind, edge, uses) for the first SAMPLES offenders
 
     @property
     def closed(self):
-        return not (self.open_edges or self.non_manifold_edges or self.reversed_edges)
+        return not (
+            self.empty
+            or self.open_edges
+            or self.non_manifold_edges
+            or self.reversed_edges
+        )
 
 
 def read_facets(path):
@@ -76,6 +82,8 @@ def read_facets(path):
     if len(data) < 84:
         raise MeshError(f"{path}: too short to be a binary STL")
     count = struct.unpack("<I", data[80:84])[0]
+    if count == 0:
+        raise MeshError(f"{path}: mesh contains no facets")
     if len(data) < 84 + 50 * count:
         raise MeshError(f"{path}: not a binary STL, or truncated")
     for i in range(count):
@@ -85,6 +93,8 @@ def read_facets(path):
             struct.unpack("<3f", data[offset + 12 + 12 * j : offset + 24 + 12 * j])
             for j in range(3)
         ]
+        if not all(math.isfinite(value) for vertex in vertices for value in vertex):
+            raise MeshError(f"{path}: facet {i + 1} contains a non-finite vertex")
         yield normal, vertices
 
 
@@ -202,6 +212,7 @@ def closure_of(facets):
         non_manifold_edges=non_manifold_edges,
         reversed_edges=reversed_edges,
         degenerate_facets=degenerate,
+        empty=not edges,
         samples=tuple(samples),
     )
 
@@ -237,6 +248,8 @@ def report_closure(closure):
         print("\n  closed: every edge shared by exactly two facets, in both directions")
     else:
         print("\n  NOT closed:")
+        if closure.empty:
+            print("    no non-degenerate facets — there is no surface to close")
         if closure.open_edges:
             print(f"    {closure.open_edges} open edges — the surface has a hole")
         if closure.non_manifold_edges:

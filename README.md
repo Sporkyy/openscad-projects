@@ -218,6 +218,11 @@ about:
 .venv/bin/python scripts/overhangs.py dowel_endcap/dowel_endcap.stl
 ```
 
+The standalone check also reports mesh closure. It exits non-zero for an
+overhang past the limit, an open or inconsistently wound surface, or a mesh
+with no non-degenerate facets. Empty, truncated, and non-finite binary STL
+geometry is reported as an input error.
+
 Chamfers and lead-ins are written with their run equal to their rise, so they sit
 at exactly 45° whatever value the knob is given.
 Try a variant without editing the file using `-D`:

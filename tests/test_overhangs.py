@@ -88,7 +88,42 @@ class ScanTests(unittest.TestCase):
         self.assertEqual(groups, [])
 
 
+class ReadFacetsTests(unittest.TestCase):
+    def test_rejects_empty_mesh(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "empty.stl"
+            write_stl(path, [])
+
+            with self.assertRaises(overhangs.MeshError):
+                list(overhangs.read_facets(path))
+
+    def test_rejects_non_finite_vertices(self):
+        for value in (math.nan, math.inf, -math.inf):
+            with self.subTest(value=value), tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "invalid.stl"
+                write_stl(
+                    path, [(ZEROED_NORMAL, [(value, 0, 0), (1, 0, 0), (0, 1, 0)])]
+                )
+
+                with self.assertRaises(overhangs.MeshError):
+                    list(overhangs.read_facets(path))
+
+    def test_rejects_truncated_mesh(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "truncated.stl"
+            write_stl(path, TETRAHEDRON)
+            path.write_bytes(path.read_bytes()[:-1])
+
+            with self.assertRaises(overhangs.MeshError):
+                list(overhangs.read_facets(path))
+
+
 class ClosureTests(unittest.TestCase):
+    def test_empty_surface_is_not_closed(self):
+        for facets in ([], [facet("a", "b", "b")]):
+            with self.subTest(facets=facets):
+                self.assertFalse(overhangs.closure_of(facets).closed)
+
     def test_closed_tetrahedron_has_no_defects(self):
         closure = overhangs.closure_of(TETRAHEDRON)
 
