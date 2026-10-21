@@ -76,19 +76,6 @@ distance apart; the brace is the diagonal third link that stops the pair
 shearing. Couplers alone leave a four-bar linkage no number of them can close,
 so one brace makes the pair rigid however many levels are coupled.
 
-### Shelf tube dogbone
-
-[![Shelf tube dogbone preview](shelf_tube_dogbone/shelf_tube_dogbone.png)](shelf_tube_dogbone/shelf_tube_dogbone.stl)
-
-[Documentation](shelf_tube_dogbone/README.md) ·
-[STL](shelf_tube_dogbone/shelf_tube_dogbone.stl) ·
-[source](shelf_tube_dogbone/shelf_tube_dogbone.scad)
-
-The same rigidity as the brace, reached by gripping all four posts at one level
-instead of triangulating. It splits into two halves to fit the bed and carries a
-30 mm tolerance window, so the fit does not depend on getting a hard measurement
-right. Reach for it instead of the brace when you would rather not measure.
-
 ### Shelf tube wall anchor
 
 [![Shelf tube wall anchor preview](shelf_tube_anchor/shelf_tube_anchor.png)](shelf_tube_anchor/shelf_tube_anchor.stl)
@@ -259,10 +246,10 @@ and are never generated or distributed by this project.
 Two licences, one for each kind of work in here. See [LICENSE](LICENSE) for the
 boundary and the reasoning, and [LICENSES/](LICENSES/) for the full texts.
 
-| | |
-| --- | --- |
+|                                                                                                                    |               |
+|--------------------------------------------------------------------------------------------------------------------|---------------|
 | Printable objects and documentation — `.scad`, `.stl`, `.png`, every Markdown document, and other design artifacts | **CC BY 4.0** |
-| Software and repository tooling — `scripts/`, `tests/`, `.vscode/`, and repository configuration | **MIT** |
+| Software and repository tooling — `scripts/`, `tests/`, `.vscode/`, and repository configuration                   | **MIT**       |
 
 Those examples are inclusive rather than exhaustive. A per-file SPDX identifier
 controls whenever one is present.

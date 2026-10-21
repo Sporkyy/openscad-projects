@@ -22,10 +22,10 @@ between the tubes at all.
 
 **Measuring.** Two measurements, both reachable from outside:
 
-| Parameter | Measure | Caliper |
-| --- | --- | --- |
-| `tube_od` | Outside jaws on a vertical tube post | 6 in |
-| `tube_to_edge` | A tube's outer surface out to the facing edge of its own shelf | 6 in |
+| Parameter      | Measure                                                        | Caliper |
+|----------------|----------------------------------------------------------------|---------|
+| `tube_od`      | Outside jaws on a vertical tube post                           | 6 in    |
+| `tube_to_edge` | A tube's outer surface out to the facing edge of its own shelf | 6 in    |
 
 Override `left_tube_to_edge` / `right_tube_to_edge` if the two units differ —
 a shelf that overhangs further on one side, or a post not set the same distance
@@ -76,11 +76,11 @@ stiffness.
 
 **Measuring.** Three measurements, all within reach of a caliper:
 
-| Parameter | Measure | Caliper |
-| --- | --- | --- |
-| `tube_od` | Outside jaws on a vertical tube post | 6 in |
-| `tube_to_edge` | A tube's outer surface out to the facing edge of its own shelf — must match what the couplers were printed with | 6 in |
-| `post_clear_gap` | Inside jaws into the open space between one unit's front and back tube, at any shelf level | 12 in |
+| Parameter        | Measure                                                                                                         | Caliper |
+|------------------|-----------------------------------------------------------------------------------------------------------------|---------|
+| `tube_od`        | Outside jaws on a vertical tube post                                                                            | 6 in    |
+| `tube_to_edge`   | A tube's outer surface out to the facing edge of its own shelf — must match what the couplers were printed with | 6 in    |
+| `post_clear_gap` | Inside jaws into the open space between one unit's front and back tube, at any shelf level                      | 12 in   |
 
 `post_clear_gap` is a gap between the posts rather than a span across them
 because that is what a caliper can actually reach. The posts are round and the
@@ -117,8 +117,3 @@ bar never occupies. With the shipped dimensions it wants about 213.1 mm square
 before adding the bed margins.
 `bed_size` and the per-edge `bed_margin` drive an assertion, so a gap too big for
 the printer fails the render rather than the print. One per pair of units.
-
-The [dogbone](../shelf_tube_dogbone/README.md) does the same job a different
-way. Prefer the brace when you want one part and no hardware, and can measure
-carefully; prefer the dogbone when you would rather not have the fit depend on a
-measurement at all.
