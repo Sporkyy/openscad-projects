@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "license": "MIT",
+  "description": "Pinned Markdown tooling: Prettier formats, markdownlint checks. Installed by `make md-tools` (npm ci); never use global copies.",
+  "devDependencies": {
+    "markdownlint-cli": "0.50.0",
+    "prettier": "3.9.10"
+  }
+}

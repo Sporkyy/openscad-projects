@@ -23,11 +23,33 @@ BREW_PYTHON := $(firstword $(wildcard $(PYTHON_CANDIDATES)))
 .PHONY: venv install reset-venv test lint typecheck
 
 # System packages (Python 3.14, OpenSCAD, Node.js) from Homebrew, MacPorts, or
-# pacman; anything already present is kept. `bootstrap` then builds the venv
+# pacman; anything already present is kept. `bootstrap` then builds the venv and
+# node_modules
 .PHONY: system-deps bootstrap
 system-deps:
 	./scripts/install-deps.sh
-bootstrap: system-deps install
+bootstrap: system-deps install md-tools
+
+# Markdown tooling is pinned in package.json/package-lock.json and run from
+# node_modules, never a global npm install, which drifts the same way an
+# unpinned ruff would. Prettier formats (prose wrapped at 100, tables aligned);
+# markdownlint checks what a formatter can't
+MD_BIN := node_modules/.bin
+MD_FILES := '**/*.md'
+
+node_modules/.package-lock.json: package.json package-lock.json
+	npm ci --no-audit --no-fund
+
+.PHONY: md-tools format-md lint-md
+md-tools: node_modules/.package-lock.json
+
+format-md: md-tools
+	$(MD_BIN)/prettier --write $(MD_FILES)
+	$(MD_BIN)/markdownlint --fix --ignore-path .gitignore $(MD_FILES)
+
+lint-md: md-tools
+	$(MD_BIN)/prettier --check $(MD_FILES)
+	$(MD_BIN)/markdownlint --ignore-path .gitignore $(MD_FILES)
 
 venv: $(PY)
 
@@ -57,7 +79,7 @@ reset-venv:
 test: install
 	$(PY) -m unittest discover -s tests
 
-lint: install
+lint: install lint-md
 	$(VENV)/bin/ruff check .
 	$(VENV)/bin/ruff format --check .
 
