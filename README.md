@@ -179,13 +179,20 @@ support-free print, and the measurements still to take.
 
 ## Working with these
 
-On a fresh clone, install Homebrew's Python 3.14 if needed, then create the
-environment from the repository root:
+On a fresh clone, install the system packages and create the environment from
+the repository root:
 
 ```sh
-brew install python@3.14
-make install
+make bootstrap
 ```
+
+`make bootstrap` runs `make system-deps`, which installs whichever of Python
+3.14, OpenSCAD, and Node.js (with npm) are missing through Homebrew, MacPorts,
+or pacman, then `make install`. It reports scadformat, which has no package,
+for a manual install. Homebrew is used when both macOS managers exist; set
+`PKG_MANAGER=port` to choose MacPorts. `./scripts/install-deps.sh --dry-run`
+prints the install command. The VS Code task *Install Project Requirements*
+runs `make bootstrap`.
 
 `make install` creates `.venv` and installs the pinned developer tools. Once
 Python is installed, the VS Code task *Set Up venv and Install Requirements*

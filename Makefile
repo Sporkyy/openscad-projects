@@ -22,6 +22,13 @@ BREW_PYTHON := $(firstword $(wildcard $(PYTHON_CANDIDATES)))
 
 .PHONY: venv install reset-venv test lint typecheck
 
+# System packages (Python 3.14, OpenSCAD, Node.js) from Homebrew, MacPorts, or
+# pacman; anything already present is kept. `bootstrap` then builds the venv
+.PHONY: system-deps bootstrap
+system-deps:
+	./scripts/install-deps.sh
+bootstrap: system-deps install
+
 venv: $(PY)
 
 # Built once and kept. Deleting it is the way to start over, which `reset-venv`

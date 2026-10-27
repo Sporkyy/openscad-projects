@@ -2,6 +2,22 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Install Project Requirements",
+      "detail": "Install missing system packages (Python 3.14, OpenSCAD, Node.js) with Homebrew, MacPorts, or pacman, then build .venv",
+      "type": "shell",
+      "command": "make bootstrap",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Set Up venv and Install Requirements",
       "detail": "Build .venv from Homebrew's python@3.14, then install requirements-dev.txt. Re-run it after editing requirements",
       "type": "shell",

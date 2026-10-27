@@ -315,6 +315,10 @@ installs `requirements-dev.txt`. It is safe to re-run, and re-running it is how
 a change to that file reaches the venv; `make reset-venv` starts over. The VS
 Code task of the same name does the same thing for a fresh clone.
 
+`make bootstrap` first installs missing system packages (`make system-deps`).
+Declare requirements in `scripts/install-deps.sh`; keep
+`scripts/lib/install-deps.sh` identical to the sibling repos' copies.
+
 `test`, `lint` and `typecheck` all depend on `install`, so a fresh clone can run
 any of them first and get the venv built rather than `No such file or directory`
 from a path that is not there yet. Once the venv holds what the requirements file
