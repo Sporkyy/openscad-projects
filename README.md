@@ -33,71 +33,15 @@ Three levels, chosen by how long a fact outlives the thing it describes.
   It stays scannable as parts accumulate.
 - **A `README.md` beside each part** carries the full treatment — measuring table, tuning guidance,
   print notes — and GitHub renders it when you browse into the directory. Every project has one.
-- **A top-level subject file** holds knowledge spanning parts that outlives any of them. There is
-  one so far: **[OPENGRID.md](OPENGRID.md)**, covering the openGrid system — tile and snap
-  thicknesses, the full snap profile as a table, print-orientation rules, licensing across a
-  mixed-licence ecosystem, how to verify a reimplementation against the reference generator, and the
-  assumptions that looked right and were not.
+- **A top-level subject file** holds knowledge spanning parts that outlives any of them. There are
+  two so far. **[OPENGRID.md](OPENGRID.md)** covers the openGrid system — tile and snap thicknesses,
+  the full snap profile as a table, print-orientation rules, licensing across a mixed-licence
+  ecosystem, how to verify a reimplementation against the reference generator, and the assumptions
+  that looked right and were not. **[OPENSCAD.md](OPENSCAD.md)** covers launching OpenSCAD on macOS
+  — why a sandboxed launch crashes in Qt's startup, how to tell that from a geometry failure, and
+  what the build helper prints when it happens.
 
 ## Projects
-
-### Round washer
-
-[![Round washer preview](round_washer/round_washer.png)](round_washer/round_washer.stl)
-
-[Documentation](round_washer/README.md) · [STL](round_washer/round_washer.stl) ·
-[source](round_washer/round_washer.scad)
-
-A flat round washer with a concentric through bore. Set the inner diameter, outer diameter, and
-thickness directly; the example dimensions are ready to adjust to your application.
-
-### Square washer
-
-[![Square washer preview](square_washer/square_washer.png)](square_washer/square_washer.stl)
-
-[Documentation](square_washer/README.md) · [STL](square_washer/square_washer.stl) ·
-[source](square_washer/square_washer.scad)
-
-A flat square washer with a centred round through bore. Set the inner diameter, square side length,
-and thickness directly; the example dimensions are ready to adjust to your application.
-
-### Single screwdriver holder
-
-[![Single screwdriver holder preview](single_screwdriver_holder/single_screwdriver_holder.png)](single_screwdriver_holder/single_screwdriver_holder.stl)
-
-[Documentation](single_screwdriver_holder/README.md) ·
-[STL](single_screwdriver_holder/single_screwdriver_holder.stl) ·
-[source](single_screwdriver_holder/single_screwdriver_holder.scad)
-
-A side-loading socket for one long screwdriver: slide the shaft in from the front, then lower the
-handle into its pocket. An optional middle bore clears a hex bolster, and a rear channel slips over
-an accessory hanger strip. Example dimensions are ready to adjust to your screwdriver and hanger.
-
-### Shelf tube coupler and brace
-
-[![Shelf tube coupler and brace preview](shelf_tube_coupler/shelf_tube_coupler.png)](shelf_tube_coupler/shelf_tube_coupler.stl)
-
-[Documentation](shelf_tube_coupler/README.md) · coupler:
-[STL](shelf_tube_coupler/shelf_tube_coupler.stl) ·
-[source](shelf_tube_coupler/shelf_tube_coupler.scad) · brace:
-[STL](shelf_tube_coupler/shelf_tube_brace.stl) · [source](shelf_tube_coupler/shelf_tube_brace.scad)
-
-Two parts that tie a pair of adjacent Turn-N-Tube wire shelf units into one rigid assembly,
-replacing zip ties. The coupler is a collar holding two posts a fixed distance apart; the brace is
-the diagonal third link that stops the pair shearing. Couplers alone leave a four-bar linkage no
-number of them can close, so one brace makes the pair rigid however many levels are coupled.
-
-### Shelf tube wall anchor
-
-[![Shelf tube wall anchor preview](shelf_tube_anchor/shelf_tube_anchor.png)](shelf_tube_anchor/shelf_tube_anchor.stl)
-
-[Documentation](shelf_tube_anchor/README.md) · [STL](shelf_tube_anchor/shelf_tube_anchor.stl) ·
-[source](shelf_tube_anchor/shelf_tube_anchor.scad)
-
-A collar that slips over one vertical post and carries a lug with a zip tie channel bored through
-it, so the tie holding the post back to the wall never has to go around the post. The channel is a
-U-turn rather than a straight bore, which puts the tie's pull on an island of material across a half
-turn instead of on two corner tips.
 
 ### Dowel end cap
 
@@ -108,20 +52,6 @@ turn instead of on two corner tips.
 
 A blind socket that closes off the end of a dowel: a plain cylinder with a cylindrical recess bored
 into one end, so the dowel pushes in until it bottoms out and the remaining material caps it.
-
-### Zip tie corner blocks and sleeves
-
-[![Zip tie corner blocks and sleeves preview](zip_tie_corner_blocks/zip_tie_corner_blocks.png)](zip_tie_corner_blocks/zip_tie_corner_blocks.stl)
-
-[Documentation](zip_tie_corner_blocks/README.md) · blocks:
-[STL](zip_tie_corner_blocks/zip_tie_corner_blocks.stl) ·
-[source](zip_tie_corner_blocks/zip_tie_corner_blocks.scad) · sleeves:
-[STL](zip_tie_corner_blocks/zip_tie_corner_block_sleeves.stl) ·
-[source](zip_tie_corner_blocks/zip_tie_corner_block_sleeves.scad)
-
-A corner shoe that carries a zip tie around a square object instead of letting the tie grab the
-corner, with an optional slip-on sleeve to protect the finish underneath. Proportioned for a nylon
-tie rather than the woven strap the same idea usually serves.
 
 ### Foot with post
 
@@ -134,16 +64,13 @@ A TPU foot that plugs into a socket already in the bottom of whatever it holds u
 cylinders: the lower and wider one stands on the floor and lifts the object by its own height, the
 upper and narrower one is the plug.
 
-### Pencil rest
+### Jar funnel top
 
-[![Pencil rest preview](pencil_rest/pencil_rest.png)](pencil_rest/pencil_rest.stl)
+[Design notes and measurements needed](jar_funnel_top/README.md)
 
-[Documentation](pencil_rest/README.md) · [STL](pencil_rest/pencil_rest.stl) ·
-[source](pencil_rest/pencil_rest.scad)
-
-A block with a cradle down its top, to park a pencil on the desk instead of letting it roll off. The
-block's height falls out of the cradle rather than the cradle being fitted into a height, and a
-notch cut clean through the middle is what makes the pencil possible to pick up again.
+Not yet modelled. A funnel that screws onto a wide-mouth plastic jar in place of its lid, making a
+benchtop bin for purge and print scraps. The directory holds how to identify the jar's neck finish,
+the thread and flare constraints for a support-free print, and the measurements still to take.
 
 ### openGrid magnet snaps
 
@@ -172,13 +99,88 @@ Not yet modelled. The directory holds the design decision — hook the frame's r
 rails rather than taping to the posts, letting the rails adapt between the shelf's arbitrary post
 spacing and openGrid's 28 mm pitch — and the list of measurements still to take.
 
-### Jar funnel top
+### Pencil rest
 
-[Design notes and measurements needed](jar_funnel_top/README.md)
+[![Pencil rest preview](pencil_rest/pencil_rest.png)](pencil_rest/pencil_rest.stl)
 
-Not yet modelled. A funnel that screws onto a wide-mouth plastic jar in place of its lid, making a
-benchtop bin for purge and print scraps. The directory holds how to identify the jar's neck finish,
-the thread and flare constraints for a support-free print, and the measurements still to take.
+[Documentation](pencil_rest/README.md) · [STL](pencil_rest/pencil_rest.stl) ·
+[source](pencil_rest/pencil_rest.scad)
+
+A block with a cradle down its top, to park a pencil on the desk instead of letting it roll off. The
+block's height falls out of the cradle rather than the cradle being fitted into a height, and a
+notch cut clean through the middle is what makes the pencil possible to pick up again.
+
+### Round washer
+
+[![Round washer preview](round_washer/round_washer.png)](round_washer/round_washer.stl)
+
+[Documentation](round_washer/README.md) · [STL](round_washer/round_washer.stl) ·
+[source](round_washer/round_washer.scad)
+
+A flat round washer with a concentric through bore. Set the inner diameter, outer diameter, and
+thickness directly; the example dimensions are ready to adjust to your application.
+
+### Shelf tube coupler and brace
+
+[![Shelf tube coupler and brace preview](shelf_tube_coupler/shelf_tube_coupler.png)](shelf_tube_coupler/shelf_tube_coupler.stl)
+
+[Documentation](shelf_tube_coupler/README.md) · coupler:
+[STL](shelf_tube_coupler/shelf_tube_coupler.stl) ·
+[source](shelf_tube_coupler/shelf_tube_coupler.scad) · brace:
+[STL](shelf_tube_coupler/shelf_tube_brace.stl) · [source](shelf_tube_coupler/shelf_tube_brace.scad)
+
+Two parts that tie a pair of adjacent Turn-N-Tube wire shelf units into one rigid assembly,
+replacing zip ties. The coupler is a collar holding two posts a fixed distance apart; the brace is
+the diagonal third link that stops the pair shearing. Couplers alone leave a four-bar linkage no
+number of them can close, so one brace makes the pair rigid however many levels are coupled.
+
+### Shelf tube wall anchor
+
+[![Shelf tube wall anchor preview](shelf_tube_anchor/shelf_tube_anchor.png)](shelf_tube_anchor/shelf_tube_anchor.stl)
+
+[Documentation](shelf_tube_anchor/README.md) · [STL](shelf_tube_anchor/shelf_tube_anchor.stl) ·
+[source](shelf_tube_anchor/shelf_tube_anchor.scad)
+
+A collar that slips over one vertical post and carries a lug with a zip tie channel bored through
+it, so the tie holding the post back to the wall never has to go around the post. The channel is a
+U-turn rather than a straight bore, which puts the tie's pull on an island of material across a half
+turn instead of on two corner tips.
+
+### Single screwdriver holder
+
+[![Single screwdriver holder preview](single_screwdriver_holder/single_screwdriver_holder.png)](single_screwdriver_holder/single_screwdriver_holder.stl)
+
+[Documentation](single_screwdriver_holder/README.md) ·
+[STL](single_screwdriver_holder/single_screwdriver_holder.stl) ·
+[source](single_screwdriver_holder/single_screwdriver_holder.scad)
+
+A side-loading socket for one long screwdriver: slide the shaft in from the front, then lower the
+handle into its pocket. An optional middle bore clears a hex bolster, and a rear channel slips over
+an accessory hanger strip. Example dimensions are ready to adjust to your screwdriver and hanger.
+
+### Square washer
+
+[![Square washer preview](square_washer/square_washer.png)](square_washer/square_washer.stl)
+
+[Documentation](square_washer/README.md) · [STL](square_washer/square_washer.stl) ·
+[source](square_washer/square_washer.scad)
+
+A flat square washer with a centred round through bore. Set the inner diameter, square side length,
+and thickness directly; the example dimensions are ready to adjust to your application.
+
+### Zip tie corner blocks and sleeves
+
+[![Zip tie corner blocks and sleeves preview](zip_tie_corner_blocks/zip_tie_corner_blocks.png)](zip_tie_corner_blocks/zip_tie_corner_blocks.stl)
+
+[Documentation](zip_tie_corner_blocks/README.md) · blocks:
+[STL](zip_tie_corner_blocks/zip_tie_corner_blocks.stl) ·
+[source](zip_tie_corner_blocks/zip_tie_corner_blocks.scad) · sleeves:
+[STL](zip_tie_corner_blocks/zip_tie_corner_block_sleeves.stl) ·
+[source](zip_tie_corner_blocks/zip_tie_corner_block_sleeves.scad)
+
+A corner shoe that carries a zip tie around a square object instead of letting the tie grab the
+corner, with an optional slip-on sleeve to protect the finish underneath. Proportioned for a nylon
+tie rather than the woven strap the same idea usually serves.
 
 ## Working with these
 
