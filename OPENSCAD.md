@@ -63,9 +63,12 @@ The initial assumptions were wrong: these popups were real startup crashes, rath
 an incorrect quit procedure or a broken washer model. Also, a successful `Using OpenSCAD version`
 line did not mean that every startup attempt had succeeded. `find_openscad()` in
 [`scripts/build.py`](scripts/build.py) tries the native executable first and then an x86-64/Rosetta
-candidate on Apple Silicon; it captures failed probes without printing their diagnostics when a
-later candidate succeeds. That behavior is unchanged. Avoid triggering the failed native probe by
-running the entire command outside the sandbox from the start.
+candidate on Apple Silicon. At the time it recorded failed probes but printed them only if every
+candidate failed, so the Rosetta success hid the native crash. It now prints a `warning: skipped …`
+line for each failed probe — the command, its exit status or signal, and the last line of its output
+— before the `Using OpenSCAD version` line. A skipped native probe followed by an `arch -x86_64`
+success is this startup signature; run the whole command outside the sandbox from the start so the
+native probe does not fail at all.
 
 ## Verified results and future diagnosis
 

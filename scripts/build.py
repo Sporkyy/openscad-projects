@@ -6,6 +6,7 @@ import os
 import platform
 import re
 import shutil
+import signal
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -78,10 +79,23 @@ def command_candidates():
                 yield list(translated)
 
 
+def describe_probe_failure(result):
+    if result.returncode < 0:
+        try:
+            status = signal.Signals(-result.returncode).name
+        except ValueError:
+            status = f"signal {-result.returncode}"
+    else:
+        status = f"exit status {result.returncode}"
+    output = (result.stderr or result.stdout or "").strip().splitlines()
+    return f"{status}: {output[-1]}" if output else status
+
+
 def find_openscad():
     failures = []
 
     for command in command_candidates():
+        label = " ".join(command)
         try:
             result = subprocess.run(
                 [*command, "--version"],
@@ -89,18 +103,28 @@ def find_openscad():
                 check=False,
                 text=True,
             )
-        except OSError:
+        except OSError as error:
             # Candidate isn't runnable — a stale OPENSCAD value, or a path that
             # existed at discovery and doesn't now. Try the next one
-            failures.append(" ".join(command))
+            failures.append((label, str(error)))
             continue
         if result.returncode == 0:
+            # A later candidate succeeding must not hide an earlier crash: a
+            # sandboxed native launch aborts in Qt and Rosetta then answers, so
+            # the version line alone would look like a clean start. See
+            # OPENSCAD.md
+            for failed, reason in failures:
+                print(f"warning: skipped {failed} ({reason})")
             version = (result.stdout or result.stderr).strip()
             print(f"Using {version}")
             return command
-        failures.append(" ".join(command))
+        failures.append((label, describe_probe_failure(result)))
 
-    attempted = ", ".join(failures) if failures else "no installed candidates"
+    attempted = (
+        "; ".join(f"{failed} ({reason})" for failed, reason in failures)
+        if failures
+        else "no installed candidates"
+    )
     raise BuildError(
         "OpenSCAD CLI not found. Install OpenSCAD or set OPENSCAD to its executable "
         f"path. Attempted: {attempted}"

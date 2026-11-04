@@ -31,6 +31,60 @@ class DiscoveryTests(unittest.TestCase):
             self.assertEqual(sources, [source])
 
 
+NATIVE = ["/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD"]
+ROSETTA = ["/usr/bin/arch", "-x86_64", *NATIVE]
+
+
+class ProbeTests(unittest.TestCase):
+    def probe(self, results):
+        output = io.StringIO()
+        with (
+            patch.object(build, "command_candidates", return_value=[NATIVE, ROSETTA]),
+            patch.object(build.subprocess, "run", side_effect=results),
+            redirect_stdout(output),
+        ):
+            command = build.find_openscad()
+        return command, output.getvalue()
+
+    def test_reports_crashed_probe_when_a_later_candidate_succeeds(self):
+        crashed = SimpleNamespace(
+            returncode=-6, stdout="", stderr="qt.core: CPU features\nAbort trap"
+        )
+        answered = SimpleNamespace(
+            returncode=0, stdout="", stderr="OpenSCAD version 2026.10.11\n"
+        )
+
+        command, output = self.probe([crashed, answered])
+
+        self.assertEqual(command, ROSETTA)
+        lines = output.splitlines()
+        self.assertEqual(
+            lines[0], f"warning: skipped {NATIVE[0]} (SIGABRT: Abort trap)"
+        )
+        self.assertEqual(lines[1], "Using OpenSCAD version 2026.10.11")
+
+    def test_clean_first_probe_prints_no_warning(self):
+        answered = SimpleNamespace(
+            returncode=0, stdout="OpenSCAD version 1\n", stderr=""
+        )
+
+        command, output = self.probe([answered])
+
+        self.assertEqual(command, NATIVE)
+        self.assertNotIn("warning", output)
+
+    def test_unrunnable_and_failing_probes_are_named_in_the_error(self):
+        failed = SimpleNamespace(returncode=1, stdout="", stderr="")
+
+        with self.assertRaises(build.BuildError) as raised:
+            self.probe([FileNotFoundError("No such file"), failed])
+
+        message = str(raised.exception)
+        self.assertIn(f"{NATIVE[0]} (No such file)", message)
+        self.assertIn("arch -x86_64", message)
+        self.assertIn("(exit status 1)", message)
+
+
 class MeshWarningTests(unittest.TestCase):
     def test_reports_open_mesh_without_classifying_it_as_an_overhang(self):
         with tempfile.TemporaryDirectory() as directory:

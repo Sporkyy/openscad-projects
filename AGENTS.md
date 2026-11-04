@@ -58,8 +58,8 @@ obtain the graphics context needed for previews inside the sandbox.
 
 Follow [OpenSCAD launch and troubleshooting](OPENSCAD.md) for commands, the verified crash cause,
 and the checks that distinguish this environment failure from a geometry failure. The build helper
-currently hides failed executable probes when a later candidate succeeds; a successful build log
-alone does not prove that no earlier process crashed.
+prints a `warning: skipped …` line for every executable probe that failed before the one it uses;
+read it, because a native probe that aborted ahead of a Rosetta success is this sandbox crash.
 
 OpenSCAD has no CLI symlink; call the binary inside the app bundle:
 
