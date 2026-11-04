@@ -51,6 +51,16 @@ Three levels, chosen by how long a fact outlives the thing it describes.
 A flat round washer with a concentric through bore. Set the inner diameter, outer diameter, and
 thickness directly; the example dimensions are ready to adjust to your application.
 
+### Square washer
+
+[![Square washer preview](square_washer/square_washer.png)](square_washer/square_washer.stl)
+
+[Documentation](square_washer/README.md) · [STL](square_washer/square_washer.stl) ·
+[source](square_washer/square_washer.scad)
+
+A flat square washer with a centred round through bore. Set the inner diameter, square side length,
+and thickness directly; the example dimensions are ready to adjust to your application.
+
 ### Single screwdriver holder
 
 [![Single screwdriver holder preview](single_screwdriver_holder/single_screwdriver_holder.png)](single_screwdriver_holder/single_screwdriver_holder.stl)
