@@ -45,10 +45,15 @@ crashed at startup, at **14:16:27 and 14:16:52 Eastern**. Both reports recorded 
 The agent sandbox denied the CPU-feature queries used during Qt startup. The query for
 `hw.optional.neon` failed with `Operation not permitted` inside the sandbox; outside it, that query
 and the queries for `hw.optional.armv8_crc32` and `hw.optional.arm.FEAT_AES` all returned `1`. The
-[Qt 6.8 detection code](https://github.com/qt/qtbase/blob/v6.8.3/src/corelib/global/qsimd.cpp#L125)
+[Qt 6.8.4 detection code](https://github.com/qt/qtbase/blob/v6.8.4-lts-lgpl/src/corelib/global/qsimd.cpp#L134-L146)
 uses those queries and aborts if detected features do not satisfy the build's requirements. Together
 with the crash stacks and successful native launches outside the sandbox, this identifies the
 execution restrictions as the cause of these startup failures.
+
+The source link first pointed at `v6.8.3`, because qtbase has no plain `v6.8.4` tag: 6.8 is an LTS
+branch, and its open-source releases after 6.8.3 are tagged `v6.8.4-lts-lgpl` and so on. The bundle
+reports `CFBundleVersion` 6.8.4 in `QtCore.framework/Resources/Info.plist`, so the link now names
+the LTS tag. The Darwin ARM detection block is the same in both.
 
 There was a second failure after the build helper fell back to Rosetta: the sandboxed PNG export
 reported `CGLChoosePixelFormat() failed: invalid CoreGraphics connection (10017)` and
