@@ -198,6 +198,10 @@ The default VS Code build task, _Build all objects_, runs the same command. With
 active, _Build current object_ rebuilds only that object. Set `OPENSCAD` to the CLI executable path
 if the script cannot find the installation.
 
+On macOS, agents must run OpenSCAD and the build helper outside their execution sandbox, including
+version checks. Sandboxed launches have caused startup crashes and preview failures. See
+[OpenSCAD launch and troubleshooting](OPENSCAD.md) for the procedure, cause, and verified results.
+
 All requested models are staged before any tracked artifacts are replaced; repeating a source path
 builds it only once. If publishing fails, the build restores the previous artifacts. If that
 rollback also fails, it preserves `.previous.tmp.stl` and `.previous.tmp.png` recovery files beside

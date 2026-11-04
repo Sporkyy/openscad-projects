@@ -48,6 +48,19 @@ may already be formatted. Re-run it anyway — it's idempotent.
 
 ## Rendering
 
+**On macOS, launch OpenSCAD outside the agent sandbox from the first invocation.** This includes
+`--version` probes, scratch renders, parameter-validation runs, and the Python build helper that
+launches OpenSCAD as a child process. In Codex, run those tool commands with
+`sandbox_permissions="require_escalated"` through the normal approval mechanism. An ordinary
+Terminal session does not need that tool setting. Do not first try a sandboxed launch or force
+Rosetta to work around it: native startup can crash before the model loads, and Rosetta still cannot
+obtain the graphics context needed for previews inside the sandbox.
+
+Follow [OpenSCAD launch and troubleshooting](OPENSCAD.md) for commands, the verified crash cause,
+and the checks that distinguish this environment failure from a geometry failure. The build helper
+currently hides failed executable probes when a later candidate succeeds; a successful build log
+alone does not prove that no earlier process crashed.
+
 OpenSCAD has no CLI symlink; call the binary inside the app bundle:
 
 ```sh
