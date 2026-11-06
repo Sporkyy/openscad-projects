@@ -12,26 +12,27 @@ plastic. No screw goes into the TV and no heat-set insert is used. It is similar
 [round washer](../round_washer/README.md), with a closed bottom instead of a through bore.
 
 All dimensions are in millimetres. The disc is sized for the selected **30 mm adhesive-pad option**,
-advertised as 1 mm thick. Screw and bore dimensions remain **examples**, pending the actual screws
-and tile geometry. See [openGrid notes](../OPENGRID.md) for the system.
+advertised as 1 mm thick, and **Full openGrid tiles (6.8 mm thick)**. The starting screw choice is
+**3.5 × 10 mm, 90° flat countersunk, thread-forming for plastic**. Screw seating and pilot fit
+remain untested with actual hardware. See [openGrid notes](../OPENGRID.md) for the system.
 
 ## Measurements and tuning
 
 | Measured parameter       | Default | Measure                               | Caliper |
 | ------------------------ | ------- | ------------------------------------- | ------- |
 | `adhesive_disc_diameter` | 30 mm   | Outside jaws across the adhesive disc | 6 in    |
-| `screw_diameter`         | 3 mm    | Outside jaws over the screw threads   | 6 in    |
+| `screw_diameter`         | 3.5 mm  | Outside jaws over the screw threads   | 6 in    |
 
 | Tuning parameter  | Default | Meaning                                                      |
 | ----------------- | ------- | ------------------------------------------------------------ |
 | `adhesive_margin` | 1 mm    | Extra printed radius beyond the adhesive on each side        |
-| `bore_diameter`   | 2.5 mm  | Nominal pilot diameter; no automatic fit allowance           |
-| `bore_depth`      | 5 mm    | Distance from the open face to the flat bore floor           |
+| `bore_diameter`   | 2.8 mm  | Nominal pilot diameter; no automatic fit allowance           |
+| `bore_depth`      | 6 mm    | Distance from the open face to the flat bore floor           |
 | `floor_thickness` | 1 mm    | Solid plastic below the bore; values below 1 mm are rejected |
 | `$fn`             | 128     | Circular resolution                                          |
 
 The outside diameter is `adhesive_disc_diameter + 2 * adhesive_margin`: **32 mm** with the defaults.
-Total thickness is `bore_depth + floor_thickness`: **6 mm** with the defaults. Increasing bore depth
+Total thickness is `bore_depth + floor_thickness`: **7 mm** with the defaults. Increasing bore depth
 increases total thickness rather than thinning the floor. The source echoes these derived values,
 the pilot dimensions, floor thickness, and radial material remaining outside the screw threads.
 
@@ -41,11 +42,34 @@ below 1 mm. The cut starts exactly at the top of the floor and extends beyond on
 There is no recess in the adhesive face, chamfer, countersink, or printed thread.
 
 Choose the pilot diameter for the actual plastic screw, material, and printer. Smaller than the
-thread diameter leaves material for the threads to bite, but the example 0.5 mm difference is not a
+thread diameter leaves material for the threads to bite, but the starting 0.7 mm difference is not a
 validated fit. Use the screw maker's pilot guidance where available and test one disc before a
 batch.
 
 ## Screw reach and assembly
+
+### Proposed screw and tile fit
+
+Use a 3.5 mm plastic-specific thread-forming screw with a 90° flat countersunk head that fits the
+tile's recess. The
+[BlackjackDuck generator defaults](https://github.com/AndyLevesque/QuackWorks/blob/main/openGrid/openGrid.scad)
+use a 4.1 mm clearance hole, a 7.2 mm head recess, and a 1 mm head inset. These are generator
+settings, not dimensions imposed by this disc; check the settings of the generator used for the
+tiles. The countersink is in the tile, not the disc.
+
+For example, a 10 mm overall-length screw with a 7 mm diameter, 90° head would seat approximately
+1.1 mm below the front face with those settings. Its full tip would project approximately
+`10 - 6.8 + 1.1 = 4.3 mm` behind the Full tile. The 6 mm bore would leave about 1.7 mm of empty
+clearance below the tip before the separate 1 mm plastic floor. This is a nominal calculation;
+actual head dimensions, screw-length tolerances, and the printed seat determine the real reach.
+
+Plastic-specific thread-forming screws such as
+[EJOT DELTA PT](https://www.ejot.com/Industrial-Fasteners-Division/Products/DELTA-PT%C2%AE/p/VBT_DELTA_PT)
+are intended for direct fastening into thermoplastics. A drilling tip is unnecessary in the printed
+pilot hole. The 2.8 mm pilot is a trial starting point; follow the selected screw's pilot-hole
+guidance and check both PLA and PETG separately before printing a batch.
+
+### Check the actual screw reach
 
 **The 1 mm floor is a model constraint, not a screw stop.** A self-drilling tip can pierce it. With
 the actual screw seated in the actual tile's mounting hole, measure its full projection beyond the
@@ -76,9 +100,9 @@ face.
 The example dimensions have not been physically printed or fit-tested. A 1 mm minimum preserves a
 closed model; its suitability for the chosen screw and load remains untested.
 
-Geometry verified on 2026-11-06: the 32 mm default export reported manifold `Status: NoError`; its
-mesh was closed with no overhangs past 45°. Scratch renders also checked a 10 mm bore depth, a 2 mm
-floor, and a 40 mm adhesive disc. Mesh dimensions, bore-floor height and area, and volume matched
-the intended blind-bore geometry in all four cases. Floors of 0.99, 0, and -1 mm were rejected,
-along with zero bore depth, zero bore diameter, a pilot equal to the screw diameter, zero adhesive
-diameter, zero margin, and a screw as wide as the printed disc.
+Geometry verified on 2026-11-06: the 32 mm diameter, 7 mm thick default export reported manifold
+`Status: NoError`; its mesh was closed with no overhangs past 45°. Scratch renders also checked a 10
+mm bore depth, a 2 mm floor, and a 40 mm adhesive disc. Mesh dimensions, bore-floor height and area,
+and volume matched the intended blind-bore geometry in all four cases. Floors of 0.99, 0, and -1 mm
+were rejected, along with zero bore depth, zero bore diameter, a pilot equal to the screw diameter,
+zero adhesive diameter, zero margin, and a screw as wide as the printed disc.

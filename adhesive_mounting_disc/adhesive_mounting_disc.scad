@@ -3,7 +3,8 @@
 // Adhesive mounting disc — a flat adhesive face and an upward blind pilot bore.
 // Screw an openGrid tile into the plastic; stick the closed face to the TV.
 // All dimensions are millimetres. Sized for 30 mm adhesive pads;
-// screw and bore defaults are examples, not fit-tested hardware.
+// starting screw choice is 3.5 x 10 mm countersunk for a 6.8 mm Full tile.
+// Screw and pilot fit still need a trial with the actual hardware.
 // Print closed face down, bore up. Vertical walls need no supports or bridges.
 
 // ===== MEASURE THESE =====
@@ -14,7 +15,7 @@ adhesive_disc_diameter = 30;
 
 // Screw outside diameter over the threads (mm) — outside jaws on the threaded
 // shank, 6 in caliper. The pilot bore must be smaller so the threads can bite.
-screw_diameter = 3;
+screw_diameter = 3.5;
 
 // ===== TUNE THESE =====
 
@@ -23,11 +24,11 @@ adhesive_margin = 1;
 
 // Nominal pilot-bore diameter (mm). Choose for the screw and printed material;
 // no fit allowance is added. Check a trial print before mounting anything.
-bore_diameter = 2.5;
+bore_diameter = 2.8;
 
 // Depth from the open face to the flat bore floor (mm). Allow room for the
 // ENTIRE screw tip projecting behind the tile, with clearance above the floor.
-bore_depth = 5;
+bore_depth = 6;
 
 // Solid plastic under the bore (mm). At least 1 mm is enforced below.
 // This is a geometric minimum, not a stop that a self-drilling screw cannot pierce.
