@@ -2,14 +2,15 @@
 // SPDX-FileCopyrightText: 2026 Todd Sayre
 // Adhesive mounting disc — a flat adhesive face and an upward blind pilot bore.
 // Screw an openGrid tile into the plastic; stick the closed face to the TV.
-// All dimensions are millimetres. Defaults are examples, not tested hardware.
+// All dimensions are millimetres. Sized for 30 mm adhesive pads;
+// screw and bore defaults are examples, not fit-tested hardware.
 // Print closed face down, bore up. Vertical walls need no supports or bridges.
 
 // ===== MEASURE THESE =====
 
 // Adhesive disc outside diameter (mm) — outside jaws across the disc,
 // 6 in caliper. The printed disc extends beyond it by adhesive_margin per side.
-adhesive_disc_diameter = 25;
+adhesive_disc_diameter = 30;
 
 // Screw outside diameter over the threads (mm) — outside jaws on the threaded
 // shank, 6 in caliper. The pilot bore must be smaller so the threads can bite.

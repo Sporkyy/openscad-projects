@@ -11,14 +11,15 @@ adhesive disc sticks it to the back of a TV; a screw through an openGrid tile bi
 plastic. No screw goes into the TV and no heat-set insert is used. It is similar to the
 [round washer](../round_washer/README.md), with a closed bottom instead of a through bore.
 
-All dimensions are in millimetres. The supplied values are **examples**, pending the actual adhesive
-discs, screws, and tile geometry. See [openGrid notes](../OPENGRID.md) for the system.
+All dimensions are in millimetres. The disc is sized for the selected **30 mm adhesive-pad option**,
+advertised as 1 mm thick. Screw and bore dimensions remain **examples**, pending the actual screws
+and tile geometry. See [openGrid notes](../OPENGRID.md) for the system.
 
 ## Measurements and tuning
 
 | Measured parameter       | Default | Measure                               | Caliper |
 | ------------------------ | ------- | ------------------------------------- | ------- |
-| `adhesive_disc_diameter` | 25 mm   | Outside jaws across the adhesive disc | 6 in    |
+| `adhesive_disc_diameter` | 30 mm   | Outside jaws across the adhesive disc | 6 in    |
 | `screw_diameter`         | 3 mm    | Outside jaws over the screw threads   | 6 in    |
 
 | Tuning parameter  | Default | Meaning                                                      |
@@ -29,7 +30,7 @@ discs, screws, and tile geometry. See [openGrid notes](../OPENGRID.md) for the s
 | `floor_thickness` | 1 mm    | Solid plastic below the bore; values below 1 mm are rejected |
 | `$fn`             | 128     | Circular resolution                                          |
 
-The outside diameter is `adhesive_disc_diameter + 2 * adhesive_margin`: **27 mm** with the defaults.
+The outside diameter is `adhesive_disc_diameter + 2 * adhesive_margin`: **32 mm** with the defaults.
 Total thickness is `bore_depth + floor_thickness`: **6 mm** with the defaults. Increasing bore depth
 increases total thickness rather than thinning the floor. The source echoes these derived values,
 the pilot dimensions, floor thickness, and radial material remaining outside the screw threads.
@@ -58,10 +59,11 @@ Check that the chosen disc diameter fits behind the selected tile holes without 
 neighbouring discs, tile ribs, or required snap space. The disc has no grid features or spacing
 constraint; compatibility depends on the tile generator and hole positions you choose.
 
-Trial-fit the screw and tile on a loose disc before applying adhesive. Check fit and full tip reach,
-then use the adhesive maker's surface-preparation and curing instructions. Confirm the selected
-adhesive and printed material suit the TV's rear surface and operating temperature, and keep vents
-clear. Adhesion, screw retention, and load capacity need physical testing with the actual hardware.
+Adhesive mounting already works on an existing LG C5 used as a desktop monitor: accessories have
+been attached successfully with AliExpress "Alien Tape". The next physical check for this design is
+the printed disc and screw interface. Trial-fit the screw and tile on a loose disc before applying
+adhesive, checking thread bite and full tip reach. The adhesive sits on the flat closed face; its
+advertised 1 mm thickness adds to the spacing without changing the printed geometry.
 
 ## Printing and verification
 
@@ -74,8 +76,8 @@ face.
 The example dimensions have not been physically printed or fit-tested. A 1 mm minimum preserves a
 closed model; its suitability for the chosen screw and load remains untested.
 
-Geometry verified on 2026-11-06: the default export reported manifold `Status: NoError`; its mesh
-was closed with no overhangs past 45°. Scratch renders also checked a 10 mm bore depth, a 2 mm
+Geometry verified on 2026-11-06: the 32 mm default export reported manifold `Status: NoError`; its
+mesh was closed with no overhangs past 45°. Scratch renders also checked a 10 mm bore depth, a 2 mm
 floor, and a 40 mm adhesive disc. Mesh dimensions, bore-floor height and area, and volume matched
 the intended blind-bore geometry in all four cases. Floors of 0.99, 0, and -1 mm were rejected,
 along with zero bore depth, zero bore diameter, a pilot equal to the screw diameter, zero adhesive
