@@ -43,6 +43,18 @@ Three levels, chosen by how long a fact outlives the thing it describes.
 
 ## Projects
 
+### Adhesive mounting disc
+
+[![Adhesive mounting disc preview](adhesive_mounting_disc/adhesive_mounting_disc.png)](adhesive_mounting_disc/adhesive_mounting_disc.stl)
+
+[Documentation](adhesive_mounting_disc/README.md) ·
+[STL](adhesive_mounting_disc/adhesive_mounting_disc.stl) ·
+[source](adhesive_mounting_disc/adhesive_mounting_disc.scad)
+
+A disc that sticks to the back of a TV with a circular adhesive pad and accepts a screw through an
+openGrid tile into a blind pilot bore. Its diameter extends beyond the adhesive, and its thickness
+is derived from the bore depth plus a solid floor of at least 1 mm.
+
 ### Dowel end cap
 
 [![Dowel end cap preview](dowel_endcap/dowel_endcap.png)](dowel_endcap/dowel_endcap.stl)
