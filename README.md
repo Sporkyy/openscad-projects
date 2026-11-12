@@ -130,7 +130,8 @@ notch cut clean through the middle is what makes the pencil possible to pick up 
 [source](round_washer/round_washer.scad)
 
 A flat round washer with a concentric through bore. Set the inner diameter, outer diameter, and
-thickness directly; the example dimensions are ready to adjust to your application.
+thickness directly, with small 45° outer edge bevels. The 2-inch OD, 6 mm thick defaults are a
+shelf-spacer starting point; fit, load capacity, and long-term creep remain untested.
 
 ### Shelf tube coupler and brace
 
