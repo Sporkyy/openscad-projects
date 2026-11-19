@@ -4,7 +4,7 @@
 
 Stack two SUNLU AMS Lite Heaters near the middle of the workbench in the 3D Printing Room. Each
 heater houses a Bambu Lab AMS Lite. One feeds the A1 and the other feeds the A1 mini. Reuse the
-surplus nominal 1-inch (25.4 mm) dowels as posts, rails, and shelf slats, joined by printed
+surplus nominal 1-inch (25.4 mm) dowels as posts, rails, and shelf slats, glued into printed
 fittings.
 
 **Status:** Planning only. The published enclosure dimensions and setup instructions have been
@@ -65,61 +65,72 @@ end.
 - Use four printed corner blocks per tier. Each lower block has a downward socket for a short foot
   dowel, an upward socket for the post between shelves, and two perpendicular sockets for the long
   left-to-right frame rail and the short front-to-back side rail. Each upper block has the same two
-  rail sockets and a downward post socket with a closed top. Start with nominal 1-inch dowels for
-  both rail lengths.
+  rail sockets and a downward post socket with a closed top. Use full round blind bores for these
+  sockets. Start with nominal 1-inch dowels for both rail lengths.
 - Align the foot and post sockets on the lower blocks. Bottom out the square dowel ends against
   bearing faces with a solid core between them. Check that the two horizontal bores stop short of
-  each other and leave enough material around the vertical load path. Use mechanical retention so
-  the dowels stay seated when the rack is lifted or pulled sideways.
+  each other and leave enough material around the vertical load path. Glue the dowels into the
+  sockets after dry-fitting the complete rack.
 - Use rear bracing to resist side-to-side racking. Plan fore-aft restraint at the base or rear as
   well, and check tipping with a one-sided loading pull and the upper heater fully loaded. A bench
   attachment or wider base is an open choice. Check the rear edge and underside of the maple top for
   a possible clamp-on restraint. Measure the wall gap and check where the bench hardware leaves room
   for the clamp jaws. Keep braces and fasteners out of the loading sweep and tube route.
-- Prototype one corner from the measured stock. Check whether splitting the block or using 45° roofs
-  over the horizontal sockets gives a support-free print with good bearing and retention. Check
-  bearing, pullout, and rotation before making the set. Choose the joint material after checking the
-  temperature at its location. SUNLU specifies up to 70 °C inside the dryer and calls for keeping
-  the vents clear and using a surface that tolerates the heat.
+- Prototype one corner from the measured stock. Preserve the circular pockets in the assembled
+  fitting. If the perpendicular bores or blind ends create unsupported roofs, try printed sections
+  oriented with their bores up, glued along broad bearing faces after printing. Choose the print
+  material and adhesive after checking the temperature at the joint. SUNLU specifies up to 70 °C
+  inside the dryer and calls for keeping the vents clear and using a surface that tolerates the
+  heat.
   [SUNLU heater product details](https://store.sunlu.com/products/sunlu-ams-lite-heater-upgraded-your-bambu-lab-ams-lite)
   ·
   [SUNLU user manual](https://cdn.shopify.com/s/files/1/0152/6507/1190/files/AMS_Lite_Heater_user_manuel.pdf?v=1784529650#page=6)
 
 ## Shelves made from round dowels
 
-Run the shelf slats left to right, in the direction shown by the monitor-riser reference. Seat each
-slat end in an upward-facing printed saddle centered directly over the short front-to-back side
-rail. The fitting has two crossed cradles, with the underside shaped to bear on the side rail and
-the top shaped to seat the slat. Start with one fitting at each crossing. Use a split collar or
-retaining strap to keep the fitting on the side rail, and an end stop or keeper to stop the slat
-shifting or lifting. The saddle carries the downward load. The keeper holds the parts in place.
+Run the shelf slats left to right, in the direction shown by the monitor-riser reference. At each
+end, glue the slat into an inward-facing round blind pocket in a fitting positioned directly above
+the short front-to-back side rail. Slide the fitting's lower round through-bore onto the side rail
+and glue it in place. Both bores fully surround the dowels. Their axes are perpendicular and
+vertically offset, with solid printed material between them.
 
-The load runs from the heater foot through its shoe, the slats, the saddles, the short side rails,
-and the corner blocks to the dowel legs. A same-height socket hanging inboard of the side rail would
-put the slat reaction on an offset and twist the fitting around the rail. The stacked saddle puts
-most of that local load into bearing and compression. The slats and side rails still bend between
-supports. Check their sag under ballast and inspect the printed parts for settling after time under
-load and heat.
+The load runs from the heater foot through its shoe, the slats, the enclosed fittings, the short
+side rails, and the corner blocks to the dowel legs. Stacking the pockets keeps the slat reaction
+centered over the side rail, so the solid section between them takes the vertical load in bearing
+and compression. The slats and side rails still bend between supports. Check sag under ballast and
+inspect the glued parts for settling after time under load and heat.
 
 Make one low, flat printed shoe for each heater foot. Give it a shallow locating pocket or lip and
 two matching grooves underneath for adjacent slats. Start with two slats per shoe so both seats can
 be checked for contact. Widen to three only if the loaded shoe bears on all three. Use the actual
-feet to set the slat spacing and check that the shoes stay seated through door opening and spool
-changes. Keep the shoes clear of the heater vents.
+feet to set the slat spacing and glue the shoes to the slats once their positions are confirmed.
+Check that the heater feet stay seated through door opening and spool changes. Keep the shoes clear
+of the heater vents.
 
-Include the raised slats, shoes, and protruding keepers in the door and PTFE mock-up. Keep the slats
-at one height and check the door sweep past the sides. Check loaded sag at midspan before adding a
+Include the raised slats, shoes, and socket fittings in the door and PTFE mock-up. Keep the slats at
+one height and check the door sweep past the sides. Check loaded sag at midspan before adding a
 front-to-back center bearer. Check any added bearer against the lower tube route.
 
 [Editable rack and fittings mockup](https://www.figma.com/design/BGAIk3jYphiOctaLRiNvt9?node-id=2-2)
+
+## Glue-up
+
+Dry-fit a full tier. Slide the lower bores of the slat fittings onto each short side rail before
+fitting the corner blocks. Bring both side assemblies together over the slats and long frame rails
+so every dowel end reaches its seat. Use a flat surface and spacers to hold the tier square and keep
+the slats level during glue-up. Dry-fit the posts and feet before bonding the two tiers together.
+The heaters sit in the shoes for removal and service.
+
+Set the socket fit with bonded coupons using the actual dowel, print material, and adhesive. Test
+the TPU-to-wood bond separately and allow the adhesive to cure fully before the loaded checks.
 
 ## TPU feet for the dowel posts
 
 Print four short, truncated-cone feet, one for each dowel that touches the bench. The wide end has a
 flat face for traction on the maple top. The narrow end has a blind socket that slips over the
 dowel. Seat the squared-off dowel end on the flat floor of the socket so it bears through a solid
-TPU pad. Start with a snug push-on fit and enough socket depth to keep the foot seated when the rack
-is lifted. Use the [dowel end cap](../dowel_endcap/README.md) as a reference for the socket and the
+TPU pad. Dry-fit the feet onto the dowels, then glue each foot in its socket once it seats flat. Use
+the [dowel end cap](../dowel_endcap/README.md) as a reference for the socket and the
 [foot with post](../foot_with_post/README.md) for printing TPU base-down. Keep the socket open at
 the top and use a small 45° chamfer at the bottom edge to allow for first-layer spread.
 
@@ -131,13 +142,13 @@ option open until the loaded frame passes both checks.
 
 ## Measurements before modeling
 
-| Measure                                                             | How to take it                                                                                                                                                                                                                    |
-| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Installed bench height, usable center space, and overhead clearance | Tape measure from the floor and bench edges. Measure the rear wall gap and the clear depth under the rear edge for a possible clamp.                                                                                              |
-| Heater body, feet, doors, and spool access                          | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans across both axes. Use a 6 in caliper for each foot's contact patch. Trace each side's door swing and spool removal, including low points.   |
-| Lower PTFE path and connectors                                      | With all four tubes installed, mark the height above the lower heater's support surface where the bundle bends and where it leaves the bay. Measure each route with a tape and confirm both cables reach with service slack.      |
-| Dowel stock                                                         | Use a 6 in caliper for OD in two directions at the socket and saddle locations. Measure usable lengths with a tape and check straightness and end squareness. Inventory long slats, long and short rails, posts, and foot dowels. |
-| Loaded weight on each shelf                                         | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels.                                                                                                                           |
+| Measure                                                             | How to take it                                                                                                                                                                                                                          |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Installed bench height, usable center space, and overhead clearance | Tape measure from the floor and bench edges. Measure the rear wall gap and the clear depth under the rear edge for a possible clamp.                                                                                                    |
+| Heater body, feet, doors, and spool access                          | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans across both axes. Use a 6 in caliper for each foot's contact patch. Trace each side's door swing and spool removal, including low points.         |
+| Lower PTFE path and connectors                                      | With all four tubes installed, mark the height above the lower heater's support surface where the bundle bends and where it leaves the bay. Measure each route with a tape and confirm both cables reach with service slack.            |
+| Dowel stock                                                         | Use a 6 in caliper for OD in two directions at the socket and through-bore locations. Measure usable lengths with a tape and check straightness and end squareness. Inventory long slats, long and short rails, posts, and foot dowels. |
+| Loaded weight on each shelf                                         | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels.                                                                                                                                 |
 
 ## Staged verification
 
@@ -147,12 +158,11 @@ option open until the loaded frame passes both checks.
 - [ ] Mock up one tier low on the bench. Position the slats by the actual heater-foot locations and
       try one two-groove shoe. Check that both grooves bear at once and test the door sweep and
       spool removal with shoes and side fittings in place.
-- [ ] Fit a socket coupon and test a representative joint with the actual dowel, material, and
-      retention hardware. Fit one stacked saddle and one lower corner block. Check seating,
-      rotation, cracks, and pullout in both rail directions. When geometry exists, render the
-      fittings, check mesh closure and overhangs, and inspect the previews.
-- [ ] Try the same prototype foot on each of the four dowels before printing the set. Check that it
-      seats fully and stays on when lifted. Verify the feet's meshes for closure and overhangs.
+- [ ] Dry-fit one enclosed slat fitting and one lower corner block, then test glued samples with the
+      actual materials. Check seating, rotation, cracks, and pullout after full cure. When geometry
+      exists, render the fittings, check mesh closure and overhangs, and inspect the previews.
+- [ ] Try the same prototype TPU foot on each foot dowel before printing the set. Check full seating
+      and test one glued sample after cure. Verify the feet's meshes for closure and overhangs.
 - [ ] Put the empty frame on the bench. Apply secured ballast at the heater-foot locations at the
       measured service weights. Measure sag at the middle of the width-spanning slats and at the
       short side rails. Check slat roll, joint slip, racking, and tipping with realistic loading
