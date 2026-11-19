@@ -80,6 +80,22 @@ extremes with the doors closed and check for tight bends, rubbing, and pull at e
   ·
   [SUNLU user manual](https://cdn.shopify.com/s/files/1/0152/6507/1190/files/AMS_Lite_Heater_user_manuel.pdf?v=1784529650#page=6)
 
+## TPU feet for the dowel posts
+
+Print four short, truncated-cone feet, one for each dowel that touches the bench. The wide end has a
+flat face for traction on the maple top. The narrow end has a blind socket that slips over the
+dowel. Seat the squared-off dowel end on the flat floor of the socket so it bears through a solid
+TPU pad. Start with a snug push-on fit and enough socket depth to keep the foot seated when the rack
+is lifted. Use the [dowel end cap](../dowel_endcap/README.md) as a reference for the socket and the
+[foot with post](../foot_with_post/README.md) for printing TPU base-down. Keep the socket open at
+the top and use a small 45° chamfer at the bottom edge to allow for first-layer spread.
+
+Use a 40–45 mm base diameter for the first footprint mock-up and keep the pad beneath the dowel
+short to limit sideways flex. Mark the full footprint on the bench, check that each foot bears
+entirely on the maple, and include the pad thickness when checking door sweep, lower shelf height,
+and upper shelf reach. Test traction and tipping separately with ballast. Keep the rear restraint
+option open until the loaded frame passes both checks.
+
 ## Measurements before modeling
 
 | Measure                                                             | How to take it                                                                                                                                                                                                               |
@@ -87,7 +103,7 @@ extremes with the doors closed and check for tight bends, rubbing, and pull at e
 | Installed bench height, usable center space, and overhead clearance | Tape measure from the floor and bench edges. Measure the rear wall gap and the clear depth under the rear edge for a possible clamp.                                                                                         |
 | Heater body, feet, doors, and spool access                          | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans. Use a 6 in caliper for individual foot diameters or widths. Trace each side's door swing and spool removal, including low points.     |
 | Lower PTFE path and connectors                                      | With all four tubes installed, mark the deck-to-bend height and where the bundle leaves the bay. Use a tape measure along each route and confirm the AMS Lite four-pin cable and heater power cord reach with service slack. |
-| Dowel stock and deck material                                       | Use a 6 in caliper for dowel OD in two directions at several points, and for deck thickness. Use a tape measure for the usable length and check straightness and condition.                                                  |
+| Dowel stock and deck material                                       | Use a 6 in caliper for dowel OD in two directions at several points, including the socket area at each foot, and for deck thickness. Use a tape measure for usable length. Check straightness and that the ends seat flat.   |
 | Loaded weight on each deck                                          | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels. Record the deck weight separately.                                                                                   |
 
 ## Staged verification
@@ -98,9 +114,12 @@ extremes with the doors closed and check for tight bends, rubbing, and pull at e
 - [ ] Fit a socket coupon and test a representative joint with the actual dowel, material, and
       retention hardware. Check for rocking, rotation, cracks, and pullout. When geometry exists,
       render the couplers, check mesh closure and overhangs, and inspect the previews.
+- [ ] Try the same prototype foot on each of the four dowels before printing the set. Check that it
+      seats fully and stays on when lifted. Verify the feet's meshes for closure and overhangs.
 - [ ] Put the empty frame on the bench. Test with secured ballast at the measured service weights
       before installing the heaters. Check deck sag, joint slip, racking, and tipping with realistic
-      loading pulls. Mark reference points and recheck for movement or sag after sustained loading.
+      loading pulls. Check that the feet stay flat and the rack stays put. Mark reference points and
+      recheck for movement, foot compression, or sag after sustained loading.
 - [ ] Install one heater at a time. Check vent clearance and temperature at the deck and joints at
       the hottest intended setting. Test load and unload on all four paths per printer, then repeat
       with both heaters and printers running. Recheck the frame after repeated heating and use.
