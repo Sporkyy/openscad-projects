@@ -62,9 +62,10 @@ end.
 
 ## Proposed dowel frame
 
-- Start with four continuous vertical dowels and a pair of cross rails per tier, one front and one
-  rear, supported at the posts. Use joints with a bearing seat and positive mechanical retention so
-  the cross rails stay seated and a loading tug cannot pull them out or turn them.
+- Start with four continuous vertical dowels. Each tier has a short front-to-back bearer on the left
+  and right, supported at the posts. Seat the printed socket rails on these bearers. Use joints with
+  a bearing seat and positive mechanical retention so the rails stay seated when loading or lifting
+  the rack.
 - Use rear bracing to resist side-to-side racking. Plan fore-aft restraint at the base or rear as
   well, and check tipping with a one-sided loading pull and the upper heater fully loaded. A bench
   attachment or wider base is an open choice. Check the rear edge and underside of the maple top for
@@ -82,18 +83,22 @@ end.
 
 ## Shelves made from round dowels
 
-Run the shelf dowels front-to-back across the two cross rails. This gives the slats the shorter
-span. The cross rails span the heater's width, so check their sag separately under load. Use the
-heater itself to lay out the slats. Start with a close pair under each left and right row of feet,
-then add slats where they help support the heater or make it easier to set down. The slat count and
-spacing depend on the actual foot pattern.
+Follow the monitor-riser reference. Run parallel 1-inch dowels left to right and seat their ends in
+inward-facing sockets in two low printed side rails. Leave the sides below the slats open for
+loading. Check the whole door swing with a mock-up of the outside face of each socket rail and its
+bearer, since the doors can swing down past the heater base.
 
-Capture the slats at both ends so they cannot roll, shift sideways, or walk out of their seats. Use
-printed keepers fixed at the cross rails and keep the slats bearing on the rails. Try the heater on
-the paired dowels first. Each foot should bridge its pair, sit at the same height, and stay seated
-as the doors open and spools come off. If a foot is too small or rocks on the round surface, add a
-low, flat-topped saddle that keys onto both slats under that foot. Fit any saddles before setting
-the shelf height, and keep the heater's underside vents clear.
+Start with a fairly even row of slats across the shelf depth. Set the final spacing from the
+heater's foot contact patches. All feet should sit at the same height and stay seated as the doors
+open and spools come off. If a foot rocks or drops into a gap, adjust the adjacent slats or add a
+low, flat-topped saddle that keys onto two slats. Keep the underside vents clear.
+
+Fasten the socket rails to the side bearers so the sockets stay engaged. Try a short section with
+blind bores printed with the openings facing up. If the full rail is too long for the print bed,
+split it into socket sections and fasten each section to the continuous bearer. The slats span the
+full heater width in this layout. Measure midspan sag under the loaded footprint before deciding
+whether to add a front-to-back center bearer. Check any additional bearer against the lower tube
+route and the heater vents.
 
 [Editable rack and fittings mockup](https://www.figma.com/design/BGAIk3jYphiOctaLRiNvt9?node-id=2-2)
 
@@ -115,31 +120,33 @@ option open until the loaded frame passes both checks.
 
 ## Measurements before modeling
 
-| Measure                                                             | How to take it                                                                                                                                                                                                                      |
-| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Installed bench height, usable center space, and overhead clearance | Tape measure from the floor and bench edges. Measure the rear wall gap and the clear depth under the rear edge for a possible clamp.                                                                                                |
-| Heater body, feet, doors, and spool access                          | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans across both axes. Use a 6 in caliper for each foot's contact patch. Trace each side's door swing and spool removal, including low points.     |
-| Lower PTFE path and connectors                                      | With all four tubes installed, mark the height above the lower heater's support surface where the bundle bends and where it leaves the bay. Measure each route with a tape and confirm both cables reach with service slack.        |
-| Dowel stock                                                         | Use a 6 in caliper for OD in two directions where fittings will seat. Use a tape measure for usable lengths and count how many full-length cross rails and short slats the stock can supply. Check straightness and end squareness. |
-| Loaded weight on each shelf                                         | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels.                                                                                                                             |
+| Measure                                                             | How to take it                                                                                                                                                                                                                            |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Installed bench height, usable center space, and overhead clearance | Tape measure from the floor and bench edges. Measure the rear wall gap and the clear depth under the rear edge for a possible clamp.                                                                                                      |
+| Heater body, feet, doors, and spool access                          | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans across both axes. Use a 6 in caliper for each foot's contact patch. Trace each side's door swing and spool removal, including low points.           |
+| Lower PTFE path and connectors                                      | With all four tubes installed, mark the height above the lower heater's support surface where the bundle bends and where it leaves the bay. Measure each route with a tape and confirm both cables reach with service slack.              |
+| Dowel stock                                                         | Use a 6 in caliper for OD in two directions at the ends. Measure usable lengths with a tape and count how many full-width slats the stock can supply, allowing for socket engagement at both ends. Check straightness and end squareness. |
+| Loaded weight on each shelf                                         | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels.                                                                                                                                   |
 
 ## Staged verification
 
 - [ ] Mock up the whole bench at full scale. Load and remove spools on both sides of each tier,
       confirm top-tier reach, and check both cable and tube routes through full printer travel.
       Choose shelf positions and tier assignments before cutting stock.
-- [ ] Chock the dowels on a low test surface and position them by the heater's actual feet. Check
-      seating, rocking, and door and spool clearance. Fit one slat keeper and try a flat saddle only
-      if the direct fit needs it.
+- [ ] Chock the dowels on a low test surface and position them by the heater's actual feet. Mock up
+      the side rails at their proposed height and check seating, rocking, door sweep, and spool
+      removal. Try a flat saddle if the direct fit needs it.
 - [ ] Fit a socket coupon and test a representative joint with the actual dowel, material, and
-      retention hardware. Check for rocking, rotation, cracks, and pullout. When geometry exists,
-      render the couplers, check mesh closure and overhangs, and inspect the previews.
+      retention hardware. Fit a short socket-rail section before making a full rail. Check for
+      rocking, rotation, cracks, and pullout. When geometry exists, render the fittings, check mesh
+      closure and overhangs, and inspect the previews.
 - [ ] Try the same prototype foot on each of the four dowels before printing the set. Check that it
       seats fully and stays on when lifted. Verify the feet's meshes for closure and overhangs.
 - [ ] Put the empty frame on the bench. Apply secured ballast at the heater-foot locations at the
-      measured service weights. Check slat and cross-rail sag separately, and check slat roll, joint
-      slip, racking, and tipping with realistic loading pulls. Mark reference points and recheck for
-      movement, foot compression, or sag after sustained loading.
+      measured service weights. Measure sag at the middle of the width-spanning slats and at the
+      side bearers. Check slat roll, joint slip, racking, and tipping with realistic loading pulls.
+      Mark reference points and recheck for movement, foot compression, or sag after sustained
+      loading.
 - [ ] Install one heater at a time. Check vent clearance and temperature at the shelf and joints at
       the hottest intended setting. Test load and unload on all four paths per printer, then repeat
       with both heaters and printers running. Recheck the frame after repeated heating and use.
