@@ -2,7 +2,7 @@
 
 # AMS Lite heater shelves
 
-Stack two SUNLU AMS Lite Heaters near the middle of a 72-inch (1,829 mm) printing workbench. Each
+Stack two SUNLU AMS Lite Heaters near the middle of the workbench in the 3D Printing Room. Each
 heater houses a Bambu Lab AMS Lite. One feeds the A1 and the other feeds the A1 mini. Reuse the
 surplus nominal 1-inch (25.4 mm) dowels as posts and rails, joined by printed sockets.
 
@@ -10,6 +10,12 @@ surplus nominal 1-inch (25.4 mm) dowels as posts and rails, joined by printed so
 checked. Frame geometry, fit, load, heat, and filament feeding are untested.
 
 ## Bench layout and loading access
+
+The workbench has a grey steel frame with adjustable C-channel legs and a 72 × 30 in (1,829 × 762
+mm) square-edge maple butcher-block top, 1¾ in (44.5 mm) thick. The matching Global Industrial
+listing is model WB183168 with a 2,000 lb bench rating. Measure the installed top height to check
+reach to the upper shelf.
+[Global Industrial workbench specifications](https://www.globalindustrial.com/p/72-x-30-maple-square-edge-work-bench-adjustable-height-1-3-4-top)
 
 SUNLU lists the heater at 510 × 270 × 265 mm (about 20.1 × 10.6 × 10.4 in) and 3.4 kg (7.5 lb)
 before installing the AMS Lite and spools. Stacking takes the closed heater bodies from 1,020 mm
@@ -23,6 +29,10 @@ four 1.2 m PTFE tubes per enclosure. Confirm what's in hand for both units.
   service space. Check both doors on both tiers through their full swing, including how far they
   drop below the deck, if any. Leave enough space to pull the largest spool straight off each hub
   and get a hand in to feed it. Set post locations after tracing those paths.
+- The closed heater body uses 270 mm of the 762 mm bench depth, leaving 492 mm (19.4 in) to divide
+  between the front and rear before adding the frame, plugs, and clearance. Try shifting the rack
+  forward or back within the center of the bench if a door or spool overlaps a printer's envelope.
+  Check that the upper spools are still easy to reach and the rear tube path stays clear.
 - Keep the lower deck close to the bench while clearing the door sweep and cord. Keep the front open
   so either heater can be removed after cooling and disconnecting. Check that all four spool
   positions on the upper tier are within comfortable reach.
@@ -57,8 +67,9 @@ extremes with the doors closed and check for tight bends, rubbing, and pull at e
   retention at joints so a loading tug or vibration cannot pull a dowel out or rotate a deck.
 - Use rear bracing to resist side-to-side racking. Plan fore-aft restraint at the base or rear as
   well, and check tipping with a one-sided loading pull and the upper heater fully loaded. A bench
-  attachment or wider base is an open choice. Keep braces and fasteners out of the loading sweep and
-  tube route.
+  attachment or wider base is an open choice. Check the rear edge and underside of the maple top for
+  a possible clamp-on restraint. Measure the wall gap and check where the bench hardware leaves room
+  for the clamp jaws. Keep braces and fasteners out of the loading sweep and tube route.
 - Start with one socket coupon for the measured stock, then prototype one representative joint.
   Favor an upward-opening bore for an axial socket or a two-piece clamp with open saddles for
   horizontal rails. Design both for support-free printing at the repository's 45° limit. Check
@@ -71,13 +82,13 @@ extremes with the doors closed and check for tight bends, rubbing, and pull at e
 
 ## Measurements before modeling
 
-| Measure                                                  | How to take it                                                                                                                                                                                                               |
-| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Bench depth, usable center space, and overhead clearance | Tape measure from the bench edges and surface. Record the available rear and underside access for a brace or attachment.                                                                                                     |
-| Heater body, feet, doors, and spool access               | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans. Use a 6 in caliper for individual foot diameters or widths. Trace each side's door swing and spool removal, including low points.     |
-| Lower PTFE path and connectors                           | With all four tubes installed, mark the deck-to-bend height and where the bundle leaves the bay. Use a tape measure along each route and confirm the AMS Lite four-pin cable and heater power cord reach with service slack. |
-| Dowel stock and deck material                            | Use a 6 in caliper for dowel OD in two directions at several points, and for deck thickness. Use a tape measure for the usable length and check straightness and condition.                                                  |
-| Loaded weight on each deck                               | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels. Record the deck weight separately.                                                                                   |
+| Measure                                                             | How to take it                                                                                                                                                                                                               |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Installed bench height, usable center space, and overhead clearance | Tape measure from the floor and bench edges. Measure the rear wall gap and the clear depth under the rear edge for a possible clamp.                                                                                         |
+| Heater body, feet, doors, and spool access                          | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans. Use a 6 in caliper for individual foot diameters or widths. Trace each side's door swing and spool removal, including low points.     |
+| Lower PTFE path and connectors                                      | With all four tubes installed, mark the deck-to-bend height and where the bundle leaves the bay. Use a tape measure along each route and confirm the AMS Lite four-pin cable and heater power cord reach with service slack. |
+| Dowel stock and deck material                                       | Use a 6 in caliper for dowel OD in two directions at several points, and for deck thickness. Use a tape measure for the usable length and check straightness and condition.                                                  |
+| Loaded weight on each deck                                          | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels. Record the deck weight separately.                                                                                   |
 
 ## Staged verification
 
