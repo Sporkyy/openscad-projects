@@ -4,7 +4,8 @@
 
 Stack two SUNLU AMS Lite Heaters near the middle of the workbench in the 3D Printing Room. Each
 heater houses a Bambu Lab AMS Lite. One feeds the A1 and the other feeds the A1 mini. Reuse the
-surplus nominal 1-inch (25.4 mm) dowels as posts and rails, joined by printed sockets.
+surplus nominal 1-inch (25.4 mm) dowels as posts, rails, and shelf slats, joined by printed
+fittings.
 
 **Status:** Planning only. The published enclosure dimensions and setup instructions have been
 checked. Frame geometry, fit, load, heat, and filament feeding are untested.
@@ -27,14 +28,14 @@ four 1.2 m PTFE tubes per enclosure. Confirm what's in hand for both units.
 - Start with both heater displays facing the front of the bench and the printers on either side.
   Tape out the heaters' closed footprints and mark each printer's bed travel, cable sweep, and
   service space. Check both doors on both tiers through their full swing, including how far they
-  drop below the deck, if any. Leave enough space to pull the largest spool straight off each hub
+  drop below the shelf, if any. Leave enough space to pull the largest spool straight off each hub
   and get a hand in to feed it. Set post locations after tracing those paths.
 - The closed heater body uses 270 mm of the 762 mm bench depth, leaving 492 mm (19.4 in) to divide
   between the front and rear before adding the frame, plugs, and clearance. Try shifting the rack
   forward or back within the center of the bench if a door or spool overlaps a printer's envelope.
   Check that the upper spools are still easy to reach and the rear tube path stays clear.
-- Keep the lower deck close to the bench while clearing the door sweep and cord. Keep the front open
-  so either heater can be removed after cooling and disconnecting. Check that all four spool
+- Keep the lower shelf close to the bench while clearing the door sweep and cord. Keep the front
+  open so either heater can be removed after cooling and disconnecting. Check that all four spool
   positions on the upper tier are within comfortable reach.
 - Try both printer-to-tier assignments with the actual tubes and cables. Compare cable reach and the
   tightest tube bend in each layout. Bambu's stock layout places the AMS Lite to the right of each
@@ -46,25 +47,24 @@ four 1.2 m PTFE tubes per enclosure. Confirm what's in hand for both units.
 
 ## Set the lower shelf headroom from the tubes
 
-Mock up the underside of the upper deck and its lowest rails with cardboard. As a first trial, place
-the lowest obstruction about 365 mm (14.4 in) above the lower deck, leaving about 100 mm (4 in)
-above the published enclosure height before fittings and tubing. This is a mock-up setting. The
-clear opening must accommodate the installed fittings, a straight tube exit, the sweeping bend of
-all four tubes, and room to release the fittings. Measure to the nearest edge of a rail, brace,
-coupler, or deck that actually crosses that path.
+Mock up the underside of the upper shelf, including its rails and couplers. As a first trial, place
+the lowest obstruction about 365 mm (14.4 in) above the lower heater's support surface, leaving
+about 100 mm (4 in) above the published enclosure height before fittings and tubing. The clear
+opening must accommodate the installed fittings, a straight tube exit, the sweeping bend of all four
+tubes, and room to release the fittings. Measure to the nearest part that crosses that path.
 
-Try turning the lower bundle toward its printer through open space beside or behind the upper deck.
-If the deck crosses the bend, try an open-edge relief or a deck offset while keeping every heater
-foot supported. Raising the shelf is another option if upper-tier reach and stability still work.
-Leave the heater vents, plugs, and controls accessible. Exercise the tube bundle at the toolhead's
-extremes with the doors closed and check for tight bends, rubbing, and pull at either end.
+Try turning the lower bundle toward its printer through open space beside or behind the upper shelf.
+If a rail or slat crosses the bend, adjust the shelf setback or slat spacing while keeping every
+heater foot supported. Raising the shelf is another option if upper-tier reach and stability still
+work. Leave the heater vents, plugs, and controls accessible. Exercise the tube bundle at the
+toolhead's extremes with the doors closed and check for tight bends, rubbing, and pull at either
+end.
 
 ## Proposed dowel frame
 
-- Start with four continuous vertical dowels, wooden decks that support every heater foot, and
-  printed sockets for joining the dowels to the rails and decks. Arrange the upper deck to bear
-  through the posts, using a wood or metal bearing surface where needed. Use positive mechanical
-  retention at joints so a loading tug or vibration cannot pull a dowel out or rotate a deck.
+- Start with four continuous vertical dowels and a pair of cross rails per tier, one front and one
+  rear, supported at the posts. Use joints with a bearing seat and positive mechanical retention so
+  the cross rails stay seated and a loading tug cannot pull them out or turn them.
 - Use rear bracing to resist side-to-side racking. Plan fore-aft restraint at the base or rear as
   well, and check tipping with a one-sided loading pull and the upper heater fully loaded. A bench
   attachment or wider base is an open choice. Check the rear edge and underside of the maple top for
@@ -79,6 +79,23 @@ extremes with the doors closed and check for tight bends, rubbing, and pull at e
   [SUNLU heater product details](https://store.sunlu.com/products/sunlu-ams-lite-heater-upgraded-your-bambu-lab-ams-lite)
   ·
   [SUNLU user manual](https://cdn.shopify.com/s/files/1/0152/6507/1190/files/AMS_Lite_Heater_user_manuel.pdf?v=1784529650#page=6)
+
+## Shelves made from round dowels
+
+Run the shelf dowels front-to-back across the two cross rails. This gives the slats the shorter
+span. The cross rails span the heater's width, so check their sag separately under load. Use the
+heater itself to lay out the slats. Start with a close pair under each left and right row of feet,
+then add slats where they help support the heater or make it easier to set down. The slat count and
+spacing depend on the actual foot pattern.
+
+Capture the slats at both ends so they cannot roll, shift sideways, or walk out of their seats. Use
+printed keepers fixed at the cross rails and keep the slats bearing on the rails. Try the heater on
+the paired dowels first. Each foot should bridge its pair, sit at the same height, and stay seated
+as the doors open and spools come off. If a foot is too small or rocks on the round surface, add a
+low, flat-topped saddle that keys onto both slats under that foot. Fit any saddles before setting
+the shelf height, and keep the heater's underside vents clear.
+
+[Editable rack and fittings mockup](https://www.figma.com/design/BGAIk3jYphiOctaLRiNvt9?node-id=2-2)
 
 ## TPU feet for the dowel posts
 
@@ -98,28 +115,31 @@ option open until the loaded frame passes both checks.
 
 ## Measurements before modeling
 
-| Measure                                                             | How to take it                                                                                                                                                                                                               |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Installed bench height, usable center space, and overhead clearance | Tape measure from the floor and bench edges. Measure the rear wall gap and the clear depth under the rear edge for a possible clamp.                                                                                         |
-| Heater body, feet, doors, and spool access                          | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans. Use a 6 in caliper for individual foot diameters or widths. Trace each side's door swing and spool removal, including low points.     |
-| Lower PTFE path and connectors                                      | With all four tubes installed, mark the deck-to-bend height and where the bundle leaves the bay. Use a tape measure along each route and confirm the AMS Lite four-pin cable and heater power cord reach with service slack. |
-| Dowel stock and deck material                                       | Use a 6 in caliper for dowel OD in two directions at several points, including the socket area at each foot, and for deck thickness. Use a tape measure for usable length. Check straightness and that the ends seat flat.   |
-| Loaded weight on each deck                                          | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels. Record the deck weight separately.                                                                                   |
+| Measure                                                             | How to take it                                                                                                                                                                                                                      |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Installed bench height, usable center space, and overhead clearance | Tape measure from the floor and bench edges. Measure the rear wall gap and the clear depth under the rear edge for a possible clamp.                                                                                                |
+| Heater body, feet, doors, and spool access                          | Tape measure or straightedge for the full envelopes and outside-to-outside foot spans across both axes. Use a 6 in caliper for each foot's contact patch. Trace each side's door swing and spool removal, including low points.     |
+| Lower PTFE path and connectors                                      | With all four tubes installed, mark the height above the lower heater's support surface where the bundle bends and where it leaves the bay. Measure each route with a tape and confirm both cables reach with service slack.        |
+| Dowel stock                                                         | Use a 6 in caliper for OD in two directions where fittings will seat. Use a tape measure for usable lengths and count how many full-length cross rails and short slats the stock can supply. Check straightness and end squareness. |
+| Loaded weight on each shelf                                         | Weigh each heater with its AMS Lite and the heaviest intended set of spools, including the spool reels.                                                                                                                             |
 
 ## Staged verification
 
 - [ ] Mock up the whole bench at full scale. Load and remove spools on both sides of each tier,
       confirm top-tier reach, and check both cable and tube routes through full printer travel.
-      Choose deck positions and tier assignments before cutting stock.
+      Choose shelf positions and tier assignments before cutting stock.
+- [ ] Chock the dowels on a low test surface and position them by the heater's actual feet. Check
+      seating, rocking, and door and spool clearance. Fit one slat keeper and try a flat saddle only
+      if the direct fit needs it.
 - [ ] Fit a socket coupon and test a representative joint with the actual dowel, material, and
       retention hardware. Check for rocking, rotation, cracks, and pullout. When geometry exists,
       render the couplers, check mesh closure and overhangs, and inspect the previews.
 - [ ] Try the same prototype foot on each of the four dowels before printing the set. Check that it
       seats fully and stays on when lifted. Verify the feet's meshes for closure and overhangs.
-- [ ] Put the empty frame on the bench. Test with secured ballast at the measured service weights
-      before installing the heaters. Check deck sag, joint slip, racking, and tipping with realistic
-      loading pulls. Check that the feet stay flat and the rack stays put. Mark reference points and
-      recheck for movement, foot compression, or sag after sustained loading.
-- [ ] Install one heater at a time. Check vent clearance and temperature at the deck and joints at
+- [ ] Put the empty frame on the bench. Apply secured ballast at the heater-foot locations at the
+      measured service weights. Check slat and cross-rail sag separately, and check slat roll, joint
+      slip, racking, and tipping with realistic loading pulls. Mark reference points and recheck for
+      movement, foot compression, or sag after sustained loading.
+- [ ] Install one heater at a time. Check vent clearance and temperature at the shelf and joints at
       the hottest intended setting. Test load and unload on all four paths per printer, then repeat
       with both heaters and printers running. Recheck the frame after repeated heating and use.

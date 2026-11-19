@@ -59,9 +59,9 @@ is derived from the bore depth plus a solid floor of at least 1 mm.
 
 [Design plan and measurements needed](ams_lite_heater_shelves/README.md)
 
-A proposed two-tier workbench rack for two SUNLU AMS Lite Heaters feeding an A1 and an A1 mini. The
-frame uses spare 1-inch dowels and printed couplers, with room for the fold-down doors and headroom
-for the lower heater's PTFE tubes to rise and turn toward the printer.
+A proposed two-tier workbench rack for two SUNLU AMS Lite Heaters feeding an A1 and an A1 mini.
+Spare 1-inch dowels form the frame and shelf slats, with printed fittings, room for the fold-down
+doors, and headroom for the lower heater's PTFE tubes to rise and turn toward the printer.
 
 ### Dowel end cap
 
