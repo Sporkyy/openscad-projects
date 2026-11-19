@@ -6,6 +6,7 @@ import sys
 import tempfile
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
+from math import radians, sqrt, tan
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -110,6 +111,34 @@ class MeshWarningTests(unittest.TestCase):
 
             self.assertFalse(overhanging)
             self.assertIn("warning:", output.getvalue())
+
+
+class PreviewCameraTests(unittest.TestCase):
+    def test_fits_projected_bounds_of_a_translated_asymmetric_mesh(self):
+        triangle = ((0, 0, 1), [(10, 20, 5), (90, 20, 5), (10, 60, 5)])
+        with tempfile.TemporaryDirectory() as directory:
+            mesh = Path(directory) / "asymmetric.stl"
+            write_stl(mesh, [triangle])
+            with patch.dict(build.PREVIEW_ANGLES, {"asymmetric": (0, 45)}):
+                flag, coordinates = build.preview_camera_options(mesh, "asymmetric")
+
+        self.assertEqual(flag, "--camera")
+        x, y, z, tilt, roll, azimuth, distance = map(float, coordinates.split(","))
+        self.assertEqual((tilt, roll, azimuth), (0, 0, 45))
+        self.assertAlmostEqual(x, 40)
+        self.assertAlmostEqual(y, 30)
+        self.assertAlmostEqual(z, 5)
+        visible_height = 2 * distance * tan(radians(11.25))
+        self.assertAlmostEqual((120 / sqrt(2)) / visible_height, 0.80)
+
+    def test_unreadable_mesh_falls_back_to_openscad_framing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            missing = Path(directory) / "missing.stl"
+            options = build.preview_camera_options(missing, "shelf_tube_anchor")
+
+        self.assertEqual(
+            options, ["--autocenter", "--viewall", "--camera", "0,0,0,57,0,61,0"]
+        )
 
 
 class RecoveryTests(unittest.TestCase):

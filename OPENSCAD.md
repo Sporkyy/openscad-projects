@@ -20,7 +20,9 @@ From the repository root, build one model and its catalog preview:
 ```
 
 Omit the source argument to build every model. Use the build helper for distribution artifacts so
-its manifold checks, fixed preview settings, and staged publication remain in effect.
+its manifold checks and staged publication remain in effect. Catalog previews use the Nord Light
+palette and an orthographic camera framed to the exported mesh. The build script sets model-specific
+angles where a view needs to show an opening or working face.
 
 For a direct version check or a scratch render, call the app-bundle executable. There is no CLI
 symlink on the verified installation:

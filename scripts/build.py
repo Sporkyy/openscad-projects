@@ -10,15 +10,34 @@ import signal
 import subprocess
 import sys
 from dataclasses import dataclass
+from math import cos, radians, sin, tan
 from pathlib import Path
 
 import overhangs
 
 ROOT = Path(__file__).resolve().parents[1]
 MACOS_OPENSCAD = Path("/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD")
-PREVIEW_SIZE = "1200,900"
-PREVIEW_CAMERA = "0,0,0,55,0,25,0"
-PREVIEW_COLORSCHEME = "Tomorrow Night"
+PREVIEW_WIDTH, PREVIEW_HEIGHT = 1200, 900
+PREVIEW_FILL = 0.80
+PREVIEW_FOV = 22.5  # OpenSCAD's default camera field of view, in degrees
+PREVIEW_COLORSCHEME = "Nord Light"
+DEFAULT_PREVIEW_ANGLES = (46, 25)
+# Tilt and azimuth in OpenSCAD camera coordinates. Keep matched variants in the
+# same view, and turn sided parts to show their working faces.
+PREVIEW_ANGLES = {
+    "foot_with_post": (60, 25),
+    "opengrid_magnet_snap_back": (52, 29),
+    "opengrid_magnet_snap_front": (52, 29),
+    "pencil_rest": (45, 305),
+    "round_washer": (42, 25),
+    "shelf_tube_anchor": (57, 61),
+    "shelf_tube_brace": (31, 36),
+    "shelf_tube_coupler": (40, 26),
+    "single_screwdriver_holder": (53, 154),
+    "square_washer": (43, 18),
+    "zip_tie_corner_block_sleeves": (55, 25),
+    "zip_tie_corner_blocks": (63, 154),
+}
 
 # OpenSCAD reports both on success; matched as one phrase so an unrelated
 # "NoError" elsewhere in the output can't stand in for the status line
@@ -237,6 +256,50 @@ def clean_staged_artifacts(artifacts):
         artifact.staged.unlink(missing_ok=True)
 
 
+def preview_camera_options(mesh, model):
+    """Frame the mesh in the selected orthographic view with even margins."""
+    tilt, azimuth = PREVIEW_ANGLES.get(model, DEFAULT_PREVIEW_ANGLES)
+    automatic = ["--autocenter", "--viewall", "--camera", f"0,0,0,{tilt},0,{azimuth},0"]
+    try:
+        points = {
+            point for _, vertices in overhangs.read_facets(mesh) for point in vertices
+        }
+    except (overhangs.MeshError, OSError):
+        # The mesh checker reports read errors as warnings. Let OpenSCAD frame
+        # the source itself when there is no usable STL to take bounds from.
+        return automatic
+
+    x_angle, z_angle = radians(90 - tilt), radians(-azimuth)
+    sx, cx = sin(x_angle), cos(x_angle)
+    sz, cz = sin(z_angle), cos(z_angle)
+    # OpenSCAD applies Z rotation before X. These are the screen right, up,
+    # and depth axes in world coordinates.
+    axes = ((cz, -sz, 0.0), (sx * sz, sx * cz, cx), (cx * sz, cx * cz, -sx))
+    centers, spans = [], []
+    for ax, ay, az in axes:
+        projections = [ax * x + ay * y + az * z for x, y, z in points]
+        low, high = min(projections), max(projections)
+        centers.append((low + high) / 2)
+        spans.append(high - low)
+
+    # The inverse rotation converts the center back to a 3D camera target.
+    target = [
+        sum(axis * center for axis, center in zip(column, centers, strict=True))
+        for column in zip(*axes, strict=True)
+    ]
+    width, height, depth = spans
+    visible_height = max(width * PREVIEW_HEIGHT / PREVIEW_WIDTH, height)
+    orthographic_scale = 2 * tan(radians(PREVIEW_FOV / 2))
+    # Keep the full depth inside OpenSCAD's ±100 camera-distance clip planes.
+    distance = max(visible_height / (PREVIEW_FILL * orthographic_scale), depth / 100)
+    if distance == 0:
+        return automatic
+    camera = ",".join(
+        f"{value:.12g}" for value in (*target, tilt, 0, azimuth, distance)
+    )
+    return ["--camera", camera]
+
+
 def stage_model(openscad, source):
     artifacts = model_artifacts(source)
     stl_artifact, preview_artifact = artifacts
@@ -264,14 +327,11 @@ def stage_model(openscad, source):
                 *openscad,
                 "--hardwarnings",
                 "--render",
-                "--autocenter",
-                "--viewall",
                 "--projection",
                 "ortho",
-                "--camera",
-                PREVIEW_CAMERA,
+                *preview_camera_options(stl_artifact.staged, source.stem),
                 "--imgsize",
-                PREVIEW_SIZE,
+                f"{PREVIEW_WIDTH},{PREVIEW_HEIGHT}",
                 "--colorscheme",
                 PREVIEW_COLORSCHEME,
                 "-o",
