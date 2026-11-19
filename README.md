@@ -55,6 +55,14 @@ A disc that sticks to the back of a TV with a circular adhesive pad and accepts 
 openGrid tile into a blind pilot bore. Its diameter extends beyond the adhesive, and its thickness
 is derived from the bore depth plus a solid floor of at least 1 mm.
 
+### AMS Lite heater shelves
+
+[Design plan and measurements needed](ams_lite_heater_shelves/README.md)
+
+A proposed two-tier workbench rack for two SUNLU AMS Lite Heaters feeding an A1 and an A1 mini. The
+frame uses spare 1-inch dowels and printed couplers, with room for the fold-down doors and headroom
+for the lower heater's PTFE tubes to rise and turn toward the printer.
+
 ### Dowel end cap
 
 [![Dowel end cap preview](dowel_endcap/dowel_endcap.png)](dowel_endcap/dowel_endcap.stl)
