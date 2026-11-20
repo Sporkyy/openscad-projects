@@ -8,12 +8,12 @@
 
 A wall hook for a coiled cable, shaped like a garden hose hanger at a smaller scale. A curved saddle
 stands out from a back plate; the coil drapes over it with the plate behind and a lip in front, so
-it cannot slide off either way. The back plate is two openGrid tiles wide and carries openConnect
-slots.
+it cannot slide off either way. The back plate carries openConnect slots and is sized from the coil:
+the bigger the coil, the wider the plate and the more slots.
 
 The shipped values are for the Ethernet coil that runs to the Apple TV, **taken from memory**: 100
-mm inside and 20 mm thick. Measure it before printing. A 100 mm coil is close to the smallest this
-plate width allows; see [Measure and tune](#measure-and-tune).
+mm inside and 20 mm thick, which gives a plate two tiles wide with two slots. Measure it before
+printing: a coil under 99.2 mm drops to a one-tile plate. See [Measure and tune](#measure-and-tune).
 
 The preview shows it as it prints, on its side. Hung on the wall, the plate is vertical, the
 saddle's curve rises to a crown just under the plate's top edge, and the coil hangs down in front of
@@ -21,7 +21,7 @@ the plate.
 
 ## Hanging it
 
-Fit openConnect connectors to the board under both slots. Hold the saddle a little high so the lower
+Fit openConnect connectors to the board under the slots. Hold the saddle a little high so the lower
 ends of its slots sit over the connectors, push it flat against the board, and slide it down until
 the locks click. Lift it to take it off.
 
@@ -43,19 +43,32 @@ coil drops on without being forced round it. The default of 5 mm gives a 45 mm s
 gives a 25 mm channel by default. `lip_height` is how far the lip stands above the saddle, and
 `band_thickness` is the saddle's own thickness.
 
-**The coil's inside diameter has a floor.** Printed on its side, the saddle's inner face hangs
-steepest at the upper wing tip. It hangs at the angle whose sine is half the plate's width over the
-saddle's inner radius, so that radius has to be at least the half-width times √2. On a two-tile
-plate that is 39.6 mm, which with the default clearance and band thickness means a coil at least
-99.2 mm inside. The shipped 100 mm coil clears it by less than a millimetre. For a smaller coil,
-reduce `saddle_clearance` or `band_thickness`, or narrow the plate. An assertion stops the render if
-the wings would hang past 45°, so a coil too tight for the plate fails the render rather than the
-print. The render `echo`s both wing-tip angles.
+**The plate is sized from the coil.** Printed on its side, the saddle's inner face hangs steepest at
+the upper wing tip, at the angle whose sine is half the plate's width over the saddle's inner
+radius. The wings end at the plate's edges, so the widest plate that keeps them within 45° has a
+half-width of the inner radius times sin 45°. The plate takes as many whole tiles across as fit in
+that, and as many up as it takes to reach the wings' lowest point. With the default clearance and
+band:
 
-`plate_tiles_across` and `plate_tiles_up` set the back plate in openGrid tiles. The slot grid is as
-many slots as fit with `wall_thickness` clear all round, centred, which is two side by side on the
-default plate. Both carry lock nubs. `slot_side_clearance` and `slot_depth_clearance` are the slot's
-fit, as mitufy's generator ships it.
+| Coil inside diameter | Plate across |
+| -------------------- | ------------ |
+| 59.6–99.1 mm         | 1 tile       |
+| 99.2–138.7 mm        | 2 tiles      |
+| 138.8–178.3 mm       | 3 tiles      |
+| 178.4–217.9 mm       | 4 tiles      |
+
+Each further tile takes about another 40 mm. The plate also goes to two tiles up wherever the wings
+would reach below a one-tile plate. That depends on how far each width is stretched, so it comes and
+goes rather than growing steadily: a 180 mm coil gets 4 × 2 tiles and a 200 mm coil 4 × 1. Lowering
+`saddle_clearance` or `band_thickness` moves every threshold down. A coil under 59.6 mm fails the
+render, since even a one-tile plate would hang past 45°. The render `echo`s the plate, its slots,
+and both wing-tip angles.
+
+`plate_tiles_across_max` caps the width, for a large coil that would otherwise get a very wide
+plate; 0 leaves it uncapped. `plate_tiles_up_min` makes the plate taller than it needs to be, for
+more slots. The slot grid is as many slots as fit with `wall_thickness` clear all round, centred:
+one per tile. `lock_every_slot` puts a lock nub in every slot instead of only the corner ones.
+`slot_side_clearance` and `slot_depth_clearance` are the slot's fit, as mitufy's generator ships it.
 
 ## The openConnect slot
 
@@ -82,10 +95,10 @@ orientation needs its own fixes.
 ## Printing
 
 Print as modelled, on its side, no supports. It stands on the end of one wing and the edge of the
-plate, 56 mm tall on a narrow footprint, so get the first layer well squished or add a brim. The
-worst overhang is 45°: the slot's tapers and chamfers, the bevel and flare, and the saddle's faces
-at the wing tips. The lock nubs sit on the lower wall of each slot, as mitufy recommends for slots
-printed on their side.
+plate, as tall as the plate is wide (56 mm for the shipped coil) on a narrow footprint, so get the
+first layer well squished or add a brim. The worst overhang is 45°: the slot's tapers and chamfers,
+the bevel and flare, and the saddle's faces at the wing tips. The lock nubs sit on the lower wall of
+each slot, as mitufy recommends for slots printed on their side.
 
 This way up, the layer lines run along the arm, out from the wall. The coil's weight bends the arm
 where it leaves the plate, and that stress then runs within each layer rather than pulling layers

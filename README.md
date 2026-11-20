@@ -118,9 +118,9 @@ with its two flat ceilings turned to 45° so it prints upright without supports.
 [source](openconnect_cable_saddle/openconnect_cable_saddle.scad)
 
 A small garden-hose-style hanger for a coiled cable: a curved saddle the coil drapes over, with a
-lip so it cannot slide off, standing out from a two-tile back plate with openConnect slots. Sized
-from the coil's inside diameter and thickness. It prints on its side, which keeps the saddle within
-45° and runs the layer lines along the arm.
+lip so it cannot slide off, standing out from a back plate with openConnect slots. Sized from the
+coil's inside diameter and thickness, plate and slot count included. It prints on its side, which
+keeps the saddle within 45° and runs the layer lines along the arm.
 
 ### openGrid magnet snaps
 

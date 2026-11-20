@@ -21,8 +21,10 @@
 //   its side, its surfaces hang no further than the arc's angle
 //   at the wing tips, so keeping that within 45 deg keeps the
 //   whole saddle self-supporting. The plate's width sets where
-//   the wings end, so it is the plate width and the saddle's
-//   inner radius together that the 45 deg check is written on.
+//   the wings end, so the plate is sized from the coil: as many
+//   tiles across as the saddle's curve allows before its wing
+//   tips would hang past 45 deg, and as many up as it takes to
+//   carry the wings.
 // - The layer lines run along the arm, out from the wall. The
 //   coil's weight bends the arm at its root, and that stress
 //   runs within each layer rather than pulling layers apart.
@@ -67,8 +69,9 @@
 // - Print as modelled, on its side, no supports. The worst
 //   overhang is 45 deg: the slot tapers and chamfers, the bevel
 //   and flare, and the saddle's surfaces at the wing tips.
-// - It stands 56 mm tall on a narrow footprint, so make sure
-//   the first layer is well squished, or add a brim.
+// - It stands as tall as the plate is wide, 56 mm for the
+//   shipped coil, on a narrow footprint, so make sure the first
+//   layer is well squished, or add a brim.
 // - Hang it by lining the slots' lower ends up over openConnect
 //   connectors on the board, pushing it in, and sliding it down
 //   until the locks click.
@@ -98,12 +101,18 @@ band_thickness = 5; // Radial thickness of the saddle
 lip_height = 10; // How far the front lip stands above the saddle
 lip_thickness = 3; // Lip thickness, out from the wall
 
-// Back plate size in openGrid tiles. Across is the width, which is also the
-// part's height on the plate as printed
-plate_tiles_across = 2;
-plate_tiles_up = 1;
+// The back plate is sized from the coil, in whole openGrid tiles: as wide as
+// the saddle's curve allows and as tall as its wings need. These only limit
+// that. plate_tiles_across_max caps the width, 0 for no cap; plate_tiles_up_min
+// makes the plate taller than it needs to be, for more slots
+plate_tiles_across_max = 0;
+plate_tiles_up_min = 1;
 
 wall_thickness = 2; // Material behind the slots, and kept clear round them
+
+// Slots that carry a lock nub. Every slot holds; a lock is what clicks the
+// saddle in place, and more of them make it tighter and harder to fit
+lock_every_slot = false; // false puts locks on the corner slots only
 
 // openConnect slot fit, as mitufy's generator ships it. Raise the clearances
 // if the slots feel tight on your printer
@@ -137,12 +146,26 @@ oc_ramp_peak = 4; // Height of the 45 deg peak above the ramp
 
 t22 = tan(22.5); // Converts a 45 deg chamfer's offset into its leg change
 
-plate_across = plate_tiles_across * oc_pitch;
-plate_up = plate_tiles_up * oc_pitch;
-
 saddle_r = coil_inner_d / 2 - saddle_clearance; // Outer, where the coil rests
 saddle_inner_r = saddle_r - band_thickness;
 channel_depth = coil_thickness + depth_clearance;
+
+// Printed on its side, the saddle's inner face hangs steepest at the upper
+// wing tip, at the angle whose sine is half the plate's width over the inner
+// radius. So the widest plate that keeps it within 45 deg has a half-width of
+// the inner radius times sin 45, and the plate takes as many whole tiles as fit
+// in that
+plate_tiles_fit = floor(2 * saddle_inner_r * sin(45) / oc_pitch);
+plate_tiles_across = plate_tiles_across_max > 0 ? min(plate_tiles_fit, plate_tiles_across_max) : plate_tiles_fit;
+plate_across = plate_tiles_across * oc_pitch;
+
+// The saddle's crown sits half a band below the plate's top edge, and the
+// plate reaches down at least to the wings' lowest point, on the inner face at
+// the wing tips. That drop is the band's half plus the inner face's sag
+// across the plate
+saddle_drop = band_thickness / 2 + saddle_r - sqrt(max(0, saddle_inner_r ^ 2 - (plate_across / 2) ^ 2));
+plate_tiles_up = max(plate_tiles_up_min, ceil(saddle_drop / oc_pitch));
+plate_up = plate_tiles_up * oc_pitch;
 
 // Slot layers, from the deepest out to the back face
 slot_bottom = oc_head_bottom + slot_side_clearance * t22 + slot_depth_clearance;
@@ -221,16 +244,18 @@ assert(wall_thickness >= 1.2, "Walls under 1.2 mm are three lines or fewer");
 // The inner face hangs steepest, at the upper wing tip as printed. It reaches
 // the angle whose sine is half the plate width over the inner radius, so this
 // is the 45 deg rule written on the two numbers that set it
-assert(plate_across / 2 <= saddle_inner_r * sin(45), "Saddle too tight for a plate this wide: the wing tips would hang past 45 deg — widen the coil, thin the band, or narrow the plate");
-assert(saddle_low >= 0, "Saddle hangs below the back plate — add plate_tiles_up");
+assert(plate_tiles_across >= 1, "Coil too small for even a one-tile plate: the wing tips would hang past 45 deg — reduce saddle_clearance or band_thickness");
+assert(plate_across / 2 <= saddle_inner_r * sin(45), "Wing tips hang past 45 deg");
+assert(saddle_low >= 0, "Saddle hangs below the back plate");
 assert(slot_columns >= 1 && slot_rows >= 1, "Plate is too small for a single openConnect slot");
 assert(track_end < front_split && front_split < ramp_top - flange_chamfer, "Front of the slot is no longer a plain run");
 assert(flange_w / 2 - flange_chamfer - oc_ramp_peak > 0, "Ramp peak overruns its own top");
 
 echo(str("Saddle: ", saddle_r, " mm radius, ", band_thickness, " mm band, coil hangs in a ", channel_depth, " mm channel"));
 echo(str("Wing tips as printed: saddle face ", wing_outer_angle, " deg, inner face ", wing_inner_angle, " deg from vertical"));
+echo(str("Locks on ", lock_every_slot ? "every slot" : "the corner slots"));
 echo(str("Lip: ", lip_height, " mm above the saddle, ", lip_thickness, " mm thick"));
-echo(str("Plate: ", plate_across, " x ", plate_up, " x ", plate_thickness, " mm, slots ", slot_columns, " x ", slot_rows));
+echo(str("Plate: ", plate_tiles_across, " x ", plate_tiles_up, " tiles (", plate_across, " x ", plate_up, " x ", plate_thickness, " mm), slots ", slot_columns, " x ", slot_rows, plate_tiles_across < plate_tiles_fit ? str(", capped from ", plate_tiles_fit, " across") : ""));
 echo(str("Reaches ", plate_thickness + channel_depth + lip_thickness, " mm out from the wall; stands ", plate_across, " mm tall as printed"));
 
 // ===== openConnect SLOT =====
@@ -495,13 +520,15 @@ module plate() {
 // out of the back face (+y), and slot x across (+z), so the nub side is down
 // as printed
 module slot_grid() {
-  for(i = [0:slot_columns - 1], j = [0:slot_rows - 1])
+  for(i = [0:slot_columns - 1], j = [0:slot_rows - 1]) {
+    corner = (i == 0 || i == slot_columns - 1) && (j == 0 || j == slot_rows - 1);
     multmatrix([
       [0, 1, 0, slot_first_up + j * oc_pitch],
       [0, 0, 1, -slot_depth],
       [1, 0, 0, slot_first_across + i * oc_pitch]
     ])
-      openconnect_slot();
+      openconnect_slot(lock = lock_every_slot || corner);
+  }
 }
 
 // Everything is built running past the plate's two edges and trimmed to them
