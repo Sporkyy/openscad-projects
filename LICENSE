@@ -46,11 +46,12 @@ CC BY 4.0 in and CC BY 4.0 out. The attribution and the statement of
 modification carried in each affected file's header are licence conditions, not
 courtesies, and must travel with the profile.
 
-The openConnect slot reproduced in openconnect_item_holder/ is likewise not
-original. It derives from mitufy's openConnect library, lib/openconnect_lib.scad
-in https://github.com/mitufy/opengrid-projects, CC BY 4.0, for openGrid by
-David D, CC BY 4.0. It is modified, as the file's header describes. That
-repository is mixed-licence file by file: its holders and hooks, including
+The openConnect slot reproduced in openconnect_item_holder/ and
+openconnect_cable_saddle/ is likewise not original. It derives from mitufy's
+openConnect library, lib/openconnect_lib.scad in
+https://github.com/mitufy/opengrid-projects, CC BY 4.0, for openGrid by David D,
+CC BY 4.0. It is modified, as each file's header describes. That repository is
+mixed-licence file by file: its holders and hooks, including
 openconnect_general_holder.scad, are CC BY-SA 4.0, and nothing here derives from
 them.
 

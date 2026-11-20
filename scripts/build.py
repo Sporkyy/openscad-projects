@@ -26,6 +26,7 @@ DEFAULT_PREVIEW_ANGLES = (46, 25)
 # same view, and turn sided parts to show their working faces.
 PREVIEW_ANGLES = {
     "foot_with_post": (60, 25),
+    "openconnect_cable_saddle": (55, 300),
     "opengrid_magnet_snap_back": (52, 29),
     "opengrid_magnet_snap_front": (52, 29),
     "pencil_rest": (45, 305),

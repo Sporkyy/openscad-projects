@@ -83,7 +83,8 @@ Multiconnect or Multipoint. A connector fitted to the board carries a dovetail *
 being hung carries a **slot** the head slides into. The numbers come from
 [mitufy's library](https://github.com/mitufy/opengrid-projects/blob/main/lib/openconnect_lib.scad),
 `ochead_cfg` and `ocslot_cfg`, and are what
-[openconnect_item_holder](openconnect_item_holder/README.md) rebuilds.
+[openconnect_item_holder](openconnect_item_holder/README.md) and
+[openconnect_cable_saddle](openconnect_cable_saddle/README.md) rebuild.
 
 | Head feature        | Value (mm)                                                            |
 | ------------------- | --------------------------------------------------------------------- |
@@ -112,6 +113,16 @@ the face. The ramp alone has a 45° peak. Both flats can be turned to 45° witho
 connector. Run the seat's chamfers on to a point, and the flange seats on them instead of the flat,
 0.04 higher. Cut the ledge back at 45° toward the face, from the depth where it takes over from the
 taper. The flange still bears on the whole of the taper below it.
+
+**Printed on its side, it has two different ones,** both on the side away from the lock nub. That
+side goes up, since mitufy's own advice is to put the lock side toward the plate, where the nub
+stands up off the floor of the slot. The flange layer's square side is then a ceiling 0.74 deep
+along the whole slot, and the widened mouth's edge is a ledge 0.8 deep at the face. Run the 45°
+taper on down to the slot's floor, which widens the flange layer by its own depth at the floor and
+leaves the taper the flange bears on untouched. Flare the mouth's edge at 45° out to the face. The
+seat, its chamfers and the ramp all stand vertical or at 45° this way up, so the upright fixes are
+not needed. The two sets of fixes are different slots, so a part's orientation decides which it
+carries.
 
 ## Licensing
 
@@ -279,7 +290,8 @@ Recorded because each one cost a rebuild, and each is easy to re-derive wrongly.
   an openConnect device holder, and deriving from it would have made the result ShareAlike.
 - **The library's slot does not print upright as it stands.** Its seat and the top of its mouth are
   flat ceilings once the slide axis is vertical, which it is on anything hung on a wall. Only the
-  ramp has a 45° peak. See [openConnect slots](#openconnect-slots).
+  ramp has a 45° peak. Nor on its side, where the ceilings are two others. See
+  [openConnect slots](#openconnect-slots).
 - **The library's slot is not a clean solid either.** Its track and its ramp both end at exactly the
   same y, so the end of the slot is three coplanar faces from three solids. The generator's own
   negative slot exports with open edges, several of them there, and a faithful rebuild does too. The
