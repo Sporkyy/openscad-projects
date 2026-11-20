@@ -10,7 +10,8 @@ An open-topped box that hangs a device on an openGrid board. The device drops in
 stands on a lip around a hole in the floor. The hole lets a cord out underneath, and the lip stops
 the device sliding out through it. A cut down the front leaves the device's face and ports
 reachable. It keeps a strip of wall at the bottom and at each side, so the device cannot tip out
-forward.
+forward. A cord slot runs from the floor hole out through the front, so the device can go in with
+its cord already plugged in.
 
 The back carries a grid of [openConnect](https://www.printables.com/model/1559478) slots, mitufy's
 connector system for openGrid. Nothing here uses Multiboard, Multiconnect or Multipoint.
@@ -52,6 +53,12 @@ device stands on, so make it wider for a device with rounded bottom edges. `fron
 `front_lip_height` are the strips of front wall left standing at the sides of the front opening and
 below it. `bottom_opening` and `front_opening` turn either cut off.
 
+`cord_slot` cuts a slot forward from the floor hole through the lip and the front wall, open all the
+way up to the rim, so a cord can be threaded down it as the device goes in. `cord_slot_width`
+defaults to 10 mm, which passes the charging station's flat cable. `cord_slot_offset` moves it
+toward +x, the right seen from the front. It needs the floor hole, and assertions keep it on the
+hole's straight front edge and the flat bottom of the front opening.
+
 `lock_every_slot` puts a lock nub in every slot instead of only the corner ones. More locks hold
 tighter and make the holder harder to fit. `slot_side_clearance` and `slot_depth_clearance` are the
 openConnect slot's fit, as mitufy's generator ships it. Raise them if the slots are tight on your
@@ -64,11 +71,14 @@ edges and the rounded corners. With the defaults the pocket is 76 × 57 × 116 m
 lip that leaves no hole, an opening that leaves no wall, and a back too small for one slot.
 
 For another device, override the inputs rather than editing the file. The Ezcoo EZ-EX50 USB extender
-the holder was also wanted for comes out at 63 × 30.1 × 55.5 mm, with a single slot:
+the holder was also wanted for comes out at 63 × 30.1 × 55.5 mm, with a single slot. It has a cord
+plugged into the bottom at each side and nothing in the middle, so it gets a 20 mm cord slot for
+room to work them through:
 
 ```sh
 /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD -o ezcoo.stl \
   -D item_width=58 -D item_depth=22.4 -D item_height=53.5 -D depth_clearance=1 \
+  -D cord_slot_width=20 \
   openconnect_item_holder/openconnect_item_holder.scad
 ```
 
@@ -99,6 +109,18 @@ Print as modelled: floor on the plate, opening up, no supports. The worst overha
 slot chamfers, the seat roof and the mouth lead-in. Every other face is vertical or faces up. The
 lip is part of the floor, so it prints flat on the plate.
 
+**Load.** The device's weight goes from the floor lip into the side and back walls, and from the
+back wall into whichever connectors are under its slots. The connectors are what limit a heavy
+device, not the cord slot. The holder hangs out from the board, so its weight tries to tip the top
+away from the wall: the top row of slots is pulled out of its connectors while the bottom of the
+back presses against the board. For a heavy device, fit connectors under the top row at least, and
+under every slot if you can. The cord slot costs little by comparison. It takes 10 mm out of about
+226 mm of lip, around 4%. The lip is fused to the walls all along its length rather than spanning
+between them, so losing a short stretch at the front does not weaken the rest. What the slot does
+undo is the closed ring at the bottom of the box: the strip of front wall under the opening no
+longer ties the two side walls together. The back wall still ties them along their whole height, and
+that is what keeps them square.
+
 Not yet printed. The rebuilt slot matches the generator's, but its fit on real connectors from your
 printer is untested, and so is the 2 mm wall behind the slots under the device's weight. A one-slot
 test cup is quick to print and checks the slot alone:
@@ -106,7 +128,7 @@ test cup is quick to print and checks the slot alone:
 ```sh
 /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD -o slot-test.stl \
   -D item_width=32 -D item_depth=6 -D item_height=30 \
-  -D bottom_opening=false -D front_opening=false \
+  -D bottom_opening=false -D front_opening=false -D cord_slot=false \
   openconnect_item_holder/openconnect_item_holder.scad
 ```
 

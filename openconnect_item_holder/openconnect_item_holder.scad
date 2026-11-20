@@ -11,7 +11,8 @@
 // lip is what stops the device sliding out through it. A cut
 // down the front leaves the device's face and ports reachable,
 // keeping a strip at the bottom and each side so it cannot tip
-// out forward.
+// out forward. A cord slot runs from the floor hole out through
+// the front, so the device can go in with its cord plugged in.
 //
 // Shipped values fit a SABRENT VOLTIK charging station.
 //
@@ -107,6 +108,14 @@ front_opening = true;
 front_side_lip = 8;
 front_lip_height = 12;
 front_opening_radius = 6; // Rounds the opening's two bottom corners
+
+// Cord slot, cut forward from the floor hole through the lip and the front
+// wall, open all the way up to the rim. A device can go in with its cord
+// already plugged in, the cord threaded down the slot. cord_slot_offset moves
+// it toward +x, which is to the right seen from the front
+cord_slot = true;
+cord_slot_width = 10;
+cord_slot_offset = 0;
 
 // Slots that carry a lock nub. Every slot holds; a lock is what clicks the
 // holder in place, and more of them make it tighter and harder to fit
@@ -227,6 +236,13 @@ assert(track_end < front_split && front_split < ramp_top - flange_chamfer, "Fron
 assert(!bottom_opening || (bottom_lip > 0 && 2 * bottom_lip < min(inner_width, inner_depth) - 2 * bottom_opening_radius), "bottom_lip leaves no hole");
 assert(!front_opening || (front_side_lip > 0 && 2 * front_side_lip < inner_width - 2 * front_opening_radius), "front_side_lip leaves no opening");
 assert(!front_opening || (front_lip_height > 0 && front_lip_height < pocket_height - front_opening_radius), "front_lip_height leaves no opening");
+
+// The cord slot has to land on the straight front edge of the floor hole, and
+// on the flat bottom of the front opening rather than in its rounded corners
+cord_slot_reach = abs(cord_slot_offset) + cord_slot_width / 2;
+assert(!cord_slot || bottom_opening, "cord_slot runs into the floor hole, so it needs bottom_opening");
+assert(!cord_slot || (cord_slot_width > 0 && cord_slot_reach <= inner_width / 2 - bottom_lip - bottom_opening_radius), "cord_slot misses the straight edge of the floor hole");
+assert(!cord_slot || !front_opening || cord_slot_reach <= inner_width / 2 - front_side_lip - front_opening_radius, "cord_slot misses the flat bottom of the front opening");
 assert(flange_w / 2 - flange_chamfer - oc_ramp_peak > 0, "Ramp peak overruns its own top");
 
 echo(str("Pocket: ", inner_width, " x ", inner_depth, " x ", pocket_height, " mm (W x D x H)"));
@@ -235,6 +251,7 @@ echo(str("Back wall: ", back_thickness, " mm, slot depth ", slot_depth, " mm"));
 echo(str("Slots: ", slot_columns, " x ", slot_rows, " on ", oc_pitch, " mm pitch, locks on ", lock_every_slot ? "every slot" : "the corners"));
 echo(str("Floor opening: ", bottom_opening ? str(inner_width - 2 * bottom_lip, " x ", inner_depth - 2 * bottom_lip, " mm inside a ", bottom_lip, " mm lip") : "none"));
 echo(str("Front opening: ", front_opening ? str(inner_width - 2 * front_side_lip, " mm wide, from ", front_lip_height, " mm above the floor") : "none"));
+echo(str("Cord slot: ", cord_slot ? str(cord_slot_width, " mm wide, ", cord_slot_offset, " mm off centre") : "none"));
 echo(str("Thinnest outside corner: ", corner_material, " mm"));
 
 // ===== openConnect SLOT =====
@@ -500,6 +517,15 @@ module front_cut() {
           }
 }
 
+// Through the floor and the front wall, from below the plate to above the
+// rim, ending just inside the floor hole. Its sides are vertical and it has
+// no roof, so it adds nothing that hangs
+module cord_cut() {
+  hole_front = -back_thickness - inner_depth + bottom_lip;
+  translate([cord_slot_offset - cord_slot_width / 2, -body_depth - eps, -eps])
+    cube([cord_slot_width, hole_front + body_depth + 2 * eps, body_height + 2 * eps]);
+}
+
 // Slot coordinates onto the back face: slot x runs to the holder's -x, so the
 // slot reads the right way round seen from behind; slot y runs up; slot z
 // runs out of the back face, which is y = 0
@@ -524,5 +550,7 @@ difference() {
     floor_hole();
   if (front_opening)
     front_cut();
+  if (cord_slot)
+    cord_cut();
   slot_grid();
 }
