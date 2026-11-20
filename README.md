@@ -35,11 +35,11 @@ Three levels, chosen by how long a fact outlives the thing it describes.
   print notes — and GitHub renders it when you browse into the directory. Every project has one.
 - **A top-level subject file** holds knowledge spanning parts that outlives any of them. There are
   two so far. **[OPENGRID.md](OPENGRID.md)** covers the openGrid system — tile and snap thicknesses,
-  the full snap profile as a table, print-orientation rules, licensing across a mixed-licence
-  ecosystem, how to verify a reimplementation against the reference generator, and the assumptions
-  that looked right and were not. **[OPENSCAD.md](OPENSCAD.md)** covers launching OpenSCAD on macOS
-  — why a sandboxed launch crashes in Qt's startup, how to tell that from a geometry failure, and
-  what the build helper prints when it happens.
+  the full snap profile as a table, the openConnect slot, print-orientation rules, licensing across
+  a mixed-licence ecosystem, how to verify a reimplementation against the reference generator, and
+  the assumptions that looked right and were not. **[OPENSCAD.md](OPENSCAD.md)** covers launching
+  OpenSCAD on macOS — why a sandboxed launch crashes in Qt's startup, how to tell that from a
+  geometry failure, and what the build helper prints when it happens.
 
 ## Projects
 
@@ -91,6 +91,22 @@ upper and narrower one is the plug.
 Not yet modelled. A funnel that screws onto a wide-mouth plastic jar in place of its lid, making a
 benchtop bin for purge and print scraps. The directory holds how to identify the jar's neck finish,
 the thread and flare constraints for a support-free print, and the measurements still to take.
+
+### openConnect item holder
+
+[![openConnect item holder preview](openconnect_item_holder/openconnect_item_holder.png)](openconnect_item_holder/openconnect_item_holder.stl)
+
+[Documentation](openconnect_item_holder/README.md) ·
+[STL](openconnect_item_holder/openconnect_item_holder.stl) ·
+[source](openconnect_item_holder/openconnect_item_holder.scad)
+
+An open-topped box that hangs a device on an openGrid board by openConnect slots in its back, sized
+from three caliper measurements of the device. The device stands on a lip around a cord hole in the
+floor, so it cannot slip out underneath, and a cut down the front leaves its ports reachable. Ships
+sized for a SABRENT VOLTIK charging station.
+
+The slot is mitufy's openConnect slot, rebuilt under CC BY 4.0 and checked against the generator,
+with its two flat ceilings turned to 45° so it prints upright without supports.
 
 ### openGrid magnet snaps
 

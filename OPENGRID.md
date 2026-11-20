@@ -76,6 +76,43 @@ The nub is best built as an intersection of its plan outline with a wedge that c
 bottom in at 35°. That keeps the tip rounding and the face angle independent, so neither distorts
 the other.
 
+## openConnect slots
+
+openConnect is mitufy's connector system for openGrid, and the replacement here for anything
+Multiconnect or Multipoint. A connector fitted to the board carries a dovetail **head**; the part
+being hung carries a **slot** the head slides into. The numbers come from
+[mitufy's library](https://github.com/mitufy/opengrid-projects/blob/main/lib/openconnect_lib.scad),
+`ochead_cfg` and `ocslot_cfg`, and are what
+[openconnect_item_holder](openconnect_item_holder/README.md) rebuilds.
+
+| Head feature        | Value (mm)                                                            |
+| ------------------- | --------------------------------------------------------------------- |
+| Layers, tip to base | flange 0.6, 45° taper 1.4, neck 0.6 — 2.6 in all                      |
+| Flange              | 17 wide × 10.6 tall, flat bottom, 45° chamfer of 4 on the top corners |
+| Neck                | flange less the taper on each side: 14.2 × 9.2                        |
+| Height on the tile  | flange top 8.9 above the tile centre (half its width, plus 0.4)       |
+| Lock nub            | 0.6 reach, 1.2 tip, r0.8 rounding, 7.2 below the flange top           |
+| Slide, ramp to seat | 10.6, with 0.8 clearance round the ramp                               |
+
+A slot is the head grown by a side clearance (0.1) and a depth clearance (0.1), which makes it 2.7
+deep. The chamfer offsets carry a `tan(22.5°)` term so the clearance is uniform along the 45° faces.
+From the seat runs a **track** with the dovetail's cross-section, and at its far end a **ramp**, an
+opening the full flange fits straight into. The ramp sits 2.2 to the lock side and leans further
+that way through the taper. On a wall-mounted part the seat is above the ramp: the part goes on high
+and slides down. The neck's opening is widened so the lip over the taper is at least 0.8 thick at
+its edge, two 0.4 mm lines, on the top and the side away from the nub, and 0.6 on the nub side.
+
+**A slot is not centred on its cell.** It reaches 13.0 from the cell centre toward the lock side and
+8.6 the other way, 13.2 down to the end of the track, and 9.0 up to the seat — 13.5 once the seat is
+pointed, as below. Lay out a grid by the longer reach.
+
+**Stood upright, the library's slot has two flat ceilings.** The seat is flat across the top between
+its chamfers, 9.1 wide, and the top of the neck's opening is a flat ledge 7.4 wide and 0.8 deep at
+the face. The ramp alone has a 45° peak. Both flats can be turned to 45° without touching the
+connector. Run the seat's chamfers on to a point, and the flange seats on them instead of the flat,
+0.04 higher. Cut the ledge back at 45° toward the face, from the depth where it takes over from the
+taper. The flange still bears on the whole of the taper below it.
+
 ## Licensing
 
 openGrid is **CC BY 4.0**. The licence page in David D's official download pack states it, and the
@@ -91,7 +128,9 @@ licence restricting remixes and paid derivatives.
 - openGrid by David D — [opengrid.world](https://www.opengrid.world),
   [Printables](https://www.printables.com/model/1214361-opengrid-walldesk-mounting-framework-and-ecosystem),
   [GitHub](https://github.com/openGrid-3D). CC BY 4.0.
-- mitufy's snap generator — [GitHub](https://github.com/mitufy/opengrid-projects). CC BY 4.0.
+- mitufy's snap generator and openConnect library —
+  [GitHub](https://github.com/mitufy/opengrid-projects). CC BY 4.0, but not every file in that
+  repository is: see below.
 
 **CC BY 4.0 has no ShareAlike term**, so a part built from the profile can be released under another
 licence. This repository deliberately keeps every printable object and its documentation under CC BY
@@ -111,12 +150,20 @@ standard, and some are. Check the `LICENSE` file of anything you intend to deriv
 a search result will not tell you, and the restrictive projects look exactly like the permissive
 ones.
 
-The one most likely to catch you out here:
+The two most likely to catch you out here:
 
 - **QuackWorks** by Andy Levesque (BlackjackDuck) —
   [GitHub](https://github.com/AndyLevesque/QuackWorks) — is **CC BY-NC-SA 4.0**, confirmed from the
   `LICENSE` file rather than a summary. NonCommercial _and_ ShareAlike, which is closer to
   Multiboard's terms than to openGrid's.
+
+The other is closer to home. **mitufy's own repository is mixed-licence, file by file.** It has no
+`LICENSE` file; each source states its licence in its header. As of 2026-11-20 the snap generators
+(`opengrid_parametric_snap.scad`, `opengrid_expanding_snap.scad`), `openconnect_plate.scad` and the
+libraries under `lib/` are CC BY 4.0, while every holder, hook, shelf, drawer, label and gadget —
+`openconnect_general_holder.scad` among them — is **CC BY-SA 4.0**. Build from the CC BY libraries,
+not from a CC BY-SA part that happens to do nearly the same job, and read the header of each file
+before deriving from it.
 
 That matters twice over. **Underware is a QuackWorks project**, so the cable channels these magnet
 snaps were built to work alongside come from a NC-SA codebase — fine to print and use, but nothing
@@ -183,6 +230,26 @@ The generator's individual features can be isolated for study with `disable_snap
 `disable_snap_nubs`, `disable_snap_cuts` and `uninstall_notch_width=0`, which is how the numbers in
 the table above were recovered.
 
+### The openConnect slot
+
+Check a slot the same way, against the library's own negative slot. With the files above:
+
+```sh
+curl -sLO https://raw.githubusercontent.com/mitufy/opengrid-projects/main/openconnect_plate.scad
+OPENSCADPATH=$PWD/libraries /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD \
+  -o ref-slot.stl --export-format binstl \
+  -D 'slot_type="negslot"' -D 'plate_horizontal_size=28' -D 'plate_vertical_size=28' \
+  -D 'slot_lock_distribution="All"' openconnect_plate.scad
+```
+
+That is one slot as a solid, floor at z = 0, opening at z = 2.7, centred on (14, 14). Render the
+rebuild to match from a scratch file — in openconnect_item_holder,
+`translate([14, 14, 0]) openconnect_slot(lock = true, excess = 0, departures = false);` after a
+`use` of the part — and difference the two both ways. **Expect 0.023 mm³ out of 1,010.** It is the
+same `EPS` again, this time sinking the lock nub 0.005 mm into the wall, so the reference nub
+reaches 0.595 rather than 0.6. Without the nub (`slot_lock_distribution="None"`, `lock = false`) the
+two agree to 0.0001 mm³.
+
 ## Things that looked true and were not
 
 Recorded because each one cost a rebuild, and each is easy to re-derive wrongly.
@@ -207,6 +274,24 @@ Recorded because each one cost a rebuild, and each is easy to re-derive wrongly.
   statement is a licence page inside David D's official download pack. Search summaries will
   cheerfully tell you "CC-BY" without a version, and BY versus BY-SA is exactly the distinction that
   decides whether your own work can carry its own licence.
+- **"mitufy's projects are CC BY" is only half true.** The snap generators and the libraries are;
+  the ready-made holders and hooks are CC BY-SA. The general holder looked like the obvious base for
+  an openConnect device holder, and deriving from it would have made the result ShareAlike.
+- **The library's slot does not print upright as it stands.** Its seat and the top of its mouth are
+  flat ceilings once the slide axis is vertical, which it is on anything hung on a wall. Only the
+  ramp has a 45° peak. See [openConnect slots](#openconnect-slots).
+- **The library's slot is not a clean solid either.** Its track and its ramp both end at exactly the
+  same y, so the end of the slot is three coplanar faces from three solids. The generator's own
+  negative slot exports with open edges, several of them there, and a faithful rebuild does too. The
+  rebuild builds everything ahead of a split line as one extrusion and cuts the rest back to that
+  line in a single intersection, so only one solid owns the end face.
+- **Extruding a 2D shape does not give the numbers you gave it.** The slot first built its layers
+  with `linear_extrude` of polygons and stacked them. The mesh came out closed but with 300 facets
+  of no area along the layer joins, and at some slot clearances, 0.12 and 0.2 among them, with
+  non-manifold edges and stray 90° facets where the seat roof met the seat. Rebuilt with every solid
+  a `polyhedron` through stacked outlines, the same mesh has none of either at any clearance tried.
+  OpenSCAD rounds 2D geometry onto a fixed grid for its 2D operations, which is the likely cause:
+  two faces meant to coincide end up a rounding apart.
 - **`scripts/overhangs.py` calls anything at absolute z ≤ 1e-3 the build plate.** A mesh flipped
   with `rotate([180,0,0])` and not translated back to z = 0 sits at negative z, and every downward
   facet reads as first layer — so the script reports a clean part that is not. Always translate a
