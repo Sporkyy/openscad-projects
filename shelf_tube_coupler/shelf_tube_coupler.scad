@@ -37,38 +37,29 @@
 //   shelf_tube_brace per pair of units.
 // ============================================================
 
-// ===== MEASURE THESE ON YOUR ACTUAL SHELVES =====
-// Both are outside-the-solid measurements, so plain calipers reach them. Each
-// one names the caliper it needs, by the size printed on the tool: a 6 in
-// caliper stops at 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-tube_od = 30; // Outer diameter of the vertical tube post (mm) — outside jaws on the tube, 6 in caliper
+// Measure the shelves
+tube_od = 30; // mm
+tube_to_edge = 20; // mm, tube to its shelf's facing edge
 
-// Tube's outer surface out to the facing edge of its own shelf (mm), 6 in
-// caliper. Measured on the side that faces the other unit. Eyeball it if the
-// calipers won't reach — error here just shifts the gap you end up with by the
-// same amount, it never stops the part going onto the tubes
-tube_to_edge = 20;
+// Override only if the two units differ
+left_tube_to_edge = tube_to_edge; // mm
+right_tube_to_edge = tube_to_edge; // mm
 
-// Override these only if the two units differ — a shelf that overhangs
-// further on one side, or a post that isn't set the same distance in
-left_tube_to_edge = tube_to_edge;
-right_tube_to_edge = tube_to_edge;
+// Gap between the units' facing shelf edges
+shelf_gap = 5; // mm
 
-// ===== DECIDE THIS =====
-// Gap you want between the two units' facing shelf edges (mm).
-// This is a choice, not a measurement — the coupler holds the units here.
-// Some gap hides shelf-height mismatch between the units
-shelf_gap = 5;
+// MARK: Tuning
 
-// ===== TUNE THESE =====
-hole_clearance = 0.6; // Added to hole diameter for slip fit (mm) — increase if too tight
-wall_meat = 5; // PETG thickness around each hole (mm)
-collar_height = 5; // Height of the main collar at the shelf level (mm)
+hole_clearance = 0.6; // mm, on each hole; raise if too tight
+wall_meat = 5; // mm, around each hole
+collar_height = 5; // mm
 
 $fn = 100;
 
-// ===== DERIVED =====
+// MARK: Derived
+
 // Tube centre to tube centre: half a tube, the run out to each shelf
 // edge, and the gap between those edges
 center_distance = tube_od + left_tube_to_edge + shelf_gap + right_tube_to_edge;
@@ -80,11 +71,15 @@ collar_r = hole_r + wall_meat;
 // only as strong as this, and it is what a very small shelf_gap eats into
 waist = center_distance - 2 * hole_r;
 
+// MARK: Checks
+
 echo(str("center-to-center hole spacing = ", center_distance, " mm"));
 echo(str("overall length = ", center_distance + 2 * collar_r, " mm"));
 echo(str("waist between the holes = ", waist, " mm"));
 
 assert(waist > 0, "the two holes have run together — shelf_gap plus the tube-to-edge runs has to beat hole_clearance");
+
+// MARK: Geometry
 
 // 2D lozenge (stadium) shape: hull of two circles
 module lozenge_2d(r, cdist) {

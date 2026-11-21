@@ -341,7 +341,25 @@ place the CLI and the editor agree is the config file.
   inputs; the README says how to take them. Repeating that guidance in every `.scad` only gives it a
   second copy to drift. A source comment says what a parameter is when its name leaves that unclear,
   and stops there.
-- Keep measured inputs, tuning knobs, and derived values in separate labelled blocks, in that order.
+- Sections are `// MARK: Title` comments in Title Case, followed by a blank line, the same house
+  style as the sibling userscripts and userstyles repos. In order: `Dimensions`, `Tuning`, any
+  external standard (`openConnect Interface`), `Derived`, `Checks`, then the geometry sections.
+- `Dimensions` holds what a user edits most — the measured inputs, plus the few sizing choices
+  changed on nearly every print — together at the top so editing is fast. `Tuning` follows, its
+  groups ordered by how often they change.
+- Settings are terse. Each group gets at most one comment line above it and one parenthesised hint
+  line below it, `// (Zero is a press fit)`; each value gets a trailing unit and, only if its name
+  leaves it unclear, a few words: `// mm, over the threads`. Reasoning and caveats go in the README.
+
+  ```openscad
+  // MARK: Dimensions
+
+  // Measure the device with calipers
+  item_width = 58; // mm
+  item_depth = 22.4; // mm
+  // (Do not add clearance here; tune the knobs below instead)
+  ```
+
 - Guard derived geometry with `assert()` for interferences and overhangs, and `echo()` the derived
   values so they can be sanity-checked against the physical part before printing.
 - No two solids in a union may present a face in the same plane. Coincident faces leave the boolean

@@ -78,55 +78,30 @@
 //   blocks.
 // ============================================================
 
-// ===== MEASURE THESE ON YOUR ACTUAL ZIP TIE =====
-// Both are outside-the-solid measurements on the strap, so plain calipers
-// reach them. Each names the caliper it needs by the size printed on the tool:
-// a 6 in caliper stops at 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-// Width of the tie's strap (mm) — outside jaws across the flat of the strap,
-// 6 in caliper. Measure the plain strap well away from the head, and away from
-// the ratchet teeth if they stand proud. This is the tall dimension of the
-// channel, since the tie wraps the corner on its flat
-tie_width = 3.5;
+// Measure the zip tie
+tie_width = 3.5; // mm, across the flat of the strap
+tie_thickness = 1.3; // mm, over the ratchet teeth
 
-// Thickness of the tie's strap (mm) — outside jaws on the edge of the strap,
-// 6 in caliper. Take it over the ratchet teeth, not between them: the teeth
-// are what has to clear the channel. Nominal 4.8 mm ties run anywhere from
-// 1.1 to 1.6 mm depending on how heavy the tie is, so measure the tie you
-// actually have rather than trusting the packet
-tie_thickness = 1.3;
+// Size the block
+bend_radius = 10; // mm, the tie's bend at mid-strap
+leg_length = 10; // mm, along each flat from the corner
+corner_relief_d = 4; // mm, open it up for a weld bead
+// (bend_radius cannot go below the echoed min_bend_radius)
 
-// ===== DECIDE THESE =====
-// Choices, not measurements — the block is whatever these make it
+// MARK: Tuning
 
-// Radius the tie is bent to at the corner, at the middle of the strap (mm).
-// This is the knob the whole part is built around. Bigger is a gentler bend
-// and a thicker block: see the note in the header. It cannot go below
-// min_bend_radius, which is echoed below
-bend_radius = 10;
-
-// How far the block reaches along each flat, measured from the corner (mm).
-// This is the load-spreading dimension — everything past the corner relief is
-// bearing surface. It also sets the shortest object the blocks fit on, since
-// two of them have to sit on one flat without meeting
-leg_length = 10;
-
-// Diameter of the relief knocked out of the inner corner (mm). It has to
-// swallow the printed fillet in the block's own internal corner plus whatever
-// the object's corner is carrying. 4 mm is plenty for a clean extrusion or a
-// planed edge; open it up for a weld bead or a mangled corner
-corner_relief_d = 4;
-
-// ===== TUNE THESE =====
-tie_clearance = 0.6; // Added to both channel dimensions (mm) — the tie has to slide through a 90 deg bend, so it wants more slack than a press fit
-corner_web = 2.5; // Material between the corner relief and the channel (mm) — the tie pulls against this face, so it is the load path, not a skin
-outer_wall = 2.4; // Material outside the channel (mm) — the outer flange of each leg
-deck = 1.6; // Material under the channel floor and over the gable peak (mm) — the block's top and bottom skins
-foot_chamfer = 0.6; // Break along the bottom edge of both inner faces (mm), to clear an elephant foot
+tie_clearance = 0.6; // mm, on both channel dimensions
+corner_web = 2.5; // mm, between the relief and the channel
+outer_wall = 2.4; // mm, outside the channel
+deck = 1.6; // mm, under the channel floor and over the gable peak
+foot_chamfer = 0.6; // mm, clears an elephant foot
 
 $fn = 120;
 
-// ===== DERIVED =====
+// MARK: Derived
+
 slot_w = tie_thickness + tie_clearance; // Channel across the strap's thickness, radially
 slot_h = tie_width + tie_clearance; // Channel across the strap's width, vertically
 relief_r = corner_relief_d / 2;
@@ -189,6 +164,8 @@ channel_profile = [
   [-slot_w / 2, slot_h],
 ];
 
+// MARK: Checks
+
 echo(str("block = ", leg_thickness + leg_length, " x ", leg_thickness + leg_length, " x ", block_h, " mm"));
 echo(str("leg thickness = ", leg_thickness, " mm"));
 echo(str("channel = ", slot_w, " mm across the strap by ", slot_h, " mm tall"));
@@ -207,6 +184,8 @@ assert(slot_w > 0 && slot_h > 0, "tie_clearance has closed the channel — it ca
 assert(foot_chamfer < face_offset, "the foot chamfer has reached the channel — reduce foot_chamfer, or raise bend_radius to stand the channel further off the flats");
 assert(foot_chamfer < deck, "the foot chamfer has reached the channel floor — reduce foot_chamfer or add deck");
 assert(relief_r < leg_thickness, "the corner relief is wider than the block is thick — reduce corner_relief_d");
+
+// MARK: Geometry
 
 // One leg's straight run, in plan. The other leg is this one mirrored across
 // the diagonal, so the two can never drift apart

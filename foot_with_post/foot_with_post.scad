@@ -56,53 +56,30 @@
 //   Printed one at a time they will not, quite.
 // ============================================================
 
-// ===== MEASURE THESE ON THE OBJECT THE FOOT GOES UNDER =====
-// The socket opens at the bottom face, so both of these are reachable with an
-// ordinary caliper. Each names the caliper it needs by the size printed on the
-// tool: a 6 in caliper stops at 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-// Diameter of the socket in the bottom of the object (mm) — inside jaws in the
-// hole, 6 in caliper. Open the jaws against the wall of the hole and take it at
-// a couple of rotations; an injection-molded socket is often slightly oval, and
-// here it is the SMALLEST reading that matters, since that is what the post has
-// to pass
-socket_d = 12;
+// Measure the socket in the object
+socket_d = 12; // mm, smallest reading
+socket_depth = 20; // mm
 
-// Depth of that socket (mm) — depth rod at the tail of the caliper, down the
-// hole until it stops, 6 in caliper. Only used to check that the post is not
-// longer than the hole it goes in
-socket_depth = 20;
+// Size the foot
+foot_d = 30; // mm
+foot_h = 8; // mm
+post_h = 15; // mm, how far it reaches into the socket
 
-// ===== DECIDE THESE =====
-// Choices, not measurements — the foot is whatever these make it
+// MARK: Tuning
 
-// Diameter of the foot (mm). The contact patch on the floor, and the shoulder
-// the object sits on. Wider spreads the load and resists rocking; it also has
-// to clear whatever else is on the underside of the object
-foot_d = 30;
+post_interference = 0.2; // mm, added to socket_d for a squeeze fit
+foot_chamfer = 1.5; // mm, on the bottom rim
+post_chamfer = 1; // mm, lead-in on the post's top rim
 
-// Height of the foot (mm). How far the object is lifted, and how much rubber
-// there is to squash under it
-foot_h = 8;
-
-// Height of the post (mm). How far it reaches into the socket. It grips over
-// its whole length, so most of the socket is worth using — the assert below
-// keeps it from bottoming out before the shoulder seats
-post_h = 15;
-
-// ===== TUNE THESE =====
-post_interference = 0.2; // ADDED to the socket diameter (mm) — the post is printed oversize and squeezed in. Raise for more grip, drop toward 0 if it will not start, go negative only if the socket is soft too
-foot_chamfer = 1.5; // Break on the foot's bottom rim (mm) — room for TPU to spread into on the first layer
-post_chamfer = 1; // Lead-in on the post's top rim (mm) — how far off center the post can start and still find the hole
-
-// How far the post's base is buried in the foot (mm). Nothing to do with the
-// fit — it is there so the union has material to work with rather than two
-// faces landing on the same plane
-post_overlap = 0.01;
+// Buries the post's base in the foot so the union has no shared face
+post_overlap = 0.01; // mm
 
 $fn = 100;
 
-// ===== DERIVED =====
+// MARK: Derived
+
 post_d = socket_d + post_interference;
 total_height = foot_h + post_h;
 
@@ -121,6 +98,8 @@ foot_contact_d = foot_d - 2 * foot_chamfer;
 // off its own foot
 seat_gap = socket_depth - post_h;
 
+// MARK: Checks
+
 echo(str("overall height = ", total_height, " mm"));
 echo(str("post diameter = ", post_d, " mm into a ", socket_d, " mm socket"));
 echo(str("shoulder ring = ", shoulder, " mm"));
@@ -137,6 +116,8 @@ assert(2 * post_chamfer < post_d, "the top chamfer has closed the post to a poin
 assert(post_overlap > 0 && post_overlap < foot_h, "post_overlap has to be a sliver, and it has to fit inside the foot");
 assert(post_chamfer < post_h, "the lead-in is longer than the post — reduce post_chamfer or raise post_h");
 assert(seat_gap > 0, "the post is longer than the socket is deep — it bottoms out before the shoulder seats, so reduce post_h");
+
+// MARK: Geometry
 
 // The foot: a cylinder standing on the plate with its bottom rim broken. x is
 // radius out from the axis, y is height up from the floor. The chamfer moves

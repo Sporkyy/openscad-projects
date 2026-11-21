@@ -73,54 +73,34 @@
 //   to come off to fit one. Rests on the shelf below.
 // ============================================================
 
-// ===== MEASURE THESE ON YOUR ACTUAL SHELVES AND TIE =====
-// Every one of these is an outside-the-solid measurement, so plain calipers
-// reach them. Each names the caliper it needs by the size printed on the tool:
-// a 6 in caliper stops at 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-tube_od = 30; // Outer diameter of the vertical tube post (mm) — outside jaws on the tube, 6 in caliper
+// Measure the post and the zip tie
+tube_od = 30; // mm
+tie_width = 3.5; // mm, across the flat of the strap
+tie_thickness = 1.3; // mm, over the ratchet teeth
 
-// Width of the tie's strap (mm) — outside jaws across the flat of the strap,
-// 6 in caliper. Measure the plain strap well away from the head. This is the
-// tall dimension of the channel, since the tie lies flat against the island
-tie_width = 3.5;
+// Size the lug and collar
+bend_radius = 4; // mm, the tie's U-turn, at mid-strap
+collar_height = 12; // mm
+// (Neither can go below the echoed min_bend_radius and min_collar_height)
 
-// Thickness of the tie's strap (mm) — outside jaws on the edge of the strap,
-// 6 in caliper. Take it over the ratchet teeth, not between them: the teeth
-// are what has to clear the channel. Nominal 4.8 mm ties run anywhere from 1.1
-// to 1.6 mm depending on how heavy the tie is, so measure the one you have
-tie_thickness = 1.3;
+// MARK: Tuning
 
-// ===== DECIDE THESE =====
-// Choices, not measurements
-
-// Radius the tie is bent to at the U-turn, at the middle of the strap (mm).
-// This is the knob the lug is built around. It sets three things at once: how
-// gently the tie turns, how far apart the two mouths are, and how far the lug
-// stands off the ring. It cannot go below min_bend_radius, which is echoed
-// below — under that the island the tie pulls on is too thin to be a post
-bend_radius = 4;
-
-// Height of the collar (mm). The tie tugs the lug radially, which tries to tip
-// the collar on the post, and this is what resists it — so this collar is
-// taller than a coupler on purpose. It cannot go below min_collar_height,
-// which is echoed below: the channel and its two decks have to fit inside it
-collar_height = 12;
-
-// ===== TUNE THESE =====
-hole_clearance = 0.6; // Added to bore diameter for a slip fit over the post (mm) — increase if too tight
-wall_meat = 5; // Thickness of the ring around the bore (mm)
-tie_clearance = 0.6; // Added to both channel dimensions (mm) — the tie has to be threaded round a half turn by hand, so it wants slack rather than a press fit
-straight_run = 3; // How far the mouths stand past the end of the bend (mm) — this is what aims the tie, so it is not decoration
-outer_wall = 2; // Material outboard of each leg (mm) — the lug's two flanks
-min_island = 3; // Least width allowed for the island between the legs (mm) — the tie pulls straight out on it, so it is a post, not a skin
-min_deck = 1.6; // Least material allowed over the gable peak and under the channel floor (mm)
-corner_round = 1.5; // Rounding on the lug's outboard corners and on the island's tip (mm) — the tie's legs bear on the island tip when the fixture sits close in, so it is a radius, not a decoration
-fillet = 3; // Radius softening where the lug meets the ring (mm)
+hole_clearance = 0.6; // mm, on the bore; raise if too tight
+wall_meat = 5; // mm, ring around the bore
+tie_clearance = 0.6; // mm, on both channel dimensions
+straight_run = 3; // mm, mouths past the end of the bend
+outer_wall = 2; // mm, outboard of each leg
+min_island = 3; // mm, least island between the legs
+min_deck = 1.6; // mm, over the gable peak and under the channel floor
+corner_round = 1.5; // mm, lug corners and island tip
+fillet = 3; // mm, where the lug meets the ring
 
 $fn = 100;
 
-// ===== DERIVED =====
+// MARK: Derived
+
 hole_r = tube_od / 2 + hole_clearance / 2;
 collar_r = hole_r + wall_meat;
 
@@ -177,6 +157,8 @@ channel_profile = [
   [-slot_w / 2, slot_h],
 ];
 
+// MARK: Checks
+
 echo(str("collar = ", 2 * collar_r, " mm across the ring by ", collar_height, " mm tall, ", 2 * hole_r, " mm bore"));
 echo(str("overall = ", overall_length, " x ", 2 * collar_r, " x ", collar_height, " mm"));
 echo(str("lug reaches past the ring towards the wall by = ", lug_reach, " mm"));
@@ -201,6 +183,8 @@ assert(corner_round < island_width / 2, "the corner rounding has swallowed the i
 assert(corner_round < straight_run, "the corner rounding reaches back into the bend — lower corner_round or raise straight_run");
 assert(lug_width < 2 * collar_r, "the lug is wider than the ring it sits on — lower bend_radius or outer_wall, or fatten the ring");
 assert(fillet < collar_r, "fillet is larger than the ring — lower it");
+
+// MARK: Geometry
 
 // The lug, in plan. A rectangle reaching from inside the ring out to the face
 // both mouths open on, with its two outboard corners rounded. The inboard end

@@ -5,29 +5,26 @@
 // Print as modelled, flat face on the plate and bore axis vertical.
 // The walls are vertical; no supports or bridges are needed.
 
-// ===== DIMENSIONS =====
-// Measure an existing washer or choose the finished dimensions you need.
+// MARK: Dimensions
 
-// Inner diameter (ID) of the round through bore (mm) — inside jaws at the
-// bore opening, 6 in caliper. Include any desired fit clearance in this value.
-inner_diameter = 6.5;
+// Measure an existing washer, or choose the finished size
+inner_diameter = 6.5; // mm
+side_length = 20; // mm
+thickness = 2; // mm
+// (Put any fit clearance in inner_diameter)
 
-// Side length of the square exterior (mm) — outside jaws across opposite
-// straight edges, 6 in caliper. Both sides use this same length.
-side_length = 20;
+// MARK: Tuning
 
-// Axial thickness between the two flat faces (mm) — outside jaws on the
-// faces, 6 in caliper.
-thickness = 2;
-
-// ===== TUNE THESE =====
 $fn = 128;
 
-// ===== DERIVED =====
+// MARK: Derived
+
 // Narrowest material between the bore and any of the four straight edges.
 minimum_edge_width = (side_length - inner_diameter) / 2;
 // Extend the bore past both faces so the cut has no coincident end faces.
 cut_overlap = 0.01;
+
+// MARK: Checks
 
 assert(inner_diameter > 0, "inner_diameter must be positive to leave a through bore");
 assert(minimum_edge_width > 0, "side_length must exceed inner_diameter to leave material around the bore");
@@ -37,6 +34,8 @@ echo(str("inner diameter (ID) = ", inner_diameter, " mm"));
 echo(str("square side length = ", side_length, " mm"));
 echo(str("thickness = ", thickness, " mm"));
 echo(str("minimum edge width = ", minimum_edge_width, " mm"));
+
+// MARK: Geometry
 
 module square_washer() {
   difference() {

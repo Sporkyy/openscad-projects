@@ -79,58 +79,37 @@
 //   four blocks.
 // ============================================================
 
-// ===== MEASURE THESE ON YOUR ACTUAL ZIP TIE =====
-// The same two measurements the block is built from, and they set the height
-// of the channel here. Each names the caliper it needs by the size printed on
-// the tool: a 6 in caliper stops at 150 mm, an 8 in at 200 mm, a 12 in at
-// 300 mm
+// MARK: Dimensions
 
-// Width of the tie's strap (mm) — outside jaws across the flat of the strap,
-// 6 in caliper. Measure the plain strap well away from the head
-tie_width = 3.5;
+// Measure the zip tie
+tie_width = 3.5; // mm, across the flat of the strap
+tie_thickness = 1.3; // mm, over the ratchet teeth
 
-// Thickness of the tie's strap (mm) — outside jaws on the edge of the strap,
-// over the ratchet teeth rather than between them, 6 in caliper
-tie_thickness = 1.3;
+// Size the sleeve
+pad_thickness = 1.6; // mm, cushion and stand-off
+lip_reach = 3; // mm, how far each lip folds over
+lip_thickness = 1.2; // mm
 
-// ===== THESE MUST MATCH THE BLOCK =====
-// Copies of the block's knobs, carried here because the sleeve has to come out
-// the same size as the block it wraps. Nothing below is a free choice: read
-// each one off the block's source and keep the two files in step
+// MARK: Block
 
-tie_clearance = 0.6; // The block's channel clearance — feeds the block height
-deck = 1.6; // The block's top and bottom skins — feeds the block height
-leg_length = 10; // How far the block reaches along each flat
-corner_relief_d = 4; // The block's corner relief — where its inner face starts
-bend_radius = 10; // The block's bend radius — feeds the leg thickness
-corner_web = 2.5; // The block's corner web — feeds the leg thickness
-outer_wall = 2.4; // The block's outer flange — feeds the leg thickness
-foot_chamfer = 0.6; // The block's foot chamfer — the groove it leaves is the glue reservoir
+// Copies of the block's knobs
+tie_clearance = 0.6; // mm
+deck = 1.6; // mm
+leg_length = 10; // mm
+corner_relief_d = 4; // mm
+bend_radius = 10; // mm
+corner_web = 2.5; // mm
+outer_wall = 2.4; // mm
+foot_chamfer = 0.6; // mm
+// (Must match zip_tie_corner_blocks.scad, or the sleeve will not fit)
 
-// ===== DECIDE THESE =====
-// The sleeve's own shape
+// MARK: Tuning
 
-// Thickness of the pad (mm). All of the cushion and all of the grip is this
-// number, and it is also how far the block is stood off the flat. It has to
-// stay under the corner relief radius or the two sleeves on one block meet at
-// the corner
-pad_thickness = 1.6;
+block_pinch = 0.2; // mm, subtracted from the block height for a stretch fit
+lip_lead_in = 0.6; // mm, taper at each side lip's mouth
 
-// How far every lip folds over the face behind it (mm). Enough to hold the
-// sleeve square and stop it while the glue goes off; it does not have to reach
-// far, and the end lip is the one that runs out of room first, since the
-// block's channel opens in the face it lies on
-lip_reach = 3;
+// MARK: Derived
 
-// Thickness of each lip (mm). Thin enough for the side pair to spring over the
-// block, thick enough not to tear off it
-lip_thickness = 1.2;
-
-// ===== TUNE THESE =====
-block_pinch = 0.2; // SUBTRACTED from the block height (mm) — the channel is printed narrow and stretched on, so it holds itself in place before it is glued
-lip_lead_in = 0.6; // Taper at the mouth of each side lip (mm) — how far out of square the sleeve can start and still snap on
-
-// ===== DERIVED =====
 slot_w = tie_thickness + tie_clearance;
 slot_h = tie_width + tie_clearance;
 gable = slot_w;
@@ -181,6 +160,8 @@ mouth_clearance = face_offset - lip_reach;
 // it
 eps = 0.01;
 
+// MARK: Checks
+
 echo(str("sleeve = ", sleeve_width, " x ", sleeve_overall, " x ", sleeve_height, " mm"));
 echo(str("channel = ", gap, " mm clear, onto a ", block_h, " mm block"));
 echo(str("pad covers ", sleeve_length, " mm of face, ", pad_thickness, " mm thick"));
@@ -200,6 +181,8 @@ assert(block_pinch >= 0, "a negative block_pinch is slack, and slack is what the
 assert(sleeve_length > 0, "the corner relief has eaten the whole inner face — lengthen leg_length or reduce corner_relief_d, in both files");
 assert(lip_lead_in < lip_thickness, "the lead-in has tapered the side lips to nothing — reduce lip_lead_in");
 assert(lip_lead_in < lip_reach, "the lead-in is deeper than the lips are long — reduce lip_lead_in");
+
+// MARK: Geometry
 
 // The channel, as a cross section: x is across the block's height, y is up out
 // of the plate. It is the air above the pad and between the lips, with the

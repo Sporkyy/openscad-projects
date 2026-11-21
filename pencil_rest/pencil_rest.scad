@@ -86,41 +86,27 @@
 //   puts the plate's finish where it does no harm.
 // ============================================================
 
-// ===== MEASURE THIS ON YOUR ACTUAL PENCIL =====
-// An outside-the-solid measurement, so plain calipers reach it. It names the
-// caliper it needs by the size printed on the tool: a 6 in caliper stops at
-// 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-// Outer diameter of the pencil (mm) — outside jaws on the barrel, 6 in
-// caliper. A hexagonal pencil is not round: take it across the corners rather
-// than across the flats, and use the largest reading, since the corners are
-// what the cradle has to clear. Measure the barrel, not the ferrule
-pencil_d = 10;
+// Measure the pencil across its corners
+pencil_d = 10; // mm
 
-// ===== DECIDE THESE =====
-// The footprint. Neither one can reach the cradle, and neither one can change
-// its shape
+// Size the block
+block_l = 100; // mm, along the pencil
+block_w = 30; // mm, across the pencil
 
-// Length of the block (mm), along the pencil. How much of the pencil is
-// carried; a long one is a tray for several, a short one is a bridge under one
-block_l = 100;
+// MARK: Tuning
 
-// Width of the block (mm), across the pencil. How much desk it stands on, and
-// so how hard it is to knock over. It has to be wider than the cradle plus a
-// rim either side, which is asserted below
-block_w = 30;
-
-// ===== TUNE THESE =====
-pencil_clearance = 0.5; // Added to the cradle radius (mm) — the pencil drops in and lifts out rather than being pressed into a socket
-floor_meat = 5; // Material left under the deepest point of the cradle (mm). This is the number that keeps the trough off the bottom, and the block grows taller to hold it
-chamfer = 1; // Break on every edge of the block (mm)
-cradle_ease = 0.6; // Break along both rims of the cradle (mm) — the edge a pencil is rolled over on its way in
-notch_l = 24; // Clear opening of the finger notch along the block (mm). This is the room a finger and thumb get, measured between its walls, and it is paid for out of the trough at each end
-notch_ease = 0.6; // Break along both walls of the notch at the top face (mm) — the edge a fingertip drags over
+pencil_clearance = 0.5; // mm, on the cradle radius
+floor_meat = 5; // mm, under the deepest point of the cradle
+chamfer = 1; // mm, on every block edge
+cradle_ease = 0.6; // mm, along both cradle rims
+notch_l = 24; // mm, finger notch opening along the block
+notch_ease = 0.6; // mm, along the notch walls at the top face
 
 $fn = 120;
 
-// ===== DERIVED =====
+// MARK: Derived
 
 // The cradle. Radius from the pencil, depth from the radius: one expression
 // for both, so the cut is half a cylinder whatever the pencil measures and the
@@ -170,6 +156,8 @@ notch_grip = pencil_d;
 
 overshoot = 1; // Run past both ends, so the trough cuts through cleanly
 
+// MARK: Checks
+
 echo(str("block = ", block_w, " x ", block_l, " x ", block_h, " mm"));
 echo(str("cradle = ", mouth_w, " mm across, ", cradle_depth, " mm deep"));
 echo(str("floor under the cradle = ", floor_meat, " mm"));
@@ -192,6 +180,8 @@ assert(notch_ease < notch_depth, "the notch's ease is deeper than the notch — 
 assert(2 * chamfer < block_w, "the width chamfers have met — reduce chamfer or widen block_w");
 assert(2 * chamfer < block_l, "the length chamfers have met — reduce chamfer or lengthen block_l");
 assert(2 * chamfer < block_h, "the height chamfers have met — reduce chamfer, or add floor_meat to make the block taller");
+
+// MARK: Geometry
 
 // A rectangle with all four corners cut at 45 deg, centred on the origin. Each
 // corner takes the same amount off both edges, so the cut is 45 deg whatever

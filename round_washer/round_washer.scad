@@ -5,32 +5,28 @@
 // Print as modelled, flat face on the plate and bore axis vertical.
 // Outer edge chamfers are 45 degrees; no supports or bridges are needed.
 
-// ===== DIMENSIONS =====
-// Measure an existing washer or choose the finished dimensions you need.
+// MARK: Dimensions
 
-// Inner diameter (ID) of the through bore (mm) — inside jaws at the bore
-// opening, 6 in caliper. Include any desired fit clearance in this value.
-inner_diameter = 6.5;
+// Measure an existing washer, or choose the finished size
+inner_diameter = 6.5; // mm
+outer_diameter = 50.8; // mm
+thickness = 6; // mm
+// (Put any fit clearance in inner_diameter)
 
-// Outer diameter (OD) of the washer (mm) — outside jaws across the rim,
-// 6 in caliper.
-outer_diameter = 50.8;
+// MARK: Tuning
 
-// Axial thickness between the two flat faces (mm) — outside jaws on the
-// faces, 6 in caliper.
-thickness = 6;
-
-// ===== TUNE THESE =====
-// Equal radial run and axial rise on both outer edges (mm); zero disables.
-edge_chamfer = 0.5;
+edge_chamfer = 0.5; // mm, 45 deg on both outer edges; 0 disables
 $fn = 128;
 
-// ===== DERIVED =====
+// MARK: Derived
+
 radial_width = (outer_diameter - inner_diameter) / 2;
 outer_radius = outer_diameter / 2;
 bearing_diameter = outer_diameter - 2 * edge_chamfer;
 // Extend the bore past both faces so the cut has no coincident end faces.
 cut_overlap = 0.01;
+
+// MARK: Checks
 
 assert(inner_diameter > 0, "inner_diameter must be positive to leave a through bore");
 assert(radial_width > 0, "outer_diameter must exceed inner_diameter to leave material around the bore");
@@ -45,6 +41,8 @@ echo(str("thickness = ", thickness, " mm"));
 echo(str("radial width = ", radial_width, " mm"));
 echo(str("outer edge chamfer = ", edge_chamfer, " mm at 45 degrees"));
 echo(str("flat bearing diameter = ", bearing_diameter, " mm"));
+
+// MARK: Geometry
 
 module round_washer() {
   difference() {

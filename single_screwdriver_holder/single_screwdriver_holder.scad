@@ -2,31 +2,43 @@
 // Example dimensions only: measure your screwdriver and hanger before printing.
 // Print as modelled, socket up and mounting slot down. All dimensions are mm.
 
-// Measured inputs — example values, not Wall Control specifications
-shaft_d = 8; // Maximum shaft width — 6 in caliper
-handle_d = 32; // Maximum width over the captured handle length — 6 in caliper
-bolster_d = 14; // Maximum width across hex corners — 6 in caliper
-bolster_l = 10; // Length projecting below handle — 6 in caliper
-hanger_thickness = 2; // Strip thickness including coating — 6 in caliper
-hanger_wall_gap = 8; // Clear gap behind strip — 6 in caliper
-hanger_height = 40; // Strip top to bottom — 6 in caliper
+// MARK: Dimensions
 
-// Tuning knobs
-middle_bore = true;
-handle_depth = 12;
-diameter_clearance = 0.6; // Added to diameters and front slot width
-bolster_end_clearance = 0.5;
-hanger_clearance = 0.5; // Added to mounting slot thickness
-wall_clearance = 0.5;
-wall = 5;
-bottom_thickness = 4;
-rear_lip = 3;
-hanger_engagement = 18; // Slot depth at its lowest roof edge
-roof_meat = 4;
-minimum_seat = 2; // Minimum radial shoulder under handle
+// Measure the screwdriver at its widest points
+shaft_d = 8; // mm
+handle_d = 32; // mm, over the captured length
+bolster_d = 14; // mm, across the hex corners
+bolster_l = 10; // mm, below the handle
+
+// Measure the hanger strip
+hanger_thickness = 2; // mm, including coating
+hanger_wall_gap = 8; // mm, clear gap behind the strip
+hanger_height = 40; // mm
+// (Example values, not Wall Control specifications)
+
+// MARK: Tuning
+
+// Socket
+middle_bore = true; // Pocket for the bolster
+handle_depth = 12; // mm, how much handle is captured
+minimum_seat = 2; // mm, shoulder under the handle
+
+// Clearances
+diameter_clearance = 0.6; // mm, on diameters and the front slot
+bolster_end_clearance = 0.5; // mm
+hanger_clearance = 0.5; // mm, on the mounting slot
+wall_clearance = 0.5; // mm
+
+// Material
+wall = 5; // mm
+bottom_thickness = 4; // mm
+rear_lip = 3; // mm
+hanger_engagement = 18; // mm, slot depth at its lowest roof edge
+roof_meat = 4; // mm
 $fn = 128;
 
-// Derived values
+// MARK: Derived
+
 shaft_bore_d = shaft_d + diameter_clearance;
 handle_bore_d = handle_d + diameter_clearance;
 middle_bore_d = middle_bore ? bolster_d + diameter_clearance : shaft_bore_d;
@@ -40,6 +52,8 @@ bore_y = rear_lip + mount_gap + wall + handle_bore_d / 2;
 body_d = bore_y + handle_bore_d / 2 + wall;
 eps = 0.02;
 
+// MARK: Checks
+
 assert(shaft_d > 0 && handle_d > 0 && hanger_thickness > 0 && hanger_height > 0);
 assert(diameter_clearance >= 0 && hanger_clearance >= 0 && wall_clearance >= 0);
 assert(handle_depth > 0 && wall >= 3 && bottom_thickness >= 3 && rear_lip >= 3 && roof_meat >= 3);
@@ -51,6 +65,8 @@ assert(socket_floor - middle_depth >= bottom_thickness, "Middle pocket reaches b
 echo(body_width = body_w, body_depth = body_d, body_height = body_h);
 echo(handle_bore = handle_bore_d, handle_capture_depth = handle_depth, middle_bore = middle_bore_d, middle_depth = middle_depth, shaft_bore_and_slot = shaft_bore_d);
 echo(mount_slot_width = mount_gap, mount_engagement = hanger_engagement, rear_lip = rear_lip, handle_seat_radial_width = (handle_bore_d - middle_bore_d) / 2);
+
+// MARK: Geometry
 
 // Constant-width mounting channel, open below and at both sides. Its roof
 // rises by exactly the channel width: 45 degrees, with no flat bridge.

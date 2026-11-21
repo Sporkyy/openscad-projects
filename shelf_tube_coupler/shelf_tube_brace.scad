@@ -39,63 +39,34 @@
 // - One per pair of units, not one per level.
 // ============================================================
 
-// ===== MEASURE THESE ON YOUR ACTUAL SHELVES =====
-// Outside diameters, edge runs, and clear gaps between solids — every one of
-// them is a measurement calipers can physically reach. Each names the caliper
-// it needs, by the size printed on the tool: a 6 in caliper stops at 150 mm,
-// an 8 in at 200 mm, a 12 in at 300 mm. This one wants a 12 in
+// MARK: Dimensions
 
-tube_od = 30; // Outer diameter of the vertical tube post (mm) — outside jaws on the tube, 6 in caliper
+// Measure the shelves
+tube_od = 30; // mm
+tube_to_edge = 20; // mm, tube to its shelf's facing edge
+post_clear_gap = 200; // mm, between one unit's posts, smallest reading
+brace_clear_gap = undef; // mm, diagonal gap if measured; undef derives it
+// (tube_to_edge and shelf_gap must match the couplers)
 
-// Tube's outer surface out to the facing edge of its own shelf (mm), 6 in
-// caliper, measured on the side that faces the other unit. Same measurement the
-// coupler uses, and it has to match — the two parts share the across-the-gap
-// hole spacing
-tube_to_edge = 20;
+// Override only if the two units differ
+left_tube_to_edge = tube_to_edge; // mm
+right_tube_to_edge = tube_to_edge; // mm
 
-// Override these only if the two units differ
-left_tube_to_edge = tube_to_edge;
-right_tube_to_edge = tube_to_edge;
+// Gap between the units' facing shelf edges
+shelf_gap = 5; // mm
 
-// Front-to-back clear gap between one unit's two posts, inner face to inner
-// face (mm). 12 in caliper — 200.3 on these shelves is past where an 8 in one
-// stops, and that is the whole reason this parameter is a gap and not a span.
-// Inside jaws into the open space between the front and back tube at any shelf
-// level, wiggled for the smallest reading — that minimum is the gap along the
-// line of centres, which is what this wants. Measured at 200.3 and recorded as
-// 200 even. Re-measure it for other units rather than deriving it from the
-// board depth: this number sets the brace length almost one-for-one
-post_clear_gap = 200;
+// MARK: Tuning
 
-// Ground truth, if you would rather not trust the two spans agreeing. Measure
-// the diagonal clear gap across the assembled pair, one unit's front tube to
-// the other unit's back tube, nearest faces, and put it here. 12 in caliper: it
-// runs longer than post_clear_gap, about 212 on these shelves. Leave it undef
-// to derive the diagonal instead
-brace_clear_gap = undef;
-
-// ===== DECIDE THIS =====
-// Gap between the two units' facing shelf edges (mm). Must be the same value
-// the couplers were printed with — they set the gap, and the brace has to
-// agree with where they put the posts
-shelf_gap = 5;
-
-// ===== TUNE THESE =====
-// Deliberately looser than the coupler's fit. The brace is a length-critical
-// part with no slot to take up error, and its diagonal is derived from two
-// measurements rather than read off the shelves directly, so this buys
-// tolerance for both. It costs about half of it in residual sway, which is
-// nothing against the free degree of freedom it removes
-hole_clearance = 2;
-
-wall_meat = 5; // PETG thickness around each hole (mm)
-brace_height = 5; // Thickness of the bar (mm) — match the coupler so it stacks flat
-bed_size = 256; // Print bed, short side (mm)
-bed_margin = 6; // Clearance at each bed edge for brim and skirt (mm)
+hole_clearance = 2; // mm, looser than the coupler's on purpose
+wall_meat = 5; // mm, around each hole
+brace_height = 5; // mm, match the coupler so it stacks flat
+bed_size = 256; // mm, print bed's short side
+bed_margin = 6; // mm, at each bed edge for brim and skirt
 
 $fn = 100;
 
-// ===== DERIVED =====
+// MARK: Derived
+
 // Across the gap: half a tube, the run out to each shelf edge, and the gap.
 // Identical to the coupler's own hole spacing, by construction
 across_center_distance = tube_od + left_tube_to_edge + shelf_gap + right_tube_to_edge;
@@ -127,6 +98,8 @@ overall_width = 2 * collar_r;
 bed_square = brace_center_distance / sqrt(2) + 2 * collar_r;
 bed_angle = 45;
 
+// MARK: Checks
+
 echo(str("across-the-gap hole spacing = ", across_center_distance, " mm"));
 echo(str("front-to-back hole spacing = ", depth_center_distance, " mm"));
 echo(str("brace hole spacing = ", brace_center_distance, " mm"));
@@ -136,6 +109,8 @@ echo(str("bed placement = ", bed_angle, " deg, needs a ", bed_square, " mm squar
 assert(post_clear_gap > 0, "post_clear_gap is the open space between the two posts, not a span across them — measure inner face to inner face");
 assert(brace_center_distance > 2 * hole_r, "the two holes overlap — check post_clear_gap and shelf_gap");
 assert(bed_square <= bed_size - 2 * bed_margin, "brace does not fit the print bed — see the echoed bed placement, and split it into two bolted halves if the units really are this deep");
+
+// MARK: Geometry
 
 // 2D lozenge (stadium) shape: hull of two circles. Duplicated from
 // shelf_tube_coupler.scad rather than shared, because every source here is

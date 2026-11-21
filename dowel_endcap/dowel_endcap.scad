@@ -40,51 +40,32 @@
 //   there is plenty left.
 // ============================================================
 
-// ===== MEASURE THESE ON YOUR ACTUAL DOWEL AND SCREW =====
-// All outside-the-solid measurements, so plain calipers reach them. Each names
-// the caliper it needs by the size printed on the tool: a 6 in caliper stops at
-// 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-// Outer diameter of the dowel (mm) — outside jaws on the dowel, 6 in caliper.
-// Take it in two or three places and around a couple of rotations: wooden
-// dowel is rarely round and rarely the size on the label. Use the largest
-// reading, since that is the one that has to fit
-dowel_d = 9.7;
+// Measure the dowel at its widest
+dowel_d = 9.7; // mm
 
-// Outer diameter of the screw over its threads (mm) — outside jaws on the
-// threaded shank, 6 in caliper. Only used when screw_hole is on
-screw_shank_d = 3;
+// How the cap fits it
+penetration_depth = 30; // mm, how far the dowel goes in
+wall_meat = 10; // mm, around the dowel and over its end
+// (About 1.5 dowel diameters of penetration is plenty)
 
-// Outer diameter of the screw head at its widest (mm) — outside jaws across
-// the top face of a flat head, 6 in caliper. The countersink is cut to this,
-// so it is the number that decides how deep the cone goes. Only used when
-// screw_hole is on
-screw_head_d = 7;
-
-// ===== DECIDE THESE =====
-// Choices, not measurements — the cap is whatever these make it
-
-// Bore a countersunk screw hole through the closed end, for a flat-head screw
-// driven into the end grain of the dowel. Off leaves the plain cap
+// Countersunk hole for a flat-head screw into the end grain
 screw_hole = false;
+screw_shank_d = 3; // mm, over the threads
+screw_head_d = 7; // mm, at its widest
 
-// How far the dowel goes into the cap (mm). Deeper grips better and resists
-// being levered off sideways; about 1.5 dowel diameters is plenty
-penetration_depth = 30;
+// MARK: Tuning
 
-// Thickness of material around the dowel (mm). Sets the outside diameter and
-// the thickness capping the end, both at once
-wall_meat = 10;
-
-// ===== TUNE THESE =====
-dowel_clearance = 0.3; // Added to the bored diameter for a glue or friction fit (mm) — raise if it will not seat, drop toward 0 for a tighter press
-screw_clearance = 0.4; // Added to both bored screw diameters (mm) — the shank slips through rather than threading into the plastic, and the head sinks half of this below flush
-chamfer = 1; // Break on both outer rims (mm)
-lead_in = 0.6; // Funnel at the mouth of the bore, to start the dowel square (mm)
+dowel_clearance = 0.3; // mm, on the bore; raise if it will not seat
+screw_clearance = 0.4; // mm, on both screw diameters
+chamfer = 1; // mm, on both outer rims
+lead_in = 0.6; // mm, funnel at the bore mouth
 
 $fn = 100;
 
-// ===== DERIVED =====
+// MARK: Derived
+
 bore_d = dowel_d + dowel_clearance;
 cap_d = dowel_d + 2 * wall_meat;
 cap_length = penetration_depth + wall_meat;
@@ -112,6 +93,8 @@ end_face_ring = (cap_d - 2 * chamfer - screw_head_hole_d) / 2;
 // chamfer or a generous lead-in eats
 rim_face = (cap_d - bore_d) / 2 - chamfer - lead_in;
 
+// MARK: Checks
+
 echo(str("outside diameter = ", cap_d, " mm"));
 echo(str("overall length = ", cap_length, " mm"));
 echo(str("bored diameter = ", bore_d, " mm"));
@@ -134,6 +117,8 @@ assert(!screw_hole || screw_head_d > screw_shank_d, "screw_head_d is no wider th
 assert(!screw_hole || screw_shank_hole_d < bore_d, "the screw hole is wider than the bore — it would break out through the socket wall instead of into the end of the dowel");
 assert(!screw_hole || screw_seat > 0, "the countersink has cut through into the bore — use a smaller screw or add wall_meat");
 assert(!screw_hole || end_face_ring > 0, "the countersink has run off the end face — use a smaller screw head, reduce chamfer, or add wall_meat");
+
+// MARK: Geometry
 
 // Outer silhouette, revolved: a cylinder with both rims broken. x is radius
 // out from the axis, y is height up from the closed end

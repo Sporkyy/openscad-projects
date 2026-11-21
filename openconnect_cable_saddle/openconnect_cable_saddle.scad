@@ -77,55 +77,42 @@
 //   until the locks click.
 // ============================================================
 
-// ===== MEASURE THESE ON THE COIL =====
-// The inside of a coil is an open gap, so plain calipers reach it. Each names
-// the caliper it needs by the size printed on the tool: a 6 in caliper stops at
-// 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-// Smallest inside diameter of the coil, where it will hang — inside jaws, 6 in
-// caliper. A coil hangs into a teardrop, so take it across the top loop
-coil_inner_d = 100;
+// Measure the coil
+coil_inner_d = 100; // mm, across the top loop
+coil_thickness = 20; // mm
 
-coil_thickness = 20; // Thickness of the coiled bundle — outside jaws, 6 in caliper
+// MARK: Tuning
 
-// ===== TUNING KNOBS =====
+// Clearance around the coil
+saddle_clearance = 5; // mm, off the saddle's radius
+depth_clearance = 5; // mm, between plate and lip
 
-// How much smaller the saddle's radius is than the coil's inside radius, so
-// the coil drops on without being forced round it
-saddle_clearance = 5;
+// Saddle
+band_thickness = 5; // mm, radial
+lip_height = 10; // mm, above the saddle
+lip_thickness = 3; // mm
 
-// Clear room between the back plate and the lip, beyond the coil's thickness
-depth_clearance = 5;
+// Back plate, in whole openGrid tiles, sized from the coil
+plate_tiles_across_max = 0; // Caps the width; 0 for no cap
+plate_tiles_up_min = 1; // Makes it taller, for more slots
+wall_thickness = 2; // mm, behind and around the slots
 
-band_thickness = 5; // Radial thickness of the saddle
-lip_height = 10; // How far the front lip stands above the saddle
-lip_thickness = 3; // Lip thickness, out from the wall
+// Lock nubs
+lock_every_slot = false;
+// (False puts locks on the corner slots only; more hold tighter and fit harder)
 
-// The back plate is sized from the coil, in whole openGrid tiles: as wide as
-// the saddle's curve allows and as tall as its wings need. These only limit
-// that. plate_tiles_across_max caps the width, 0 for no cap; plate_tiles_up_min
-// makes the plate taller than it needs to be, for more slots
-plate_tiles_across_max = 0;
-plate_tiles_up_min = 1;
+// openConnect slot fit, as mitufy's generator ships it
+slot_side_clearance = 0.1; // mm
+slot_depth_clearance = 0.1; // mm
+slot_bridge_min = 0.8; // mm, thinnest lip at the slot mouth
+slot_wall_min = 0.6; // mm, thinnest wall beside the slot mouth
+// (Raise the clearances if the slots feel tight)
 
-wall_thickness = 2; // Material behind the slots, and kept clear round them
+// MARK: openConnect Interface
 
-// Slots that carry a lock nub. Every slot holds; a lock is what clicks the
-// saddle in place, and more of them make it tighter and harder to fit
-lock_every_slot = false; // false puts locks on the corner slots only
-
-// openConnect slot fit, as mitufy's generator ships it. Raise the clearances
-// if the slots feel tight on your printer
-slot_side_clearance = 0.1;
-slot_depth_clearance = 0.1;
-slot_bridge_min = 0.8; // Thinnest lip at the slot mouth, two 0.4 mm lines
-slot_wall_min = 0.6; // Thinnest wall beside the slot mouth
-
-// ===== openConnect INTERFACE — THE STANDARD, NOT KNOBS =====
-// The connector head as mitufy's library defines it. A slot is the head grown
-// by the clearances above, plus the track it slides along and the ramp it
-// enters by. Change one of these and the slot stops fitting a connector
-
+// The connector head as mitufy's library defines it
 oc_pitch = 28; // openGrid tile pitch
 oc_head_bottom = 0.6; // Wide flange at the tip of the head
 oc_head_middle = 1.4; // 45 deg taper from the flange to the neck
@@ -141,8 +128,9 @@ oc_nub_fillet = 0.8; // Nub tip and root rounding
 oc_slide = 10.6; // How far the head travels from the ramp to its seat
 oc_ramp_clearance = 0.8; // Entry ramp's margin around the flange
 oc_ramp_peak = 4; // Height of the 45 deg peak above the ramp
+// (The standard, not knobs: change one and the slot stops fitting a connector)
 
-// ===== DERIVED =====
+// MARK: Derived
 
 t22 = tan(22.5); // Converts a 45 deg chamfer's offset into its leg change
 
@@ -234,7 +222,7 @@ $fa = 2;
 $fs = 0.25;
 eps = 0.01;
 
-// ===== SANITY CHECKS =====
+// MARK: Checks
 
 assert(coil_inner_d > 0 && coil_thickness > 0);
 assert(saddle_clearance >= 0 && depth_clearance >= 0);
@@ -258,7 +246,8 @@ echo(str("Lip: ", lip_height, " mm above the saddle, ", lip_thickness, " mm thic
 echo(str("Plate: ", plate_tiles_across, " x ", plate_tiles_up, " tiles (", plate_across, " x ", plate_up, " x ", plate_thickness, " mm), slots ", slot_columns, " x ", slot_rows, plate_tiles_across < plate_tiles_fit ? str(", capped from ", plate_tiles_fit, " across") : ""));
 echo(str("Reaches ", plate_thickness + channel_depth + lip_thickness, " mm out from the wall; stands ", plate_across, " mm tall as printed"));
 
-// ===== openConnect SLOT =====
+// MARK: openConnect Slot
+
 // Built in slot coordinates: x across, y the direction the head slides into
 // its seat (up the wall), z out of the wall. z = 0 is the floor of the slot
 // and z = slot_depth is the back face; excess carries the cut past it. The nub
@@ -465,7 +454,8 @@ module openconnect_slot(lock = true, excess = 1, departures = true) {
   }
 }
 
-// ===== GEOMETRY =====
+// MARK: Geometry
+
 // Modelled in print orientation, on its side: z across the wall, x up the
 // wall, back face in the plane y = 0 and the saddle toward -y
 

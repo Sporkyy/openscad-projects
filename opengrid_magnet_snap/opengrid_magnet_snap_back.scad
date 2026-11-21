@@ -113,53 +113,26 @@
 //   and spring out behind it.
 // ============================================================
 
-// ===== MEASURE THESE ON YOUR ACTUAL MAGNETS =====
-// Both are outside-the-solid measurements, so plain calipers reach them. Each
-// names the caliper it needs by the size printed on the tool: a 6 in caliper
-// stops at 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-magnet_d = 10; // Diameter of the disc magnet (mm) — outside jaws across the disc, 6 in caliper
+// Measure the magnets you have
+magnet_d = 10; // mm
+magnet_h = 3; // mm
 
-// Thickness of the disc magnet (mm) — outside jaws on the edge of the disc,
-// 6 in caliper. Take it on the plain edge. Plated magnets vary by a couple of
-// tenths between nominally identical discs, so measure the ones you have
-// rather than trusting the listing
-magnet_h = 3;
+// MARK: Tuning
 
-// ===== TUNING KNOBS =====
+magnet_fit = 0.2; // mm, on the diameter for a slip fit
+magnet_recess = 0; // mm, below the face; negative stands it proud
+// (Never press-fit a plated magnet: chipped plating breaks the bond)
 
-// Radial slip fit around the magnet (mm), added to the diameter. The magnet
-// wants to drop in without being pressed — a press fit on a brittle plated
-// disc chips the plating and the chip is what breaks the bond later
-magnet_fit = 0.2;
-
-// How far the magnet sits below the face it opens on (mm). Zero puts it
-// flush, which is what lets it touch the steel directly. Going negative
-// stands it proud, which grips harder but leaves the magnet to take the
-// scuffing instead of the snap
-magnet_recess = 0;
-
-// Whether to run a hole all the way through, from the floor of the bore out
-// the front face. It does three jobs: it vents the bore, so cyanoacrylate cannot
-// hydraulic-lock against the magnet and push it back out while it cures; it
-// lets a magnet be pushed back out if one ever has to come apart; and it
-// passes a fastener, so the magnet can be a bolted pot magnet rather than a
-// plain disc. Turn it off when the magnet is going on with an adhesive dot —
-// a dot needs no vent, and the unbroken face is tidier
+// Hole from the bore out the front face
 through_hole = true;
+through_hole_d = 3; // mm, clears an M3
+// (Vents glue and pushes a magnet out; turn off for an adhesive dot)
 
-// Diameter of that hole (mm). 3 mm clears an M3 with room to spare. The bore
-// is on the back here, so the hole comes out the front and a bolt head lands
-// there — proud of a board the snap is flush in, so countersink it or use a
-// magnet whose fastener does not need a head on that side
-through_hole_d = 3;
+// MARK: openGrid Interface
 
-// ===== openGrid INTERFACE — THE STANDARD, NOT KNOBS =====
-// Reproduced from mitufy's generator. A board is 28 mm pitch, and a full snap
-// is 6.8 mm thick — the whole thickness of a regular board, and half of a
-// 13.6 mm Heavy one, which takes a full snap in each face. Every number here
-// follows from that. Change one and the snap stops fitting a board
-
+// Reproduced from mitufy's generator, for a 28 mm pitch board
 snap_thickness = 6.8; // Full snap: a regular board's thickness, half a Heavy one's
 snap_across_flats = 24.8; // Body width across its flat faces
 snap_corner_chamfer = 2.7 * sqrt(2) + 1; // Leg of the 45 deg corner chamfer
@@ -185,8 +158,9 @@ groove_length = 12.4; // Length of the shallow groove above each slot
 groove_depth = 0.8; // How far the groove cuts into the face
 groove_height = 0.4; // Height of the groove
 groove_offset_to_front = 0.8; // How far the groove sits from the front face
+// (The standard, not knobs: change one and the snap stops fitting a board)
 
-// ===== DERIVED =====
+// MARK: Derived
 
 half_flat = snap_across_flats / 2;
 octagon_x = half_flat - snap_corner_chamfer; // Where a chamfer meets a flat
@@ -224,7 +198,7 @@ $fa = 1;
 $fs = 0.25;
 eps = 0.01;
 
-// ===== SANITY CHECKS =====
+// MARK: Checks
 
 assert(bore_floor >= 1.2, "Magnet bore leaves too little floor — use a thinner magnet");
 assert(bore_d / 2 < half_flat - slot_wall - slot_width, "Magnet bore breaks into the relief slots — use a smaller magnet");
@@ -248,7 +222,8 @@ echo(str("Magnet bore: ", bore_d, " mm dia x ", bore_depth, " mm deep"));
 echo(str("Floor under the magnet: ", bore_floor, " mm"));
 echo(str("Through hole: ", through_hole ? str(through_hole_d, " mm dia") : "none, magnet goes on with adhesive"));
 
-// ===== GEOMETRY =====
+// MARK: Geometry
+
 // Modeled in its print orientation: front face on the plate at z = 0, working
 // face and its magnet bore facing up
 
