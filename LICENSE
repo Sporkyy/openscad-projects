@@ -5,8 +5,9 @@ each. Which applies is decided by the file, not by where you got it.
 
   Designs and documentation                      CC BY 4.0
     Every .scad source, its generated .stl and   LICENSES/CC-BY-4.0.txt
-    .png, every Markdown document including
-    READMEs and TODOs, and any other source or
+    .png, its .json parameter sets, every
+    Markdown document including READMEs and
+    TODOs, and any other source or
     generated artifact that describes or builds
     a printable object.
 

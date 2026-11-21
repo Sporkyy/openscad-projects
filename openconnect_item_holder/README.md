@@ -4,7 +4,8 @@
 
 [![openConnect item holder preview](openconnect_item_holder.png)](openconnect_item_holder.stl)
 
-[STL](openconnect_item_holder.stl) · [OpenSCAD source](openconnect_item_holder.scad)
+[STL](openconnect_item_holder.stl) · [OpenSCAD source](openconnect_item_holder.scad) ·
+[Parameter sets](openconnect_item_holder.json)
 
 An open-topped box that hangs a device on an openGrid board. The device drops in from the top and
 stands on a lip around a hole in the floor. The hole lets a cord out underneath, and the lip stops
@@ -73,23 +74,34 @@ edges and the rounded corners. The render `echo`s the pocket, body, floor openin
 assertions catch a lip that leaves no hole, an opening that leaves no wall, and a back too small for
 one slot.
 
-The values in the source are whatever was printed last. Devices it has been sized for:
+## Devices
 
-| Device                          | `item_width` × `item_depth` × `item_height` | Other settings                                                                                       |
-| ------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| SABRENT VOLTIK charging station | 75 × 55 × 116                               | `depth_clearance=2`, `bottom_lip=5`, `front_side_lip=8`, `front_lip_height=12`, `cord_slot_width=10` |
-| Ezcoo EZ-EX50 USB extender      | 58 × 22.4 × 53.5                            | `depth_clearance=1`, `bottom_lip=3`, `front_side_lip=5`, `front_lip_height=10`, `cord_slot_width=20` |
+The values in the source are whatever was printed last. Each device the holder has been sized for is
+kept as a named parameter set in [`openconnect_item_holder.json`](openconnect_item_holder.json), so
+switching devices means picking a name rather than retyping numbers:
 
-The charging station's rubber feet are why its depth gets 2 mm, and its 10 mm slot passes a flat
-cable. The extender has a cord plugged into the bottom at each side, so its 20 mm slot leaves room
-to work both through. Override the values on the command line rather than editing the file:
+- **SABRENT VOLTIK charging station.** Its rubber feet are why its depth clearance is 2 mm, and its
+  10 mm cord slot passes a flat cable.
+- **Ezcoo EZ-EX50 USB extender.** It has a cord plugged into the bottom at each side, so its 20 mm
+  cord slot leaves room to work both through.
+
+In the OpenSCAD app, open the source and pick a set from the dropdown at the top of the Customizer
+panel. The JSON has to sit beside the source with the same name for the app to find it. From the
+command line, name the file and the set:
 
 ```sh
 /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD -o sabrent.stl \
-  -D item_width=75 -D item_depth=55 -D item_height=116 -D depth_clearance=2 -D bottom_lip=5 \
-  -D front_side_lip=8 -D front_lip_height=12 -D cord_slot_width=10 \
+  -p openconnect_item_holder/openconnect_item_holder.json -P "SABRENT VOLTIK charging station" \
   openconnect_item_holder/openconnect_item_holder.scad
 ```
+
+A misspelled set name does not fail. OpenSCAD renders the source's own values without a word, so
+check the echoed `Pocket` line against the device. A set holds only the values that differ between
+devices; everything else comes from the source. To add a device, save a new set from the Customizer,
+or add an entry to the JSON by hand. Values are quoted strings there, the way the app writes them.
+
+The source still renders on its own without the JSON, and the generated STL and preview are built
+from the source's values, not from any set.
 
 ## The openConnect slot
 

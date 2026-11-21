@@ -363,8 +363,22 @@ place the CLI and the editor agree is the config file.
 - **The values in a source are whatever the user printed last**, not a reference design, and they
   change all the time. Commit them as they stand: never revert, hold back, or stage around a value
   the user changed. Do not pin them in documentation either — no "defaults to", no "ships sized
-  for", no derived sizes copied out of the `echo`. A README that wants to keep a measured device
-  lists it in a table of named settings instead, because a measured device does not change.
+  for", no derived sizes copied out of the `echo`. A measured device is kept as a named parameter
+  set instead, because a measured device does not change.
+- **Parameter sets** are OpenSCAD's Customizer presets: a JSON file beside the source with the same
+  base name, `part/part.json`, holding one named set per device. The app lists them in the
+  Customizer's dropdown, and `-p part/part.json -P "Set name"` renders one from the command line.
+  `openconnect_item_holder` is the first. Things learned setting it up:
+  - A set holds only the values that differ between devices; the rest come from the source.
+  - Write values as quoted strings and indent four spaces, the way the app saves the file, so a save
+    from the Customizer does not rewrite every line.
+  - A misspelled `-P` name renders the source's own values with no warning. Check an echoed value.
+  - The Customizer lists every top-level literal before the first module, standard dimensions
+    included. A `/* [Hidden] */` line after the settings hides everything below it.
+  - JSON cannot carry an SPDX line, and a save from the app would drop any extra key, so `LICENSE`
+    names parameter sets as designs instead.
+  - `build.py` builds the tracked STL and preview from the source's values only, and the source
+    still renders without the JSON, which keeps every `.scad` self-contained.
 - **Round corners by default.** Every exposed vertical edge and every top edge of a wall gets a
   radius; both are free to print. The exceptions:
   - An edge on the bed gets a 45° chamfer, not a round. A round starts out tangent to the plate, the

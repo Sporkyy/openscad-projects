@@ -1,0 +1,25 @@
+{
+    "parameterSets": {
+        "Ezcoo EZ-EX50 USB extender": {
+            "item_width": "58",
+            "item_depth": "22.4",
+            "item_height": "53.5",
+            "depth_clearance": "1",
+            "bottom_lip": "3",
+            "front_side_lip": "5",
+            "front_lip_height": "10",
+            "cord_slot_width": "20"
+        },
+        "SABRENT VOLTIK charging station": {
+            "item_width": "75",
+            "item_depth": "55",
+            "item_height": "116",
+            "depth_clearance": "2",
+            "bottom_lip": "5",
+            "front_side_lip": "8",
+            "front_lip_height": "12",
+            "cord_slot_width": "10"
+        }
+    },
+    "fileFormatVersion": "1"
+}

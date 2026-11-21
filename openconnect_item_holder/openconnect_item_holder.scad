@@ -118,6 +118,9 @@ slot_wall_min = 0.6; // mm, thinnest wall beside the slot mouth
 
 // MARK: openConnect Interface
 
+// Keeps the Customizer panel to the settings above
+/* [Hidden] */
+
 // The connector head as mitufy's library defines it
 oc_pitch = 28; // openGrid tile pitch
 oc_head_bottom = 0.6; // Wide flange at the tip of the head
