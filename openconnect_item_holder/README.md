@@ -56,8 +56,11 @@ below it. `bottom_opening` and `front_opening` turn either cut off.
 `cord_slot` cuts a slot forward from the floor hole through the lip and the front wall, open all the
 way up to the rim, so a cord can be threaded down it as the device goes in. `cord_slot_width`
 defaults to 10 mm, which passes the charging station's flat cable. `cord_slot_offset` moves it
-toward +x, the right seen from the front. It needs the floor hole, and assertions keep it on the
-hole's straight front edge and the flat bottom of the front opening.
+toward +x, the right seen from the front. `cord_slot_radius`, 3 mm, rounds the two corners where the
+slot meets the floor hole, so a cord pulled sideways bears on a curve rather than an edge. The
+rounding is through the floor only and its sides are vertical, so it adds nothing that hangs. It
+needs the floor hole, and assertions keep it, rounding included, on the hole's straight front edge
+and the flat bottom of the front opening, and keep the radius within `bottom_lip`.
 
 `lock_every_slot` puts a lock nub in every slot instead of only the corner ones. More locks hold
 tighter and make the holder harder to fit. `slot_side_clearance` and `slot_depth_clearance` are the

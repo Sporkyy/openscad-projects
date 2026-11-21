@@ -112,10 +112,13 @@ front_opening_radius = 6; // Rounds the opening's two bottom corners
 // Cord slot, cut forward from the floor hole through the lip and the front
 // wall, open all the way up to the rim. A device can go in with its cord
 // already plugged in, the cord threaded down the slot. cord_slot_offset moves
-// it toward +x, which is to the right seen from the front
+// it toward +x, which is to the right seen from the front. cord_slot_radius
+// rounds the two corners where the slot meets the floor hole, so a cord pulled
+// sideways bears on a curve rather than an edge
 cord_slot = true;
 cord_slot_width = 10;
 cord_slot_offset = 0;
+cord_slot_radius = 3;
 
 // Slots that carry a lock nub. Every slot holds; a lock is what clicks the
 // holder in place, and more of them make it tighter and harder to fit
@@ -237,11 +240,14 @@ assert(!bottom_opening || (bottom_lip > 0 && 2 * bottom_lip < min(inner_width, i
 assert(!front_opening || (front_side_lip > 0 && 2 * front_side_lip < inner_width - 2 * front_opening_radius), "front_side_lip leaves no opening");
 assert(!front_opening || (front_lip_height > 0 && front_lip_height < pocket_height - front_opening_radius), "front_lip_height leaves no opening");
 
-// The cord slot has to land on the straight front edge of the floor hole, and
-// on the flat bottom of the front opening rather than in its rounded corners
+// The cord slot has to land on the straight front edge of the floor hole,
+// rounded corners included, and on the flat bottom of the front opening rather
+// than in its rounded corners. The rounding runs back along the slot by its
+// radius, which has to stay within the lip
 cord_slot_reach = abs(cord_slot_offset) + cord_slot_width / 2;
 assert(!cord_slot || bottom_opening, "cord_slot runs into the floor hole, so it needs bottom_opening");
-assert(!cord_slot || (cord_slot_width > 0 && cord_slot_reach <= inner_width / 2 - bottom_lip - bottom_opening_radius), "cord_slot misses the straight edge of the floor hole");
+assert(!cord_slot || (cord_slot_radius >= 0 && cord_slot_radius <= bottom_lip), "cord_slot_radius runs past the lip");
+assert(!cord_slot || (cord_slot_width > 0 && cord_slot_reach + cord_slot_radius <= inner_width / 2 - bottom_lip - bottom_opening_radius), "cord_slot misses the straight edge of the floor hole");
 assert(!cord_slot || !front_opening || cord_slot_reach <= inner_width / 2 - front_side_lip - front_opening_radius, "cord_slot misses the flat bottom of the front opening");
 assert(flange_w / 2 - flange_chamfer - oc_ramp_peak > 0, "Ramp peak overruns its own top");
 
@@ -251,7 +257,7 @@ echo(str("Back wall: ", back_thickness, " mm, slot depth ", slot_depth, " mm"));
 echo(str("Slots: ", slot_columns, " x ", slot_rows, " on ", oc_pitch, " mm pitch, locks on ", lock_every_slot ? "every slot" : "the corners"));
 echo(str("Floor opening: ", bottom_opening ? str(inner_width - 2 * bottom_lip, " x ", inner_depth - 2 * bottom_lip, " mm inside a ", bottom_lip, " mm lip") : "none"));
 echo(str("Front opening: ", front_opening ? str(inner_width - 2 * front_side_lip, " mm wide, from ", front_lip_height, " mm above the floor") : "none"));
-echo(str("Cord slot: ", cord_slot ? str(cord_slot_width, " mm wide, ", cord_slot_offset, " mm off centre") : "none"));
+echo(str("Cord slot: ", cord_slot ? str(cord_slot_width, " mm wide, ", cord_slot_offset, " mm off centre, ", cord_slot_radius, " mm corners") : "none"));
 echo(str("Thinnest outside corner: ", corner_material, " mm"));
 
 // ===== openConnect SLOT =====
@@ -524,6 +530,38 @@ module cord_cut() {
   hole_front = -back_thickness - inner_depth + bottom_lip;
   translate([cord_slot_offset - cord_slot_width / 2, -body_depth - eps, -eps])
     cube([cord_slot_width, hole_front + body_depth + 2 * eps, body_height + 2 * eps]);
+  if (cord_slot_radius > 0)
+    for(side = [-1, 1])
+      cord_corner(cord_slot_offset + side * cord_slot_width / 2, hole_front, side);
+}
+
+// Rounds one corner where the slot meets the floor hole, through the floor
+// only, since above it is pocket. side is the direction the corner faces, +1
+// for the slot's right edge. A quarter arc from the slot wall to the hole's
+// front edge, tangent to both, and eps over into each so its faces cross
+// theirs rather than lying on them. Built as a polyhedron, like the slot, so
+// its arc ends land exactly on the slot wall's numbers
+module cord_corner(edge_x, hole_front, side) {
+  r = cord_slot_radius;
+  n = max(3, ceil(min(90 / $fa, PI * r / 2 / $fs)));
+  centre = [edge_x + side * r, hole_front - r];
+  outline = concat([
+    [edge_x - side * eps, hole_front - r]
+  ], [
+    for (k = [0:n])
+      let (a = 180 - 90 * k / n)
+        centre + r * [side * cos(a), sin(a)]
+  ], [
+    [edge_x + side * r, hole_front + eps],
+    [edge_x - side * eps, hole_front + eps]
+  ]);
+  // Mirroring reverses the winding, so the left corner runs the other way to
+  // stay anticlockwise
+  wound = side > 0 ? outline : [
+    for (i = [len(outline) - 1:-1:0])
+      outline[i]
+  ];
+  stack([wound, wound], [-2 * eps, floor_thickness + 2 * eps]);
 }
 
 // Slot coordinates onto the back face: slot x runs to the holder's -x, so the
