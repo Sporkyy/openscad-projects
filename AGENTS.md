@@ -330,12 +330,12 @@ place the CLI and the editor agree is the config file.
   dimension inside a hollow solid — derive those instead.
 - Every measured parameter names the caliper that reaches it, in the Caliper column of the part
   README's measuring table. Capacity is what the tool is sold by and it reads nothing past that: 6
-  in is 150 mm, 8 in is 200 mm, 12 in is 300 mm. State the smallest size that covers the shipped
-  value, in inches, since that is the size printed on the tool. A value sitting within about 5 mm of
-  a capacity calls for the next size up, because the jaws run out before the scale does. This is a
-  sanity check as much as a shopping list: a parameter whose value needs a bigger caliper than the
-  reader owns was measured some other way, and a measurement taken some other way is how the wrong
-  dimension gets entered.
+  in is 150 mm, 8 in is 200 mm, 12 in is 300 mm. State the smallest size that covers the values the
+  part is sized for, in inches, since that is the size printed on the tool. A value sitting within
+  about 5 mm of a capacity calls for the next size up, because the jaws run out before the scale
+  does. This is a sanity check as much as a shopping list: a parameter whose value needs a bigger
+  caliper than the reader owns was measured some other way, and a measurement taken some other way
+  is how the wrong dimension gets entered.
 - Caliper sizes and measuring tips — which jaws, where to take the reading, which of several
   readings to keep — live in the part's README, not in the source. The source declares the measured
   inputs; the README says how to take them. Repeating that guidance in every `.scad` only gives it a
@@ -359,6 +359,26 @@ place the CLI and the editor agree is the config file.
   item_depth = 22.4; // mm
   // (Do not add clearance here; tune the knobs below instead)
   ```
+
+- **The values in a source are whatever the user printed last**, not a reference design, and they
+  change all the time. Commit them as they stand: never revert, hold back, or stage around a value
+  the user changed. Do not pin them in documentation either — no "defaults to", no "ships sized
+  for", no derived sizes copied out of the `echo`. A README that wants to keep a measured device
+  lists it in a table of named settings instead, because a measured device does not change.
+- **Round corners by default.** Every exposed vertical edge and every top edge of a wall gets a
+  radius; both are free to print. The exceptions:
+  - An edge on the bed gets a 45° chamfer, not a round. A round starts out tangent to the plate, the
+    worst overhang there is, and it fights elephant's foot.
+  - A downward-facing edge in the air stays square or gets a 45° chamfer. Rounding the underside of
+    a ledge or roof sweeps through every angle past 45°.
+  - An inside corner that something seats in gets a relief cut, not a fillet, or the seated part
+    rides up on it. An inside corner nothing seats in may take a fillet, and is stronger for it.
+  - An interface stays exactly as its standard draws it: openConnect slots, openGrid snaps, and any
+    face that has to bear flat on something.
+  - A radius under about 0.5 mm prints as a sharp corner anyway, so skip it.
+
+  Each radius gets a knob and an `assert()` that keeps it inside the material it rounds, and the
+  mesh check after it, since every rounding is one more cut that can leave slivers.
 
 - Guard derived geometry with `assert()` for interferences and overhangs, and `echo()` the derived
   values so they can be sanity-checked against the physical part before printing.
