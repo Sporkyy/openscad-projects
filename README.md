@@ -103,8 +103,7 @@ the thread and flare constraints for a support-free print, and the measurements 
 An open-topped box that hangs a device on an openGrid board by openConnect slots in its back, sized
 from three caliper measurements of the device. The device stands on a lip around a cord hole in the
 floor, so it cannot slip out underneath, a cut down the front leaves its ports reachable, and a cord
-slot out through the front lets it go in already plugged in. Ships sized for a SABRENT VOLTIK
-charging station.
+slot out through the front lets it go in already plugged in.
 
 The slot is mitufy's openConnect slot, rebuilt under CC BY 4.0 and checked against the generator,
 with its two flat ceilings turned to 45° so it prints upright without supports.

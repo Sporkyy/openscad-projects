@@ -16,8 +16,6 @@ its cord already plugged in.
 The back carries a grid of [openConnect](https://www.printables.com/model/1559478) slots, mitufy's
 connector system for openGrid. Nothing here uses Multiboard, Multiconnect or Multipoint.
 
-The shipped values fit a SABRENT VOLTIK charging station.
-
 ## Hanging it
 
 Fit openConnect connectors to the board where the holder is to go. Hold the holder a little high so
@@ -25,8 +23,8 @@ the lower ends of its slots sit over the connectors, then push it flat against t
 it down. The connectors run up their tracks into the seats at the top, and the corner slots click as
 their lock nubs pass. Lift it to take it off.
 
-Every slot holds whether or not it has a lock. With the defaults the back carries a 2 × 4 grid, but
-the holder only needs connectors under as many slots as its load calls for.
+Every slot holds whether or not it has a lock. The back carries as many slots as fit, which the
+render echoes, but the holder only needs connectors under as many as its load calls for.
 
 ## Measure and tune
 
@@ -42,25 +40,23 @@ Close the jaws gently on rubber feet. They squash, and a firm reading comes out 
 
 `width_clearance` and `depth_clearance` are added to the measured width and depth to make the
 pocket. They are totals, not per side. A pocket prints slightly under size, so zero is a press fit.
-The defaults are 1 mm on the width and 2 mm on the depth; the extra depth is for the charging
-station's rubber feet, which grip the back wall as the device slides in. For a device with a plain
-back, 1 mm on both is a normal drop-in fit.
+1 mm on both is a normal drop-in fit. Give the depth another millimetre for rubber feet on the back,
+which grip the wall as the device slides in.
 
 `rim_drop` lowers the walls below the top of the device. At zero the rim is level with its top.
 
 `bottom_lip` is how far the floor reaches in from each wall around the hole. That ledge is what the
 device stands on, so make it wider for a device with rounded bottom edges. `front_side_lip` and
 `front_lip_height` are the strips of front wall left standing at the sides of the front opening and
-below it. `front_rim_radius`, 3 mm, rounds the two corners where the opening meets the rim, and
-assertions keep it within `front_side_lip` and the opening's straight sides. `bottom_opening` and
+below it. `front_rim_radius` rounds the two corners where the opening meets the rim, and assertions
+keep it within `front_side_lip` and the opening's straight sides. `bottom_opening` and
 `front_opening` turn either cut off.
 
 `cord_slot` cuts a slot forward from the floor hole through the lip and the front wall, open all the
-way up to the rim, so a cord can be threaded down it as the device goes in. `cord_slot_width`
-defaults to 10 mm, which passes the charging station's flat cable. `cord_slot_offset` moves it
-toward +x, the right seen from the front. `cord_slot_radius`, 3 mm, rounds the slot's four corners:
-two where it meets the floor hole, so a cord pulled sideways bears on a curve rather than an edge,
-and two where it meets the top of the front wall. It needs the floor hole, and assertions keep it,
+way up to the rim, so a cord can be threaded down it as the device goes in. `cord_slot_offset` moves
+it toward +x, the right seen from the front. `cord_slot_radius` rounds the slot's four corners: two
+where it meets the floor hole, so a cord pulled sideways bears on a curve rather than an edge, and
+two where it meets the top of the front wall. It needs the floor hole, and assertions keep it,
 rounding included, on the hole's straight front edge and the flat bottom of the front opening, and
 keep the radius within `bottom_lip` and `front_lip_height`.
 
@@ -73,19 +69,25 @@ printer.
 
 The rest follows. The back wall is the 2.7 mm slot depth plus `wall_thickness`. The slot grid is as
 many 28 mm cells as fit on the flat of the back, centred, keeping `wall_thickness` clear of the
-edges and the rounded corners. With the defaults the pocket is 76 × 57 × 116 mm, the body is 80 ×
-63.7 × 118 mm, and the floor opening is 66 × 47 mm. The render `echo`s these, and assertions catch a
-lip that leaves no hole, an opening that leaves no wall, and a back too small for one slot.
+edges and the rounded corners. The render `echo`s the pocket, body, floor opening and slot grid, and
+assertions catch a lip that leaves no hole, an opening that leaves no wall, and a back too small for
+one slot.
 
-For another device, override the inputs rather than editing the file. The Ezcoo EZ-EX50 USB extender
-the holder was also wanted for comes out at 63 × 30.1 × 55.5 mm, with a single slot. It has a cord
-plugged into the bottom at each side and nothing in the middle, so it gets a 20 mm cord slot for
-room to work them through:
+The values in the source are whatever was printed last. Devices it has been sized for:
+
+| Device                          | `item_width` × `item_depth` × `item_height` | Other settings                                                                                       |
+| ------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| SABRENT VOLTIK charging station | 75 × 55 × 116                               | `depth_clearance=2`, `bottom_lip=5`, `front_side_lip=8`, `front_lip_height=12`, `cord_slot_width=10` |
+| Ezcoo EZ-EX50 USB extender      | 58 × 22.4 × 53.5                            | `depth_clearance=1`, `bottom_lip=3`, `front_side_lip=5`, `front_lip_height=10`, `cord_slot_width=20` |
+
+The charging station's rubber feet are why its depth gets 2 mm, and its 10 mm slot passes a flat
+cable. The extender has a cord plugged into the bottom at each side, so its 20 mm slot leaves room
+to work both through. Override the values on the command line rather than editing the file:
 
 ```sh
-/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD -o ezcoo.stl \
-  -D item_width=58 -D item_depth=22.4 -D item_height=53.5 -D depth_clearance=1 \
-  -D cord_slot_width=20 \
+/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD -o sabrent.stl \
+  -D item_width=75 -D item_depth=55 -D item_height=116 -D depth_clearance=2 -D bottom_lip=5 \
+  -D front_side_lip=8 -D front_lip_height=12 -D cord_slot_width=10 \
   openconnect_item_holder/openconnect_item_holder.scad
 ```
 
@@ -121,16 +123,16 @@ back wall into whichever connectors are under its slots. The connectors are what
 device, not the cord slot. The holder hangs out from the board, so its weight tries to tip the top
 away from the wall: the top row of slots is pulled out of its connectors while the bottom of the
 back presses against the board. For a heavy device, fit connectors under the top row at least, and
-under every slot if you can. The cord slot costs little by comparison. It takes 10 mm out of about
-226 mm of lip, around 4%. The lip is fused to the walls all along its length rather than spanning
-between them, so losing a short stretch at the front does not weaken the rest. What the slot does
-undo is the closed ring at the bottom of the box: the strip of front wall under the opening no
-longer ties the two side walls together. The back wall still ties them along their whole height, and
-that is what keeps them square.
+under every slot if you can. The cord slot costs little by comparison. It takes only its own width
+out of a lip that runs right round the box. The lip is fused to the walls all along its length
+rather than spanning between them, so losing a short stretch at the front does not weaken the rest.
+What the slot does undo is the closed ring at the bottom of the box: the strip of front wall under
+the opening no longer ties the two side walls together. The back wall still ties them along their
+whole height, and that is what keeps them square.
 
 Not yet printed. The rebuilt slot matches the generator's, but its fit on real connectors from your
-printer is untested, and so is the 2 mm wall behind the slots under the device's weight. A one-slot
-test cup is quick to print and checks the slot alone:
+printer is untested, and so is the wall behind the slots under the device's weight. A one-slot test
+cup is quick to print and checks the slot alone:
 
 ```sh
 /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD -o slot-test.stl \

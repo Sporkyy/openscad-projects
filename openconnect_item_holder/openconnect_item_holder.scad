@@ -14,8 +14,6 @@
 // out forward. A cord slot runs from the floor hole out through
 // the front, so the device can go in with its cord plugged in.
 //
-// Shipped values fit a SABRENT VOLTIK charging station.
-//
 // THE openConnect SLOT PROFILE IS NOT ORIGINAL WORK, AND THIS
 // NOTICE IS A LICENCE CONDITION RATHER THAN A COURTESY. It is
 // rebuilt in plain OpenSCAD from mitufy's openConnect library,
@@ -68,34 +66,34 @@
 // MARK: Dimensions
 
 // Measure the device with calipers
-item_width = 75; // mm
-item_depth = 55; // mm
-item_height = 116; // mm
+item_width = 58; // mm
+item_depth = 22.4; // mm
+item_height = 53.5; // mm
 // (Do not add clearance here; tune the knobs below instead)
 
 // MARK: Tuning
 
 // Clearance added to the measured width and depth
 width_clearance = 1; // mm
-depth_clearance = 2; // mm
+depth_clearance = 1; // mm
 // (A pocket prints a little under size, so zero is a press fit)
 
 // Cord slot from the floor hole out through the front
 cord_slot = true;
-cord_slot_width = 10; // mm
+cord_slot_width = 20; // mm
 cord_slot_offset = 0; // mm, toward +x, right seen from the front
 cord_slot_radius = 3; // mm, rounds the slot's corners
 
 // Front opening, cut from the rim down
 front_opening = true;
-front_side_lip = 8; // mm, wall left at each side
-front_lip_height = 12; // mm, wall left above the floor
+front_side_lip = 5; // mm, wall left at each side
+front_lip_height = 10; // mm, wall left above the floor
 front_opening_radius = 6; // mm, rounds the bottom corners
 front_rim_radius = 3; // mm, rounds the top corners
 
 // Floor opening, inside the lip the device stands on
 bottom_opening = true;
-bottom_lip = 5; // mm, from each wall
+bottom_lip = 3; // mm, from each wall
 bottom_opening_radius = 3; // mm, rounds the corners
 
 // How far below the device's top the walls stop
