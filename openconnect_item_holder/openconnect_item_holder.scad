@@ -65,77 +65,62 @@
 //   until the locks click.
 // ============================================================
 
-// ===== MEASURE THESE ON THE DEVICE =====
-// All three are outside dimensions of the device, so plain calipers reach
-// them. Each names the caliper it needs by the size printed on the tool: a 6 in
-// caliper stops at 150 mm, an 8 in at 200 mm, a 12 in at 300 mm
+// MARK: Dimensions
 
-item_width = 75; // Side to side — outside jaws, 6 in caliper
+// Measure the device with calipers
+item_width = 75; // mm
+item_depth = 55; // mm
+item_height = 116; // mm
+// (Do not add clearance here; tune the knobs below instead)
 
-// Front to back — outside jaws, 6 in caliper. Take it over anything that
-// stands proud of the back, such as rubber feet, and close the jaws gently:
-// feet squash and read short
-item_depth = 55;
+// MARK: Tuning
 
-item_height = 116; // Bottom to top — outside jaws, 6 in caliper
+// Clearance added to the measured width and depth
+width_clearance = 1; // mm
+depth_clearance = 2; // mm
+// (A pocket prints a little under size, so zero is a press fit)
 
-// ===== TUNING KNOBS =====
-
-// Clearance added to the measured width and depth (mm), as a total rather
-// than per side. A pocket prints a little under size, so zero is a press fit.
-// The depth gets more here because rubber feet on the back drag on the wall
-width_clearance = 1;
-depth_clearance = 2;
-
-// How far below the device's top the walls stop (mm). Zero puts the rim
-// level with the top of the device
-rim_drop = 0;
-
-wall_thickness = 2; // Side walls, front wall, and material behind the slots
-floor_thickness = 2; // Floor, which is also the lip's thickness
-corner_radius = 3; // Rounds the four vertical outside edges
-
-// Floor opening. bottom_lip is how far the floor reaches in from each wall
-// around the hole; that ledge is what the device stands on
-bottom_opening = true;
-bottom_lip = 5;
-bottom_opening_radius = 3; // Rounds the hole's corners
-
-// Front opening, cut from the rim down. front_side_lip is the strip of front
-// wall left standing at each side, front_lip_height the strip left standing
-// above the floor
-front_opening = true;
-front_side_lip = 8;
-front_lip_height = 12;
-front_opening_radius = 6; // Rounds the opening's two bottom corners
-
-// Cord slot, cut forward from the floor hole through the lip and the front
-// wall, open all the way up to the rim. A device can go in with its cord
-// already plugged in, the cord threaded down the slot. cord_slot_offset moves
-// it toward +x, which is to the right seen from the front. cord_slot_radius
-// rounds the two corners where the slot meets the floor hole, so a cord pulled
-// sideways bears on a curve rather than an edge
+// Cord slot from the floor hole out through the front
 cord_slot = true;
-cord_slot_width = 10;
-cord_slot_offset = 0;
-cord_slot_radius = 3;
+cord_slot_width = 10; // mm
+cord_slot_offset = 0; // mm, toward +x, right seen from the front
+cord_slot_radius = 3; // mm, rounds the slot's corners
 
-// Slots that carry a lock nub. Every slot holds; a lock is what clicks the
-// holder in place, and more of them make it tighter and harder to fit
-lock_every_slot = false; // false puts locks on the four corner slots only
+// Front opening, cut from the rim down
+front_opening = true;
+front_side_lip = 8; // mm, wall left at each side
+front_lip_height = 12; // mm, wall left above the floor
+front_opening_radius = 6; // mm, rounds the bottom corners
+front_rim_radius = 3; // mm, rounds the top corners
 
-// openConnect slot fit, as mitufy's generator ships it. Raise the clearances
-// if the slots feel tight on your printer
-slot_side_clearance = 0.1;
-slot_depth_clearance = 0.1;
-slot_bridge_min = 0.8; // Thinnest lip at the slot mouth, two 0.4 mm lines
-slot_wall_min = 0.6; // Thinnest wall beside the slot mouth
+// Floor opening, inside the lip the device stands on
+bottom_opening = true;
+bottom_lip = 5; // mm, from each wall
+bottom_opening_radius = 3; // mm, rounds the corners
 
-// ===== openConnect INTERFACE — THE STANDARD, NOT KNOBS =====
-// The connector head as mitufy's library defines it. A slot is the head grown
-// by the clearances above, plus the track it slides along and the ramp it
-// enters by. Change one of these and the slot stops fitting a connector
+// How far below the device's top the walls stop
+rim_drop = 0; // mm
+// (Zero puts the rim level with the top of the device)
 
+// Walls
+wall_thickness = 2; // mm, sides, front, and behind the slots
+floor_thickness = 2; // mm, also the lip's thickness
+corner_radius = 3; // mm, rounds the vertical outside edges
+
+// Lock nubs
+lock_every_slot = false;
+// (False puts locks on the corner slots only; more hold tighter and fit harder)
+
+// openConnect slot fit, as mitufy's generator ships it
+slot_side_clearance = 0.1; // mm
+slot_depth_clearance = 0.1; // mm
+slot_bridge_min = 0.8; // mm, thinnest lip at the slot mouth
+slot_wall_min = 0.6; // mm, thinnest wall beside the slot mouth
+// (Raise the clearances if the slots feel tight)
+
+// MARK: openConnect Interface
+
+// The connector head as mitufy's library defines it
 oc_pitch = 28; // openGrid tile pitch
 oc_head_bottom = 0.6; // Wide flange at the tip of the head
 oc_head_middle = 1.4; // 45 deg taper from the flange to the neck
@@ -151,8 +136,9 @@ oc_nub_fillet = 0.8; // Nub tip and root rounding
 oc_slide = 10.6; // How far the head travels from the ramp to its seat
 oc_ramp_clearance = 0.8; // Entry ramp's margin around the flange
 oc_ramp_peak = 4; // Height of the 45 deg peak above the ramp
+// (The standard, not knobs: change one and the slot stops fitting a connector)
 
-// ===== DERIVED =====
+// MARK: Derived
 
 t22 = tan(22.5); // Converts a 45 deg chamfer's offset into its leg change
 
@@ -227,7 +213,7 @@ $fa = 2;
 $fs = 0.25;
 eps = 0.01;
 
-// ===== SANITY CHECKS =====
+// MARK: Checks
 
 assert(item_width > 0 && item_depth > 0 && item_height > 0);
 assert(width_clearance >= 0 && depth_clearance >= 0);
@@ -239,16 +225,18 @@ assert(track_end < front_split && front_split < ramp_top - flange_chamfer, "Fron
 assert(!bottom_opening || (bottom_lip > 0 && 2 * bottom_lip < min(inner_width, inner_depth) - 2 * bottom_opening_radius), "bottom_lip leaves no hole");
 assert(!front_opening || (front_side_lip > 0 && 2 * front_side_lip < inner_width - 2 * front_opening_radius), "front_side_lip leaves no opening");
 assert(!front_opening || (front_lip_height > 0 && front_lip_height < pocket_height - front_opening_radius), "front_lip_height leaves no opening");
+assert(!front_opening || (front_rim_radius >= 0 && front_rim_radius <= front_side_lip && front_rim_radius <= pocket_height - front_lip_height - front_opening_radius), "front_rim_radius overruns the strip beside the opening");
 
-// The cord slot has to land on the straight front edge of the floor hole,
-// rounded corners included, and on the flat bottom of the front opening rather
-// than in its rounded corners. The rounding runs back along the slot by its
-// radius, which has to stay within the lip
+// The cord slot has to land, rounded corners included, on the straight front
+// edge of the floor hole and on the flat bottom of the front opening rather
+// than in their rounded corners. The rounding runs along the slot by its
+// radius, which has to stay within the lip and the strip under the opening
 cord_slot_reach = abs(cord_slot_offset) + cord_slot_width / 2;
 assert(!cord_slot || bottom_opening, "cord_slot runs into the floor hole, so it needs bottom_opening");
 assert(!cord_slot || (cord_slot_radius >= 0 && cord_slot_radius <= bottom_lip), "cord_slot_radius runs past the lip");
+assert(!cord_slot || !front_opening || cord_slot_radius <= front_lip_height, "cord_slot_radius runs past the strip under the front opening");
 assert(!cord_slot || (cord_slot_width > 0 && cord_slot_reach + cord_slot_radius <= inner_width / 2 - bottom_lip - bottom_opening_radius), "cord_slot misses the straight edge of the floor hole");
-assert(!cord_slot || !front_opening || cord_slot_reach <= inner_width / 2 - front_side_lip - front_opening_radius, "cord_slot misses the flat bottom of the front opening");
+assert(!cord_slot || !front_opening || cord_slot_reach + cord_slot_radius <= inner_width / 2 - front_side_lip - front_opening_radius, "cord_slot misses the flat bottom of the front opening");
 assert(flange_w / 2 - flange_chamfer - oc_ramp_peak > 0, "Ramp peak overruns its own top");
 
 echo(str("Pocket: ", inner_width, " x ", inner_depth, " x ", pocket_height, " mm (W x D x H)"));
@@ -260,7 +248,8 @@ echo(str("Front opening: ", front_opening ? str(inner_width - 2 * front_side_lip
 echo(str("Cord slot: ", cord_slot ? str(cord_slot_width, " mm wide, ", cord_slot_offset, " mm off centre, ", cord_slot_radius, " mm corners") : "none"));
 echo(str("Thinnest outside corner: ", corner_material, " mm"));
 
-// ===== openConnect SLOT =====
+// MARK: openConnect Slot
+
 // Built in slot coordinates: x across, y the direction the head slides into
 // its seat (up, on the holder), z out of the wall. z = 0 is the floor of the
 // slot and z = slot_depth is the back face; excess carries the cut past it
@@ -476,7 +465,8 @@ module openconnect_slot(lock = true, excess = 1, departures = true) {
   }
 }
 
-// ===== GEOMETRY =====
+// MARK: Geometry
+
 // Modelled in print orientation: floor on the plate at z = 0, back face in
 // the plane y = 0, front toward -y
 
@@ -521,6 +511,9 @@ module front_cut() {
             translate([-w / 2, z0 + r])
               square([w, body_height - z0 - r + eps]);
           }
+  if (front_rim_radius > 0)
+    for(side = [-1, 1])
+      round_corner([side * w / 2, body_height], [side, -1], front_rim_radius, front_wall_z0, front_wall_z1, "y");
 }
 
 // Through the floor and the front wall, from below the plate to above the
@@ -530,38 +523,42 @@ module cord_cut() {
   hole_front = -back_thickness - inner_depth + bottom_lip;
   translate([cord_slot_offset - cord_slot_width / 2, -body_depth - eps, -eps])
     cube([cord_slot_width, hole_front + body_depth + 2 * eps, body_height + 2 * eps]);
+  // Rounds the slot's corners where it meets the floor hole, through the
+  // floor, and where it meets the top of the front wall, through the wall
+  top = front_opening ? floor_thickness + front_lip_height : body_height;
   if (cord_slot_radius > 0)
-    for(side = [-1, 1])
-      cord_corner(cord_slot_offset + side * cord_slot_width / 2, hole_front, side);
+    for(side = [-1, 1]) {
+      edge = cord_slot_offset + side * cord_slot_width / 2;
+      round_corner([edge, hole_front], [side, -1], cord_slot_radius, -2 * eps, floor_thickness + 2 * eps);
+      round_corner([edge, top], [side, -1], cord_slot_radius, front_wall_z0, front_wall_z1, "y");
+    }
 }
 
-// Rounds one corner where the slot meets the floor hole, through the floor
-// only, since above it is pocket. side is the direction the corner faces, +1
-// for the slot's right edge. A quarter arc from the slot wall to the hole's
-// front edge, tangent to both, and eps over into each so its faces cross
-// theirs rather than lying on them. Built as a polyhedron, like the slot, so
-// its arc ends land exactly on the slot wall's numbers
-module cord_corner(edge_x, hole_front, side) {
-  r = cord_slot_radius;
+// The front wall's span for a stack along "y", which runs toward -y: from
+// inside the pocket out past the front face
+front_wall_z0 = body_depth - wall_thickness - 2 * eps;
+front_wall_z1 = body_depth + 2 * eps;
+
+// Rounds one convex corner of material at c, along an edge that runs the
+// stack axis from z0 to z1. d points into the material along both faces. A
+// quarter arc tangent to both, run eps out past each into the cut beside it so
+// its faces cross the cut's rather than lying on them. Built as a polyhedron,
+// like the slot, so its arc ends land exactly on the numbers of the faces they
+// meet
+module round_corner(c, d, r, z0, z1, axis = "z") {
   n = max(3, ceil(min(90 / $fa, PI * r / 2 / $fs)));
-  centre = [edge_x + side * r, hole_front - r];
-  outline = concat([
-    [edge_x - side * eps, hole_front - r]
-  ], [
+  centre = c + r * d;
+  outline = concat([c + [-d[0] * eps, d[1] * r]], [
     for (k = [0:n])
-      let (a = 180 - 90 * k / n)
-        centre + r * [side * cos(a), sin(a)]
-  ], [
-    [edge_x + side * r, hole_front + eps],
-    [edge_x - side * eps, hole_front + eps]
-  ]);
-  // Mirroring reverses the winding, so the left corner runs the other way to
-  // stay anticlockwise
-  wound = side > 0 ? outline : [
+      let (a = 90 * k / n)
+        centre - r * [d[0] * cos(a), d[1] * sin(a)]
+  ], [c + [d[0] * r, -d[1] * eps], c - eps * d]);
+  // Clockwise when the two signs of d agree, so those run backwards
+  wound = d[0] * d[1] > 0 ? [
     for (i = [len(outline) - 1:-1:0])
       outline[i]
-  ];
-  stack([wound, wound], [-2 * eps, floor_thickness + 2 * eps]);
+  ] : outline;
+  stack([wound, wound], [z0, z1], axis);
 }
 
 // Slot coordinates onto the back face: slot x runs to the holder's -x, so the

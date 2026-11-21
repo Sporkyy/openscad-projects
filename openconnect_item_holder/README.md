@@ -51,16 +51,20 @@ back, 1 mm on both is a normal drop-in fit.
 `bottom_lip` is how far the floor reaches in from each wall around the hole. That ledge is what the
 device stands on, so make it wider for a device with rounded bottom edges. `front_side_lip` and
 `front_lip_height` are the strips of front wall left standing at the sides of the front opening and
-below it. `bottom_opening` and `front_opening` turn either cut off.
+below it. `front_rim_radius`, 3 mm, rounds the two corners where the opening meets the rim, and
+assertions keep it within `front_side_lip` and the opening's straight sides. `bottom_opening` and
+`front_opening` turn either cut off.
 
 `cord_slot` cuts a slot forward from the floor hole through the lip and the front wall, open all the
 way up to the rim, so a cord can be threaded down it as the device goes in. `cord_slot_width`
 defaults to 10 mm, which passes the charging station's flat cable. `cord_slot_offset` moves it
-toward +x, the right seen from the front. `cord_slot_radius`, 3 mm, rounds the two corners where the
-slot meets the floor hole, so a cord pulled sideways bears on a curve rather than an edge. The
-rounding is through the floor only and its sides are vertical, so it adds nothing that hangs. It
-needs the floor hole, and assertions keep it, rounding included, on the hole's straight front edge
-and the flat bottom of the front opening, and keep the radius within `bottom_lip`.
+toward +x, the right seen from the front. `cord_slot_radius`, 3 mm, rounds the slot's four corners:
+two where it meets the floor hole, so a cord pulled sideways bears on a curve rather than an edge,
+and two where it meets the top of the front wall. It needs the floor hole, and assertions keep it,
+rounding included, on the hole's straight front edge and the flat bottom of the front opening, and
+keep the radius within `bottom_lip` and `front_lip_height`.
+
+Every rounded corner here runs along a vertical edge or tops off a wall, so none of them hangs.
 
 `lock_every_slot` puts a lock nub in every slot instead of only the corner ones. More locks hold
 tighter and make the holder harder to fit. `slot_side_clearance` and `slot_depth_clearance` are the
