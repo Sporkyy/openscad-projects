@@ -328,14 +328,19 @@ place the CLI and the editor agree is the config file.
 - Measurements come from calipers, so parameters must be things a caliper can reach: outside
   diameters, clear gaps, edge-to-edge spans. Never ask for a center-to-center distance or any
   dimension inside a hollow solid — derive those instead.
-- Every measured parameter names the caliper that reaches it. Capacity is what the tool is sold by
-  and it reads nothing past that: 6 in is 150 mm, 8 in is 200 mm, 12 in is 300 mm. State the
-  smallest size that covers the shipped value, in inches, since that is the size printed on the tool
-  — `— 6 in caliper`, `— 12 in caliper`. A value sitting within about 5 mm of a capacity calls for
-  the next size up, because the jaws run out before the scale does. This is a sanity check as much
-  as a shopping list: a parameter whose value needs a bigger caliper than the reader owns was
-  measured some other way, and a measurement taken some other way is how the wrong dimension gets
-  entered.
+- Every measured parameter names the caliper that reaches it, in the Caliper column of the part
+  README's measuring table. Capacity is what the tool is sold by and it reads nothing past that: 6
+  in is 150 mm, 8 in is 200 mm, 12 in is 300 mm. State the smallest size that covers the shipped
+  value, in inches, since that is the size printed on the tool. A value sitting within about 5 mm of
+  a capacity calls for the next size up, because the jaws run out before the scale does. This is a
+  sanity check as much as a shopping list: a parameter whose value needs a bigger caliper than the
+  reader owns was measured some other way, and a measurement taken some other way is how the wrong
+  dimension gets entered.
+- Caliper sizes and measuring tips — which jaws, where to take the reading, which of several
+  readings to keep — live in the part's README, not in the source. The source declares the measured
+  inputs; the README says how to take them. Repeating that guidance in every `.scad` only gives it a
+  second copy to drift. A source comment says what a parameter is when its name leaves that unclear,
+  and stops there.
 - Keep measured inputs, tuning knobs, and derived values in separate labelled blocks, in that order.
 - Guard derived geometry with `assert()` for interferences and overhangs, and `echo()` the derived
   values so they can be sanity-checked against the physical part before printing.
