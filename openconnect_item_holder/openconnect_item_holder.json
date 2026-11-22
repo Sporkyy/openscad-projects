@@ -1,5 +1,15 @@
 {
     "parameterSets": {
+        "Apple TV (2026)": {
+            "item_width": "93.5",
+            "item_depth": "30.9",
+            "item_height": "94",
+            "depth_clearance": "1",
+            "bottom_lip": "3",
+            "front_side_lip": "5",
+            "front_lip_height": "10",
+            "cord_slot_width": "20"
+        },
         "Ezcoo EZ-EX50 USB extender": {
             "item_width": "58",
             "item_depth": "22.4",

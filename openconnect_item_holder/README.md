@@ -87,6 +87,9 @@ switching devices means picking a name rather than retyping numbers:
 - **Ezcoo EZ-EX50 USB extender** ([STL](openconnect_item_holder_ezcoo_ez_ex50_usb_extender.stl),
   [preview](openconnect_item_holder_ezcoo_ez_ex50_usb_extender.png)). It has a cord plugged into the
   bottom at each side, so its 20 mm cord slot leaves room to work both through.
+- **Apple TV (2026)** ([STL](openconnect_item_holder_apple_tv_2026.stl),
+  [preview](openconnect_item_holder_apple_tv_2026.png)). Same lips, clearances and cord slot as the
+  extender above.
 
 In the OpenSCAD app, open the source and pick a set from the dropdown at the top of the Customizer
 panel. The JSON has to sit beside the source with the same name for the app to find it. From the
