@@ -39,13 +39,13 @@ they build on, which removes a step of reasoning rather than adding one.
 
 Upstream attribution.
 
-The openGrid snap profile reproduced in opengrid_magnet_snap/ is not original to
-this repository. It derives from openGrid by David D
-(https://www.opengrid.world), CC BY 4.0, by way of mitufy's openGrid projects
-(https://github.com/mitufy/opengrid-projects), also CC BY 4.0. Those files are
-CC BY 4.0 in and CC BY 4.0 out. The attribution and the statement of
-modification carried in each affected file's header are licence conditions, not
-courtesies, and must travel with the profile.
+The openGrid snap profile reproduced in opengrid_magnet_snap/ and
+opengrid_adhesive_snap/ is not original to this repository. It derives from
+openGrid by David D (https://www.opengrid.world), CC BY 4.0, by way of mitufy's
+openGrid projects (https://github.com/mitufy/opengrid-projects), also CC BY 4.0.
+Those files are CC BY 4.0 in and CC BY 4.0 out. The attribution and the
+statement of modification carried in each affected file's header are licence
+conditions, not courtesies, and must travel with the profile.
 
 The openConnect slot reproduced in openconnect_item_holder/ and
 openconnect_cable_saddle/ is likewise not original. It derives from mitufy's

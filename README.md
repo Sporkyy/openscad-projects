@@ -121,6 +121,19 @@ lip so it cannot slide off, standing out from a back plate with openConnect slot
 coil's inside diameter and thickness, plate and slot count included. It prints on its side, which
 keeps the saddle within 45° and runs the layer lines along the arm.
 
+### openGrid adhesive snap
+
+[![openGrid adhesive snap preview](opengrid_adhesive_snap/opengrid_adhesive_snap.png)](opengrid_adhesive_snap/opengrid_adhesive_snap.stl)
+
+[Documentation](opengrid_adhesive_snap/README.md) ·
+[STL](opengrid_adhesive_snap/opengrid_adhesive_snap.stl) ·
+[source](opengrid_adhesive_snap/opengrid_adhesive_snap.scad)
+
+A full-thickness openGrid snap with a plain front for a double-sided adhesive dot, to stick a small
+object such as a remote to any cell of a mounted board. A thin lip over the tile face, bevelled on
+its tile side, gives a screwdriver somewhere to pry, so the snap comes out from the front with
+nothing cut into the standard profile.
+
 ### openGrid magnet snaps
 
 [![openGrid magnet snaps preview](opengrid_magnet_snap/opengrid_magnet_snap_back.png)](opengrid_magnet_snap/opengrid_magnet_snap_back.stl)
@@ -322,8 +335,9 @@ reasoning, and [LICENSES/](LICENSES/) for the full texts.
 Those examples are inclusive rather than exhaustive. A per-file SPDX identifier controls whenever
 one is present.
 
-The openGrid snap profile in [opengrid_magnet_snap](opengrid_magnet_snap/) is not original to this
-repository. It derives from openGrid by David D ([opengrid.world](https://www.opengrid.world)) by
-way of [mitufy's openGrid projects](https://github.com/mitufy/opengrid-projects), both CC BY 4.0 —
-the same licence going out as coming in. Attribution and the statement of modification in each file
-header are licence conditions rather than courtesies.
+The openGrid snap profile in [opengrid_magnet_snap](opengrid_magnet_snap/) and
+[opengrid_adhesive_snap](opengrid_adhesive_snap/) is not original to this repository. It derives
+from openGrid by David D ([opengrid.world](https://www.opengrid.world)) by way of
+[mitufy's openGrid projects](https://github.com/mitufy/opengrid-projects), both CC BY 4.0 — the same
+licence going out as coming in. Attribution and the statement of modification in each file header
+are licence conditions rather than courtesies.

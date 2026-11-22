@@ -28,6 +28,7 @@ DEFAULT_PREVIEW_ANGLES = (46, 25)
 PREVIEW_ANGLES = {
     "foot_with_post": (60, 25),
     "openconnect_cable_saddle": (55, 300),
+    "opengrid_adhesive_snap": (52, 29),
     "opengrid_magnet_snap_back": (52, 29),
     "opengrid_magnet_snap_front": (52, 29),
     "pencil_rest": (45, 305),
