@@ -157,11 +157,20 @@ def find_openscad():
     )
 
 
+def requested_source(value):
+    """Resolve a requested path, taking a parameter set file as its source."""
+    path = Path(value).expanduser().resolve()
+    if path.suffix.lower() == ".json":
+        source = path.with_suffix(".scad")
+        if not source.is_file():
+            raise BuildError(f"Parameter sets with no source beside them: {path}")
+        return source
+    return path
+
+
 def discover_sources(requested):
     if requested:
-        sources = list(
-            dict.fromkeys(Path(value).expanduser().resolve() for value in requested)
-        )
+        sources = list(dict.fromkeys(requested_source(value) for value in requested))
     else:
         sources = sorted(ROOT.glob("*/*.scad"))
 

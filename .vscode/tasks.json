@@ -52,7 +52,7 @@
     },
     {
       "label": "Build current object",
-      "detail": "Regenerate tracked STL and PNG files for the active OpenSCAD source",
+      "detail": "Regenerate tracked STL and PNG files for the active OpenSCAD source or its parameter sets file",
       "type": "process",
       "command": "${workspaceFolder}/.venv/bin/python",
       "args": ["${workspaceFolder}/scripts/build.py", "${file}"],

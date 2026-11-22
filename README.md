@@ -257,8 +257,8 @@ Regenerate every tracked STL and preview image, including one pair per Customize
 ```
 
 The default VS Code build task, _Build all objects_, runs the same command. With an OpenSCAD source
-active, _Build current object_ rebuilds only that object. Set `OPENSCAD` to the CLI executable path
-if the script cannot find the installation.
+active, or its parameter sets JSON, _Build current object_ rebuilds only that object and its sets.
+Set `OPENSCAD` to the CLI executable path if the script cannot find the installation.
 
 On macOS, agents must run OpenSCAD and the build helper outside their execution sandbox, including
 version checks. Sandboxed launches have caused startup crashes and preview failures. See

@@ -31,6 +31,33 @@ class DiscoveryTests(unittest.TestCase):
 
             self.assertEqual(sources, [source])
 
+    def test_parameter_set_file_builds_its_source(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            source = root / "part" / "part.scad"
+            source.parent.mkdir()
+            source.touch()
+            sets = source.with_suffix(".json")
+            sets.touch()
+
+            with patch.object(build, "ROOT", root):
+                sources = build.discover_sources([str(sets), str(source)])
+
+            self.assertEqual(sources, [source])
+
+    def test_parameter_set_file_without_a_source_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            orphan = root / "part" / "part.json"
+            orphan.parent.mkdir()
+            orphan.touch()
+
+            with (
+                patch.object(build, "ROOT", root),
+                self.assertRaisesRegex(build.BuildError, "no source beside them"),
+            ):
+                build.discover_sources([str(orphan)])
+
 
 SETS = """{
     "parameterSets": {
