@@ -373,12 +373,20 @@ place the CLI and the editor agree is the config file.
   - Write values as quoted strings and indent four spaces, the way the app saves the file, so a save
     from the Customizer does not rewrite every line.
   - A misspelled `-P` name renders the source's own values with no warning. Check an echoed value.
+    So does a misspelled parameter inside a set, and a value that does not parse, like `"abc"` for a
+    number or `"1"` for a boolean. `build.py` checks every set against the source's
+    `--export-format param` listing and fails on either, since nothing else would.
   - The Customizer lists every top-level literal before the first module, standard dimensions
     included. A `/* [Hidden] */` line after the settings hides everything below it.
   - JSON cannot carry an SPDX line, and a save from the app would drop any extra key, so `LICENSE`
     names parameter sets as designs instead.
-  - `build.py` builds the tracked STL and preview from the source's values only, and the source
-    still renders without the JSON, which keeps every `.scad` self-contained.
+  - `build.py` builds the source's own values as `part.stl` and `part.png`, then each set as
+    `part_<set>.stl` and `.png`, the set's name lowercased with every run of other characters turned
+    to `_`. All of them are tracked artifacts. The source's own pair usually duplicates whichever
+    set was printed last; that is expected. The source still renders without the JSON, which keeps
+    every `.scad` self-contained.
+  - Renaming or deleting a set leaves its old pair behind. The build warns about any STL or PNG in
+    the folder that no source or set produces; delete those by hand with the JSON change.
 - **Round corners by default.** Every exposed vertical edge and every top edge of a wall gets a
   radius; both are free to print. The exceptions:
   - An edge on the bed gets a 45° chamfer, not a round. A round starts out tangent to the plate, the

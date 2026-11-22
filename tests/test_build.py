@@ -32,6 +32,141 @@ class DiscoveryTests(unittest.TestCase):
             self.assertEqual(sources, [source])
 
 
+SETS = """{
+    "parameterSets": {
+        "Big Box": {"width": "70", "lid": "true"},
+        "small box": {"width": "30"}
+    },
+    "fileFormatVersion": "1"
+}"""
+LISTING = SimpleNamespace(
+    returncode=0,
+    stdout='{"parameters": [{"name": "width", "type": "number"},'
+    ' {"name": "lid", "type": "boolean"}]}',
+    stderr="",
+)
+
+
+class ParameterSetTests(unittest.TestCase):
+    def part(self, root, sets: str | None = SETS):
+        source = root / "part" / "part.scad"
+        source.parent.mkdir()
+        source.touch()
+        if sets is not None:
+            source.with_suffix(".json").write_text(sets)
+        return source
+
+    def test_source_without_a_file_has_no_sets(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = self.part(Path(directory), sets=None)
+
+            self.assertEqual(build.read_parameter_sets(source), {})
+
+    def test_set_files_are_named_after_the_set(self):
+        source = Path("/repo/part/part.scad")
+
+        stl, png = build.model_artifacts(source, "Big Box (v2)")
+
+        self.assertEqual(stl.target, Path("/repo/part/part_big_box_v2.stl"))
+        self.assertEqual(png.target, Path("/repo/part/part_big_box_v2.png"))
+        self.assertEqual(stl.staged, Path("/repo/part/.part_big_box_v2.tmp.stl"))
+
+    def test_unquoted_value_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = self.part(
+                Path(directory), '{"parameterSets": {"Box": {"width": 70}}}'
+            )
+
+            with self.assertRaisesRegex(build.BuildError, "quoted strings"):
+                build.read_parameter_sets(source)
+
+    def test_sets_that_would_share_files_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = self.part(
+                Path(directory), '{"parameterSets": {"Big box": {}, "big-box": {}}}'
+            )
+
+            with self.assertRaisesRegex(build.BuildError, "share files"):
+                build.read_parameter_sets(source)
+
+    def test_unknown_parameter_and_mistyped_value_are_rejected(self):
+        sets = {"Box": {"widht": "70", "lid": "yes", "width": "7e1"}}
+
+        with (
+            patch.object(build.subprocess, "run", return_value=LISTING),
+            self.assertRaises(build.BuildError) as raised,
+        ):
+            build.check_parameter_sets(["openscad"], Path("part.scad"), sets)
+
+        message = str(raised.exception)
+        self.assertIn("sets widht, which the Customizer does not list", message)
+        self.assertIn("sets lid to 'yes', which is not a boolean", message)
+        self.assertNotIn("7e1", message)
+
+    def test_stages_the_source_then_each_set_by_name(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            source = self.part(root)
+
+            with (
+                patch.object(build, "ROOT", root),
+                patch.object(build.subprocess, "run", return_value=LISTING),
+                patch.object(build, "run_export") as export,
+                patch.object(build, "warn_about_overhangs", return_value=False),
+                redirect_stdout(io.StringIO()),
+            ):
+                models = list(build.stage_source(["openscad"], source))
+                label = models[1].label
+
+            self.assertEqual(
+                [model.parameter_set for model in models],
+                [None, "Big Box", "small box"],
+            )
+            self.assertEqual(label, "part/part.scad [Big Box]")
+            commands = [call.args[0] for call in export.call_args_list]
+            self.assertNotIn("-P", commands[0])
+            for command in commands[2:4]:
+                index = command.index("-P")
+                self.assertEqual(command[index + 1], "Big Box")
+                self.assertEqual(command[index - 1], str(source.with_suffix(".json")))
+
+    def test_set_that_would_overwrite_a_sibling_part_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            source = self.part(root)
+            (source.parent / "part_small_box.scad").touch()
+
+            with (
+                patch.object(build, "ROOT", root),
+                patch.object(build, "run_export") as export,
+                self.assertRaisesRegex(build.BuildError, "overwrite part_small_box"),
+            ):
+                list(build.stage_source(["openscad"], source))
+
+            export.assert_not_called()
+
+    def test_warns_about_files_no_source_or_set_builds(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory).resolve()
+            source = self.part(root)
+            for name in ("part", "part_big_box", "part_small_box", "part_old_box"):
+                (source.parent / f"{name}.stl").touch()
+            output = io.StringIO()
+
+            with patch.object(build, "ROOT", root), redirect_stdout(output):
+                build.warn_about_strays([source])
+
+            self.assertEqual(
+                output.getvalue().splitlines(),
+                [
+                    (
+                        "warning: part/part_old_box.stl is not built by any source "
+                        "or parameter set; delete it if it is stale"
+                    )
+                ],
+            )
+
+
 NATIVE = ["/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD"]
 ROSETTA = ["/usr/bin/arch", "-x86_64", *NATIVE]
 

@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2026 Todd Sayre
 
 import argparse
+import json
 import os
 import platform
 import re
@@ -61,6 +62,11 @@ class StagedModel:
     source: Path
     artifacts: tuple[Artifact, ...]
     overhanging: bool
+    parameter_set: str | None = None
+
+    @property
+    def label(self):
+        return model_label(self.source, self.parameter_set)
 
 
 def executable_candidates():
@@ -227,17 +233,125 @@ def warn_about_overhangs(mesh, label):
     return True
 
 
-def model_artifacts(source):
+def model_label(source, parameter_set=None):
+    relative = source.relative_to(ROOT) if source.is_relative_to(ROOT) else source
+    return f"{relative} [{parameter_set}]" if parameter_set else str(relative)
+
+
+def set_slug(name):
+    return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+
+
+def read_parameter_sets(source):
+    """Return the named sets in the Customizer file beside a source, in order.
+
+    A source without one has no sets. Values have to be strings, the way the
+    app writes them, so a hand edit and an app save agree line for line
+    """
+    path = source.with_suffix(".json")
+    if not path.exists():
+        return {}
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise BuildError(
+            f"Could not read parameter sets {path.name}: {error}"
+        ) from error
+
+    sets = document.get("parameterSets") if isinstance(document, dict) else None
+    if not isinstance(sets, dict):
+        raise BuildError(f"{path.name} has no parameterSets object")
+
+    slugs = {}
+    for name, values in sets.items():
+        slug = set_slug(name)
+        if not slug:
+            raise BuildError(
+                f"{path.name}: set {name!r} has no letters or digits to name a file"
+            )
+        if slug in slugs:
+            raise BuildError(
+                f"{path.name}: sets {slugs[slug]!r} and {name!r} would share files named {slug}"
+            )
+        slugs[slug] = name
+        if not isinstance(values, dict) or not all(
+            isinstance(value, str) for value in values.values()
+        ):
+            raise BuildError(
+                f"{path.name}: set {name!r} must map parameter names to quoted strings"
+            )
+    return sets
+
+
+def valid_parameter_value(kind, value):
+    if kind == "boolean":
+        return value in ("true", "false")
+    if kind == "number":
+        try:
+            float(value)
+        except ValueError:
+            return False
+        return True
+    return True
+
+
+def check_parameter_sets(openscad, source, sets):
+    """Reject a set that names an unknown parameter or a value of the wrong type.
+
+    OpenSCAD applies neither and says nothing, so the export would quietly come
+    out with the source's own value in its place
+    """
+    result = subprocess.run(
+        [*openscad, "--export-format", "param", "-o", "-", str(source)],
+        cwd=ROOT,
+        capture_output=True,
+        check=False,
+        text=True,
+    )
+    label = model_label(source)
+    if result.returncode != 0:
+        if result.stderr:
+            print(result.stderr, end="")
+        raise BuildError(
+            f"Parameter listing for {label} failed with exit code {result.returncode}"
+        )
+    try:
+        listed = json.loads(result.stdout)["parameters"]
+        kinds = {parameter["name"]: parameter["type"] for parameter in listed}
+    except (json.JSONDecodeError, KeyError, TypeError) as error:
+        raise BuildError(f"Could not read the parameter listing for {label}") from error
+
+    problems = []
+    for name, values in sets.items():
+        for parameter, value in values.items():
+            if parameter not in kinds:
+                problems.append(
+                    f"{name!r} sets {parameter}, which the Customizer does not list"
+                )
+            elif not valid_parameter_value(kinds[parameter], value):
+                problems.append(
+                    f"{name!r} sets {parameter} to {value!r}, which is not a {kinds[parameter]}"
+                )
+    if problems:
+        raise BuildError(
+            f"{source.with_suffix('.json').name} does not fit {label}: "
+            + "; ".join(problems)
+        )
+
+
+def model_artifacts(source, parameter_set=None):
     stem = source.stem
+    if parameter_set:
+        stem = f"{stem}_{set_slug(parameter_set)}"
     return (
         Artifact(
             source.with_name(f".{stem}.tmp.stl"),
-            source.with_suffix(".stl"),
+            source.with_name(f"{stem}.stl"),
             source.with_name(f".{stem}.previous.tmp.stl"),
         ),
         Artifact(
             source.with_name(f".{stem}.tmp.png"),
-            source.with_suffix(".png"),
+            source.with_name(f"{stem}.png"),
             source.with_name(f".{stem}.previous.tmp.png"),
         ),
     )
@@ -301,13 +415,18 @@ def preview_camera_options(mesh, model):
     return ["--camera", camera]
 
 
-def stage_model(openscad, source):
-    artifacts = model_artifacts(source)
+def stage_model(openscad, source, parameter_set=None):
+    artifacts = model_artifacts(source, parameter_set)
     stl_artifact, preview_artifact = artifacts
-    relative_source = source.relative_to(ROOT)
+    label = model_label(source, parameter_set)
+    selection = (
+        ["-p", str(source.with_suffix(".json")), "-P", parameter_set]
+        if parameter_set
+        else []
+    )
 
     check_recovery_backups(artifacts)
-    print(f"\nStaging {relative_source}")
+    print(f"\nStaging {label}")
 
     try:
         clean_staged_artifacts(artifacts)
@@ -317,11 +436,12 @@ def stage_model(openscad, source):
                 "--hardwarnings",
                 "--export-format",
                 "binstl",
+                *selection,
                 "-o",
                 str(stl_artifact.staged),
                 str(source),
             ],
-            f"STL export for {relative_source}",
+            f"STL export for {label}",
         )
         run_export(
             [
@@ -335,18 +455,65 @@ def stage_model(openscad, source):
                 f"{PREVIEW_WIDTH},{PREVIEW_HEIGHT}",
                 "--colorscheme",
                 PREVIEW_COLORSCHEME,
+                *selection,
                 "-o",
                 str(preview_artifact.staged),
                 str(source),
             ],
-            f"PNG export for {relative_source}",
+            f"PNG export for {label}",
         )
-        overhanging = warn_about_overhangs(stl_artifact.staged, relative_source)
+        overhanging = warn_about_overhangs(stl_artifact.staged, label)
     except Exception:
         clean_staged_artifacts(artifacts)
         raise
 
-    return StagedModel(source, artifacts, overhanging)
+    return StagedModel(source, artifacts, overhanging, parameter_set)
+
+
+def stage_source(openscad, source):
+    """Stage the source's own values, then each of its parameter sets.
+
+    A generator, so the caller holds every model staged before a failure and
+    can clean it up
+    """
+    sets = read_parameter_sets(source)
+    for name in sets:
+        # A set's files must not land on a sibling part's own
+        sibling = source.with_name(f"{source.stem}_{set_slug(name)}.scad")
+        if sibling.exists():
+            raise BuildError(
+                f"Set {name!r} of {model_label(source)} would overwrite {sibling.stem}"
+            )
+    if sets:
+        check_parameter_sets(openscad, source, sets)
+    yield stage_model(openscad, source)
+    for name in sets:
+        yield stage_model(openscad, source, name)
+
+
+def warn_about_strays(sources):
+    """Name STL and PNG files that no source in their folder builds any more.
+
+    A renamed or deleted parameter set leaves its last export behind, and
+    nothing else would notice it going stale
+    """
+    for folder in sorted({source.parent for source in sources}):
+        expected = set()
+        try:
+            for source in folder.glob("*.scad"):
+                for parameter_set in [None, *read_parameter_sets(source)]:
+                    expected.update(
+                        artifact.target
+                        for artifact in model_artifacts(source, parameter_set)
+                    )
+        except BuildError:
+            continue
+        for path in sorted([*folder.glob("*.stl"), *folder.glob("*.png")]):
+            if path not in expected:
+                print(
+                    f"warning: {path.relative_to(ROOT)} is not built by any source "
+                    "or parameter set; delete it if it is stale"
+                )
 
 
 def publish_models(models):
@@ -398,7 +565,10 @@ def report_published(models):
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Build tracked STL and PNG files from object OpenSCAD sources"
+        description=(
+            "Build tracked STL and PNG files from object OpenSCAD sources and "
+            "their parameter sets"
+        )
     )
     parser.add_argument(
         "sources",
@@ -415,7 +585,8 @@ def main():
         sources = discover_sources(args.sources)
         openscad = find_openscad()
         for source in sources:
-            staged.append(stage_model(openscad, source))
+            # Extending from the generator keeps what staged before a failure
+            staged.extend(stage_source(openscad, source))
         publish_models(staged)
     except BuildError as error:
         print(f"error: {error}", file=sys.stderr)
@@ -425,12 +596,13 @@ def main():
             clean_staged_artifacts(model.artifacts)
 
     report_published(staged)
-    warned = [model.source for model in staged if model.overhanging]
+    warn_about_strays(sources)
+    warned = [model.label for model in staged if model.overhanging]
 
     if warned:
-        print(f"\n{len(warned)} of {len(sources)} objects need supports as modelled:")
-        for source in warned:
-            print(f"  {source.relative_to(ROOT)}")
+        print(f"\n{len(warned)} of {len(staged)} models need supports as modelled:")
+        for label in warned:
+            print(f"  {label}")
     return 0
 
 

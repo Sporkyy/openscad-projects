@@ -80,10 +80,13 @@ The values in the source are whatever was printed last. Each device the holder h
 kept as a named parameter set in [`openconnect_item_holder.json`](openconnect_item_holder.json), so
 switching devices means picking a name rather than retyping numbers:
 
-- **SABRENT VOLTIK charging station.** Its rubber feet are why its depth clearance is 2 mm, and its
-  10 mm cord slot passes a flat cable.
-- **Ezcoo EZ-EX50 USB extender.** It has a cord plugged into the bottom at each side, so its 20 mm
-  cord slot leaves room to work both through.
+- **SABRENT VOLTIK charging station**
+  ([STL](openconnect_item_holder_sabrent_voltik_charging_station.stl),
+  [preview](openconnect_item_holder_sabrent_voltik_charging_station.png)). Its rubber feet are why
+  its depth clearance is 2 mm, and its 10 mm cord slot passes a flat cable.
+- **Ezcoo EZ-EX50 USB extender** ([STL](openconnect_item_holder_ezcoo_ez_ex50_usb_extender.stl),
+  [preview](openconnect_item_holder_ezcoo_ez_ex50_usb_extender.png)). It has a cord plugged into the
+  bottom at each side, so its 20 mm cord slot leaves room to work both through.
 
 In the OpenSCAD app, open the source and pick a set from the dropdown at the top of the Customizer
 panel. The JSON has to sit beside the source with the same name for the app to find it. From the
@@ -100,8 +103,10 @@ check the echoed `Pocket` line against the device. A set holds only the values t
 devices; everything else comes from the source. To add a device, save a new set from the Customizer,
 or add an entry to the JSON by hand. Values are quoted strings there, the way the app writes them.
 
-The source still renders on its own without the JSON, and the generated STL and preview are built
-from the source's values, not from any set.
+The build exports every set as its own STL and preview, linked above, and fails if a set names a
+parameter the source does not have or gives one a value of the wrong type. The STL and preview at
+the top of this page are the source's own values. The source still renders on its own without the
+JSON.
 
 ## The openConnect slot
 

@@ -250,7 +250,7 @@ prints the install command. The VS Code task _Install Project Requirements_ runs
 the VS Code task _Set Up venv and Install Requirements_ runs the same setup. Re-run it after
 `requirements-dev.txt` changes; no environment activation is needed.
 
-Regenerate every tracked STL and preview image:
+Regenerate every tracked STL and preview image, including one pair per Customizer parameter set:
 
 ```sh
 .venv/bin/python scripts/build.py
