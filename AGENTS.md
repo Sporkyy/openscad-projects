@@ -103,6 +103,12 @@ are single-material prints, so these files hold only seam and infill preferences
 reasonable people disagree about, not a recipe worth versioning. Slicing is the user's job either
 way: if a source change makes an export stale, say so and stop.
 
+Support Fins output is print prep in the same way. The tool bakes breakaway support walls into a
+mesh or a Bambu project; it lives outside the repository, in `~/.local/share/support-fins/`, as an
+MCP server and a CLI. Its `*-fins*.stl` files and `*.fins-cache/` checkpoints are gitignored, and
+`build.py` does not count those STLs as strays. It does not relax **Overhangs** below: a part here
+is still designed to print without supports.
+
 Finished-part geometry belongs in OpenSCAD; build-plate placement and print orientation belong in
 the slicer. Do not change or flag source geometry merely because a slicer may initially place it in
 an inconvenient orientation. Document an orientation when it is useful, but treat rotating the

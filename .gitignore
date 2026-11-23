@@ -15,6 +15,10 @@ __pycache__/
 # Slicer projects stay local
 *.3mf
 
+# Support Fins output and its --resume checkpoints are print prep too
+*-fins*.stl
+*.fins-cache/
+
 .DS_Store
 
 # Pinned Markdown tooling (package.json)

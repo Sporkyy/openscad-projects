@@ -176,7 +176,14 @@ class ParameterSetTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()
             source = self.part(root)
-            for name in ("part", "part_big_box", "part_small_box", "part_old_box"):
+            for name in (
+                "part",
+                "part_big_box",
+                "part_small_box",
+                "part_old_box",
+                "part-fins",
+                "part-fins-only",
+            ):
                 (source.parent / f"{name}.stl").touch()
             output = io.StringIO()
 

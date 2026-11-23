@@ -22,6 +22,8 @@ PREVIEW_WIDTH, PREVIEW_HEIGHT = 1200, 900
 PREVIEW_FILL = 0.80
 PREVIEW_FOV = 22.5  # OpenSCAD's default camera field of view, in degrees
 PREVIEW_COLORSCHEME = "Nord Light"
+# Support Fins writes these beside a part; they are print prep, not artifacts
+FINS_STL_PATTERN = "*-fins*.stl"
 DEFAULT_PREVIEW_ANGLES = (46, 25)
 # Tilt and azimuth in OpenSCAD camera coordinates. Keep matched variants in the
 # same view, and turn sided parts to show their working faces.
@@ -505,7 +507,8 @@ def warn_about_strays(sources):
     """Name STL and PNG files that no source in their folder builds any more.
 
     A renamed or deleted parameter set leaves its last export behind, and
-    nothing else would notice it going stale
+    nothing else would notice it going stale. Support Fins output is skipped:
+    it is gitignored print prep, made from an artifact rather than replacing one
     """
     for folder in sorted({source.parent for source in sources}):
         expected = set()
@@ -519,7 +522,7 @@ def warn_about_strays(sources):
         except BuildError:
             continue
         for path in sorted([*folder.glob("*.stl"), *folder.glob("*.png")]):
-            if path not in expected:
+            if path not in expected and not path.match(FINS_STL_PATTERN):
                 print(
                     f"warning: {path.relative_to(ROOT)} is not built by any source "
                     "or parameter set; delete it if it is stale"
