@@ -105,6 +105,9 @@ wall_thickness = 2; // mm, sides, front, and behind the slots
 floor_thickness = 2; // mm, also the lip's thickness
 corner_radius = 3; // mm, rounds the vertical outside edges
 
+// Flare the back for at least two side-by-side connectors
+flare_for_two_connectors = false;
+
 // Lock nubs
 lock_every_slot = false;
 // (False puts locks on the corner slots only; more hold tighter and fit harder)
@@ -201,9 +204,11 @@ slot_reach_down = -track_end;
 // As many slots as fit on the flat of the back, on a grid centred on the
 // back, keeping wall_thickness of the flat clear all round. A slot reaches
 // further one way than the other, so it is the longer reach that decides
-slot_flat_half_width = body_width / 2 - corner_radius - wall_thickness;
+slot_side_margin = corner_radius + wall_thickness + max(slot_reach_left, slot_reach_right);
 slot_flat_half_height = body_height / 2 - wall_thickness;
-slot_columns = floor((slot_flat_half_width - max(slot_reach_left, slot_reach_right)) / (oc_pitch / 2)) + 1;
+body_slot_columns = floor((body_width - 2 * slot_side_margin) / oc_pitch) + 1;
+slot_columns = flare_for_two_connectors ? max(2, body_slot_columns) : body_slot_columns;
+back_width = flare_for_two_connectors ? max(body_width, oc_pitch + 2 * slot_side_margin) : body_width;
 slot_rows = floor((slot_flat_half_height - max(slot_reach_up, slot_reach_down)) / (oc_pitch / 2)) + 1;
 
 // Thinnest point of a rounded outside corner: from the inner corner to the
@@ -241,7 +246,9 @@ assert(!cord_slot || !front_opening || cord_slot_reach + cord_slot_radius <= inn
 assert(flange_w / 2 - flange_chamfer - oc_ramp_peak > 0, "Ramp peak overruns its own top");
 
 echo(str("Pocket: ", inner_width, " x ", inner_depth, " x ", pocket_height, " mm (W x D x H)"));
-echo(str("Body: ", body_width, " x ", body_depth, " x ", body_height, " mm (W x D x H)"));
+echo(str("Body: ", back_width, " x ", body_depth, " x ", body_height, " mm (W x D x H)"));
+if (back_width > body_width)
+  echo(str("Back flare: ", (back_width - body_width) / 2, " mm per side"));
 echo(str("Back wall: ", back_thickness, " mm, slot depth ", slot_depth, " mm"));
 echo(str("Slots: ", slot_columns, " x ", slot_rows, " on ", oc_pitch, " mm pitch, locks on ", lock_every_slot ? "every slot" : "the corners"));
 echo(str("Floor opening: ", bottom_opening ? str(inner_width - 2 * bottom_lip, " x ", inner_depth - 2 * bottom_lip, " mm inside a ", bottom_lip, " mm lip") : "none"));
@@ -481,9 +488,20 @@ module rounded_rect(size, r) {
 }
 
 module body() {
-  translate([-body_width / 2, -body_depth, 0])
+  if (back_width > body_width)
     linear_extrude(body_height)
-      rounded_rect([body_width, body_depth], corner_radius);
+      hull() {
+        translate([-body_width / 2, -body_depth])
+          rounded_rect([body_width, body_depth], corner_radius);
+        // Full back width through the slots, with room for both corner arcs
+        flare_depth = min(body_depth, max(back_thickness, 2 * corner_radius + wall_thickness));
+        translate([-back_width / 2, -flare_depth])
+          rounded_rect([back_width, flare_depth], corner_radius);
+      }
+  else
+    translate([-body_width / 2, -body_depth, 0])
+      linear_extrude(body_height)
+        rounded_rect([body_width, body_depth], corner_radius);
 }
 
 module pocket() {

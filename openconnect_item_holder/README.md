@@ -68,6 +68,10 @@ tighter and make the holder harder to fit. `slot_side_clearance` and `slot_depth
 openConnect slot's fit, as mitufy's generator ships it. Raise them if the slots are tight on your
 printer.
 
+`flare_for_two_connectors` widens the exterior toward the back just enough for two columns of
+openConnect slots. The pocket and its clearances stay the same. A holder already wide enough for two
+columns keeps its shape, and the slot grid can still fit more columns on wider holders.
+
 The rest follows. The back wall is the 2.7 mm slot depth plus `wall_thickness`. The slot grid is as
 many 28 mm cells as fit on the flat of the back, centred, keeping `wall_thickness` clear of the
 edges and the rounded corners. The render `echo`s the pocket, body, floor opening and slot grid, and
@@ -85,8 +89,9 @@ switching devices means picking a name rather than retyping numbers:
   [preview](openconnect_item_holder_sabrent_voltik_charging_station.png)). Its rubber feet are why
   its depth clearance is 2 mm, and its 10 mm cord slot passes a flat cable.
 - **Ezcoo EZ-EX50 USB extender** ([STL](openconnect_item_holder_ezcoo_ez_ex50_usb_extender.stl),
-  [preview](openconnect_item_holder_ezcoo_ez_ex50_usb_extender.png)). It has a cord plugged into the
-  bottom at each side, so its 20 mm cord slot leaves room to work both through.
+  [preview](openconnect_item_holder_ezcoo_ez_ex50_usb_extender.png)). The back flares for two
+  side-by-side connectors. It has a cord plugged into the bottom at each side, so its 20 mm cord
+  slot leaves room to work both through.
 - **Apple TV (2026)** ([STL](openconnect_item_holder_apple_tv_2026.stl),
   [preview](openconnect_item_holder_apple_tv_2026.png)). Same lips, clearances and cord slot as the
   extender above.
