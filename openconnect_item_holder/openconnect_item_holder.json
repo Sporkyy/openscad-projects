@@ -30,6 +30,18 @@
             "front_side_lip": "8",
             "front_lip_height": "12",
             "cord_slot_width": "10"
+        },
+        "UGREEN HDMI KVM Clicker": {
+            "item_width": "30.5",
+            "item_depth": "13.4",
+            "item_height": "38.2",
+            "depth_clearance": "1",
+            "flare_for_two_connectors": "true",
+            "bottom_lip": "3",
+            "front_opening_radius": "4.75",
+            "front_side_lip": "5",
+            "front_lip_height": "15",
+            "cord_slot_width": "6"
         }
     },
     "fileFormatVersion": "1"
