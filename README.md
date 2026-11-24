@@ -134,6 +134,17 @@ object such as a remote to any cell of a mounted board. A thin lip over the tile
 its tile side, gives a screwdriver somewhere to pry, so the snap comes out from the front with
 nothing cut into the standard profile.
 
+### openGrid multipart cable screw clamp
+
+[![Exploded cable screw clamp preview](assets/opengrid-cable-screw-clamp.webp)](opengrid_cable_screw_clamp/README.md)
+
+[Documentation](opengrid_cable_screw_clamp/README.md) ·
+[Fork STL](opengrid_cable_screw_clamp/clamp_fork.stl) ·
+[Snap STL](opengrid_cable_screw_clamp/clamp_snap.stl)
+
+A split-body prototype for the cable screw clamp. Both threaded posts stay on a sideways-printed
+fork that slides into a separately printed full openGrid snap and locks with an M3 screw.
+
 ### openGrid magnet snaps
 
 [![openGrid magnet snaps preview](opengrid_magnet_snap/opengrid_magnet_snap_back.png)](opengrid_magnet_snap/opengrid_magnet_snap_back.stl)
